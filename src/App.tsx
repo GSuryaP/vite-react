@@ -188,8 +188,7 @@ function App() {
       { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
       { name: "GitHub", icon: <SiGithub color="#181717" size={48} /> },
       { name: "Firebase", icon: <SiFirebase color="#FFCA28" size={48} /> },
-    ]
-
+    ],
 
     experiences: [
       {
