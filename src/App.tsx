@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import {
+  SiPython,
+  SiMysql,
+  SiC,
+  SiCplusplus,
+  SiJavascript,
+  SiReact,
+  SiNodedotjs,
+  SiGit,
+  SiGithub,
+} from "react-icons/si";
 
 // --- Type Definitions for TypeScript ---
 
