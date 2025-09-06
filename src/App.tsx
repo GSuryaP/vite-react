@@ -175,7 +175,7 @@ function App() {
             className="w-12 h-12" // adjust size as needed
           />
         ),
-      }
+      },
       { name: "Node.js", icon: <SiNodedotjs color="#339933" size={48} /> },
       { name: "Express", icon: <SiExpress color="#000000" size={48} /> },
       { name: "MongoDB", icon: <SiMongodb color="#47A248" size={48} /> },
