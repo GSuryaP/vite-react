@@ -231,7 +231,7 @@ function App() {
           </svg>
         ),
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-        repoUrl: "https://github.com/GSuryaP/rasa-sdn-tool",
+        repoUrl: "https://portfolio-suryagonella.vercel.app/#experience",
       },
       {
         title: "SpaceNet - Network Speed Dashboard",
@@ -243,7 +243,7 @@ function App() {
           </svg>
         ),
         tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-        repoUrl: "https://github.com/GSuryaP/spacenet-dashboard",
+        repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
       },
       {
         title: "Personal ChatRoom",
@@ -255,22 +255,7 @@ function App() {
           </svg>
         ),
         tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-        repoUrl: "https://github.com/GSuryaP/personal-chatroom",
-      },
-      {
-        title: "Fitzen - Fitness Tracker",
-        description: "Developed a comprehensive fitness tracker application using the MERN stack for fitness enthusiasts to monitor their activities. Provides users with tips, motivation, and activity tracking via a clean and responsive interface with detailed analytics.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <path d="M6.5 6.5C6.5 5.11929 7.61929 4 9 4C10.3807 4 11.5 5.11929 11.5 6.5C11.5 7.88071 10.3807 9 9 9C7.61929 9 6.5 7.88071 6.5 6.5Z" stroke="currentColor" strokeWidth="2"/>
-            <path d="M17.5 6.5C17.5 5.11929 16.3807 4 15 4C13.6193 4 12.5 5.11929 12.5 6.5C12.5 7.88071 13.6193 9 15 9C16.3807 9 17.5 7.88071 17.5 6.5Z" stroke="currentColor" strokeWidth="2"/>
-            <path d="M7 14L9 16L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M9 14V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M15 14V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        ),
-        tags: ["HTML", "CSS", "JavaScript", "MongoDB", "React", "Node.js"],
-        repoUrl: "https://github.com/GSuryaP/fitzen-fitness-tracker",
+        repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
       },
       {
         title: "Weather & AQI Tracker",
@@ -285,7 +270,7 @@ function App() {
           </svg>
         ),
         tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-        repoUrl: "https://github.com/GSuryaP/weather-aqi-tracker",
+        repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
       },
       {
         title: "Personal Social Calendar",
@@ -300,7 +285,7 @@ function App() {
           </svg>
         ),
         tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-        repoUrl: "https://github.com/GSuryaP/personal-social-calendar",
+        repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
       },
     ] as Project[],
   };
