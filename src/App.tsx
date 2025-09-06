@@ -109,7 +109,7 @@ function App() {
     { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
     { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
     { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> },
-  ] as Skill[];
+  ] as Skill[],
 
     // skills: [ 
     //   { name: 'Python', icon: '<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" width="24" height="24" fill="#3776AB"><title>Python</title><path d="M12 .3c-1.1 0-2 .9-2 2v2h4V2.3c0-1.1-.9-2-2-2zm6.3 2.7c-.8 0-1.3.5-1.3 1.3 0 .7.5 1.2 1.3 1.2.8 0 1.4-.5 1.4-1.2 0-.8-.6-1.3-1.4-1.3zM12 6c-3.3 0-6 2.7-6 6v1H3v4c0 1.1.9 2 2 2h2v-3c0-2.2 1.8-4 4-4h6V6h-5zM9 20v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2H9z"/></svg>' },
