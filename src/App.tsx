@@ -113,11 +113,7 @@ function App() {
     { name: "React", icon: <SiReact color="#61DAFB" size={40} /> },
     { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
     { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
-    { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> },
-    { name: "Docker", icon: <SiDocker color="#2496ED" size={40} /> },
-    { name: "MongoDB", icon: <SiMongodb color="#47A248" size={40} /> },
-    { name: "HTML5", icon: <SiHtml5 color="#E34F26" size={40} /> },
-    { name: "CSS3", icon: <SiCss3 color="#1572B6" size={40} /> },
+    { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> }
   ],
 
     projects: [
