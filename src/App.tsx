@@ -78,7 +78,7 @@ function App() {
   // Update these values with your personal information.
 
   const portfolioData = {
-    name: "Your Name",
+    name: "G S S Surya Prakash",
     tagline: "Aspiring Full-Stack Developer & Tech Enthusiast",
     bio: "I'm a passionate computer science student with a love for building innovative and user-friendly web applications. Currently exploring the depths of React, Node.js, and cloud technologies. I'm driven by curiosity and a desire to solve real-world problems with code.",
     contactEmail: "your.email@example.com",
