@@ -15,7 +15,7 @@ import {
 
 interface Skill {
   name: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
 interface Project {
@@ -99,7 +99,7 @@ function App() {
       github: "https://github.com/GSuryaP",
     },
 
-  const skills: Skill[] = [
+  skills: [
     { name: "Python", icon: <SiPython color="#3776AB" size={40} /> },
     { name: "MySQL", icon: <SiMysql color="#4479A1" size={40} /> },
     { name: "C", icon: <SiC color="#00599C" size={40} /> },
@@ -109,7 +109,7 @@ function App() {
     { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
     { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
     { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> },
-  ];
+  ] as Skill[],
 
 
     // skills: [ 
