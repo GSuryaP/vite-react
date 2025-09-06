@@ -113,8 +113,7 @@ function App() {
     { name: "React", icon: <SiReact color="#61DAFB" size={40} /> },
     { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
     { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
-    { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> },
-    { name: "Docker", icon: <SiDocker color="#2496ED" size={40} /> },
+    { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> }
   ],
 
     projects: [
