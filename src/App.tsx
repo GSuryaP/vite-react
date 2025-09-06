@@ -166,6 +166,16 @@ function App() {
       { name: "Python", icon: <SiPython color="#3776AB" size={48} /> },
       { name: "JavaScript", icon: <SiJavascript color="#F7DF1E" size={48} /> },
       { name: "React", icon: <SiReact color="#61DAFB" size={48} /> },
+      {
+        name: "RASA",
+        icon: (
+          <img
+            src="/rasa.jpg" // Replace with your actual file name in public folder
+            alt="RASA"
+            className="w-12 h-12" // adjust size as needed
+          />
+        ),
+      }
       { name: "Node.js", icon: <SiNodedotjs color="#339933" size={48} /> },
       { name: "Express", icon: <SiExpress color="#000000" size={48} /> },
       { name: "MongoDB", icon: <SiMongodb color="#47A248" size={48} /> },
@@ -177,8 +187,9 @@ function App() {
       { name: "C", icon: <SiC color="#00599C" size={48} /> },
       { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
       { name: "GitHub", icon: <SiGithub color="#181717" size={48} /> },
-      { name: "Firebase", icon: <SiFirebase color="#FFCA28" size={48} /> }
-    ],
+      { name: "Firebase", icon: <SiFirebase color="#FFCA28" size={48} /> },
+    ]
+
 
     experiences: [
       {
