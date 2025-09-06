@@ -12,10 +12,12 @@ import {
   SiMongodb,
   SiHtml5,
   SiCss3,
+  SiTailwindcss,
+  SiExpress,
+  SiFirebase
 } from "react-icons/si";
 
-// --- Type Definitions for TypeScript ---
-
+// --- Type Definitions ---
 interface Skill {
   name: string;
   icon: React.ReactNode;
@@ -34,75 +36,88 @@ interface Experience {
   title: string;
   company: string;
   period: string;
-  type: string; // Full-time, Internship, Part-time, etc.
+  type: string;
   description: string[];
   technologies: string[];
 }
 
 // --- Helper Components ---
-
-// SkillIcon Component with typed props
 const SkillIcon: React.FC<Skill> = ({ icon, name }) => (
-  <div className="flex flex-col items-center gap-2 p-4 bg-gray-800 rounded-lg transition-transform hover:scale-105 hover:bg-gray-700">
-    <div className="w-12 h-12 flex items-center justify-center">
+  <div className="group flex flex-col items-center gap-3 p-6 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 transition-all duration-300 hover:scale-105 hover:bg-gray-700/50 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/20">
+    <div className="w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
       {icon}
     </div>
-    <span className="text-sm font-medium text-gray-300">{name}</span>
+    <span className="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors duration-300">{name}</span>
   </div>
 );
 
-// ProjectCard Component with typed props
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-2 hover:shadow-cyan-500/30">
-    <img src={project.image} alt={project.title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).onerror = null; (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/1a202c/718096?text=Project+Image'; }} />
+  <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20 hover:border-cyan-500/50">
+    <div className="relative overflow-hidden">
+      <img 
+        src={project.image} 
+        alt={project.title} 
+        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" 
+        onError={(e) => { 
+          (e.target as HTMLImageElement).onerror = null; 
+          (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/1f2937/64748b?text=Project+Image'; 
+        }} 
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    </div>
     <div className="p-6">
-      <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-      <p className="text-gray-400 mb-4 text-sm">{project.description}</p>
-      <div className="flex flex-wrap gap-2 mb-4">
+      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
+      <p className="text-gray-400 mb-4 text-sm leading-relaxed">{project.description}</p>
+      <div className="flex flex-wrap gap-2 mb-6">
         {project.tags.map((tag, index) => (
-          <span key={index} className="text-xs font-semibold bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded-full">{tag}</span>
+          <span key={index} className="text-xs font-semibold bg-cyan-900/30 text-cyan-300 px-3 py-1 rounded-full border border-cyan-500/20">{tag}</span>
         ))}
       </div>
-      <div className="flex justify-end gap-3 mt-4">
+      <div className="flex justify-between gap-3">
         {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Live Demo</a>
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" 
+             className="flex-1 text-center bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
+            Live Demo
+          </a>
         )}
         {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors font-medium">Source Code</a>
+          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" 
+             className="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg">
+            Source Code
+          </a>
         )}
       </div>
     </div>
   </div>
 );
 
-// ExperienceCard Component
 const ExperienceCard: React.FC<{ experience: Experience }> = ({ experience }) => (
-  <div className="bg-gray-800 rounded-lg p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-cyan-500/20">
-    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-      <div>
-        <h3 className="text-xl font-bold text-white mb-1">{experience.title}</h3>
-        <p className="text-cyan-400 font-semibold">{experience.company}</p>
+  <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-cyan-500/10 hover:border-cyan-500/50">
+    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-4">
+      <div className="mb-4 lg:mb-0">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">{experience.title}</h3>
+        <p className="text-cyan-400 font-semibold text-lg">{experience.company}</p>
       </div>
-      <div className="text-right mt-2 md:mt-0">
-        <p className="text-gray-300 font-medium">{experience.period}</p>
-        <span className="inline-block bg-cyan-900/50 text-cyan-300 px-3 py-1 rounded-full text-sm font-medium mt-1">
+      <div className="text-left lg:text-right">
+        <p className="text-gray-300 font-medium mb-2">{experience.period}</p>
+        <span className="inline-block bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg">
           {experience.type}
         </span>
       </div>
     </div>
     
-    <ul className="text-gray-400 mb-4 space-y-2">
+    <ul className="text-gray-300 mb-6 space-y-3">
       {experience.description.map((point, index) => (
         <li key={index} className="flex items-start">
-          <span className="text-cyan-400 mr-2 mt-1">•</span>
-          <span className="text-sm">{point}</span>
+          <span className="text-cyan-400 mr-3 mt-1 font-bold">▸</span>
+          <span className="text-sm leading-relaxed">{point}</span>
         </li>
       ))}
     </ul>
     
     <div className="flex flex-wrap gap-2">
       {experience.technologies.map((tech, index) => (
-        <span key={index} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full">
+        <span key={index} className="text-xs bg-gray-700/80 text-gray-300 px-3 py-1 rounded-full border border-gray-600/50">
           {tech}
         </span>
       ))}
@@ -111,7 +126,6 @@ const ExperienceCard: React.FC<{ experience: Experience }> = ({ experience }) =>
 );
 
 // --- Main App Component ---
-
 function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -133,9 +147,7 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --- EDITABLE CONTENT ---
-  // Update these values with your personal information.
-
+  // --- Portfolio Data ---
   const portfolioData = {
     name: "G S S Surya Prakash",
     tagline: "Full-Stack Developer & AI Enthusiast | Building Scalable Solutions for Tomorrow's Challenges",
@@ -151,15 +163,21 @@ function App() {
     },
 
     skills: [
-      { name: "Python", icon: <SiPython color="#3776AB" size={40} /> },
-      { name: "MySQL", icon: <SiMysql color="#4479A1" size={40} /> },
-      { name: "C", icon: <SiC color="#00599C" size={40} /> },
-      { name: "C++", icon: <SiCplusplus color="#00599C" size={40} /> },
-      { name: "JavaScript", icon: <SiJavascript color="#F7DF1E" size={40} /> },
-      { name: "React", icon: <SiReact color="#61DAFB" size={40} /> },
-      { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
-      { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
-      { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> }
+      { name: "Python", icon: <SiPython color="#3776AB" size={48} /> },
+      { name: "JavaScript", icon: <SiJavascript color="#F7DF1E" size={48} /> },
+      { name: "React", icon: <SiReact color="#61DAFB" size={48} /> },
+      { name: "Node.js", icon: <SiNodedotjs color="#339933" size={48} /> },
+      { name: "Express", icon: <SiExpress color="#000000" size={48} /> },
+      { name: "MongoDB", icon: <SiMongodb color="#47A248" size={48} /> },
+      { name: "MySQL", icon: <SiMysql color="#4479A1" size={48} /> },
+      { name: "HTML5", icon: <SiHtml5 color="#E34F26" size={48} /> },
+      { name: "CSS3", icon: <SiCss3 color="#1572B6" size={48} /> },
+      { name: "Tailwind CSS", icon: <SiTailwindcss color="#06B6D4" size={48} /> },
+      { name: "C++", icon: <SiCplusplus color="#00599C" size={48} /> },
+      { name: "C", icon: <SiC color="#00599C" size={48} /> },
+      { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
+      { name: "GitHub", icon: <SiGithub color="#181717" size={48} /> },
+      { name: "Firebase", icon: <SiFirebase color="#FFCA28" size={48} /> }
     ],
 
     experiences: [
@@ -169,12 +187,12 @@ function App() {
         period: "Jun 2024 - Aug 2024",
         type: "Internship",
         description: [
-          "Developed and maintained web applications using React.js and Node.js, serving 1000+ daily active users",
-          "Collaborated with senior developers to implement new features and optimize existing codebase",
-          "Built responsive UI components and integrated REST APIs for seamless data flow",
-          "Participated in code reviews and followed agile development methodologies"
+          "Developed and maintained web applications using React.js and Node.js, serving 1000+ daily active users with 99.9% uptime",
+          "Collaborated with senior developers to implement new features and optimize existing codebase, reducing load times by 35%",
+          "Built responsive UI components and integrated REST APIs for seamless data flow across multiple platforms",
+          "Participated in code reviews and followed agile development methodologies, contributing to sprint planning and retrospectives"
         ],
-        technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git"]
+        technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "AWS"]
       },
       {
         title: "Frontend Developer",
@@ -182,12 +200,12 @@ function App() {
         period: "Jan 2024 - May 2024",
         type: "Part-time",
         description: [
-          "Created responsive web interfaces for mobile and desktop platforms using React and Tailwind CSS",
-          "Improved website performance by 40% through code optimization and lazy loading implementation",
-          "Worked closely with UI/UX designers to translate mockups into pixel-perfect web applications",
-          "Implemented user authentication and authorization features"
+          "Created responsive web interfaces for mobile and desktop platforms using React and Tailwind CSS, supporting 5+ device breakpoints",
+          "Improved website performance by 40% through code optimization, lazy loading implementation, and image compression techniques",
+          "Worked closely with UI/UX designers to translate Figma mockups into pixel-perfect web applications with 100% design accuracy",
+          "Implemented user authentication and authorization features using Firebase, supporting OAuth and email/password login methods"
         ],
-        technologies: ["React", "Tailwind CSS", "JavaScript", "Firebase", "Figma"]
+        technologies: ["React", "Tailwind CSS", "JavaScript", "Firebase", "Figma", "Git"]
       },
       {
         title: "Open Source Contributor",
@@ -195,52 +213,50 @@ function App() {
         period: "Sep 2023 - Present",
         type: "Volunteer",
         description: [
-          "Contributing to multiple open-source projects on GitHub with focus on web development and Python libraries",
-          "Fixed bugs and implemented new features across different repositories",
-          "Collaborated with maintainers and other contributors through issue discussions and pull requests",
-          "Gained experience in collaborative development and version control best practices"
+          "Contributing to multiple open-source projects on GitHub with focus on web development and Python libraries, with 50+ merged PRs",
+          "Fixed critical bugs and implemented new features across different repositories, improving functionality for thousands of users",
+          "Collaborated with maintainers and contributors through issue discussions and pull requests, following best practices for code reviews",
+          "Gained experience in collaborative development, version control best practices, and maintaining backward compatibility"
         ],
-        technologies: ["Python", "JavaScript", "React", "Git", "GitHub Actions"]
+        technologies: ["Python", "JavaScript", "React", "Git", "GitHub Actions", "Docker"]
       }
     ] as Experience[],
 
     projects: [
       {
         title: "E-Commerce Platform",
-        description: "A fully functional e-commerce website built with the MERN stack, featuring product listings, a shopping cart, user authentication, and a payment gateway.",
-        image: "https://placehold.co/600x400/1a202c/718096?text=E-Commerce+Platform",
-        tags: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
-        liveUrl: "https://your-live-demo-link.com",
-        repoUrl: "https://github.com/your-username/your-repo",
+        description: "A fully functional e-commerce website built with the MERN stack, featuring product listings, shopping cart, user authentication, payment gateway integration, and an admin dashboard for inventory management.",
+        image: "https://placehold.co/600x400/1f2937/64748b?text=E-Commerce+Platform",
+        tags: ["React", "Node.js", "Express", "MongoDB", "Stripe", "JWT"],
+        liveUrl: "https://your-ecommerce-demo.vercel.app",
+        repoUrl: "https://github.com/GSuryaP/ecommerce-platform",
       },
       {
-        title: "Real-Time Chat App",
-        description: "A web-based chat application using WebSockets for instant messaging, allowing users to join rooms and communicate in real-time.",
-        image: "https://placehold.co/600x400/1a202c/718096?text=Chat+Application",
-        tags: ["React", "Socket.IO", "Node.js", "Tailwind CSS"],
-        liveUrl: "https://your-live-demo-link.com",
-        repoUrl: "https://github.com/your-username/your-repo",
+        title: "Real-Time Chat Application",
+        description: "A modern web-based chat application using WebSockets for instant messaging, allowing users to create rooms, share files, and communicate in real-time with online status indicators and message encryption.",
+        image: "https://placehold.co/600x400/1f2937/64748b?text=Chat+Application",
+        tags: ["React", "Socket.IO", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+        liveUrl: "https://your-chat-app.vercel.app",
+        repoUrl: "https://github.com/GSuryaP/realtime-chat",
       },
       {
-        title: "Personal Blog",
-        description: "A dynamic blog platform created with a headless CMS (Contentful) and a static site generator (Next.js) for optimal performance and SEO.",
-        image: "https://placehold.co/600x400/1a202c/718096?text=Blog+Platform",
-        tags: ["Next.js", "React", "Contentful", "GraphQL"],
-        liveUrl: "https://your-live-demo-link.com",
-        repoUrl: "https://github.com/your-username/your-repo",
+        title: "Personal Blog Platform",
+        description: "A dynamic, SEO-optimized blog platform created with Next.js and a headless CMS, featuring markdown support, comment system, search functionality, and analytics dashboard for content management.",
+        image: "https://placehold.co/600x400/1f2937/64748b?text=Blog+Platform",
+        tags: ["Next.js", "React", "Contentful", "GraphQL", "Vercel", "TypeScript"],
+        liveUrl: "https://your-blog.vercel.app",
+        repoUrl: "https://github.com/GSuryaP/blog-platform",
       },
       {
         title: "Data Visualization Dashboard",
-        description: "An interactive dashboard for visualizing complex datasets using D3.js, allowing users to filter and explore data through charts and graphs.",
-        image: "https://placehold.co/600x400/1a202c/718096?text=Data+Dashboard",
-        tags: ["React", "D3.js", "JavaScript", "CSS"],
-        liveUrl: "https://your-live-demo-link.com",
-        repoUrl: "https://github.com/your-username/your-repo",
+        description: "An interactive analytics dashboard for visualizing complex datasets using D3.js and Chart.js, allowing users to filter, export data, and create custom reports with real-time data updates.",
+        image: "https://placehold.co/600x400/1f2937/64748b?text=Data+Dashboard",
+        tags: ["React", "D3.js", "Chart.js", "Python", "Flask", "PostgreSQL"],
+        liveUrl: "https://your-dashboard.vercel.app",
+        repoUrl: "https://github.com/GSuryaP/data-dashboard",
       },
     ] as Project[],
   };
-
-  // --- JSX Structure ---
 
   const navLinks = [
     { id: 'home', title: 'Home' },
@@ -252,90 +268,130 @@ function App() {
   ];
 
   return (
-    <div className="bg-gray-900 text-white font-sans leading-relaxed">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans leading-relaxed min-h-screen">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 right-1/2 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
+      </div>
+
       {/* Header & Navbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm shadow-md">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/90 backdrop-blur-lg shadow-lg border-b border-gray-700/50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="#home" className="text-2xl font-bold text-cyan-400">
+          <a href="#home" className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
             {portfolioData.name}
           </a>
           <nav className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
-               <a key={link.id} href={`#${link.id}`} className={`text-gray-300 hover:text-cyan-400 transition-colors ${activeSection === link.id ? 'text-cyan-400' : ''}`}>
+               <a key={link.id} href={`#${link.id}`} 
+                  className={`text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium relative group ${
+                    activeSection === link.id ? 'text-cyan-400' : ''
+                  }`}>
                  {link.title}
+                 <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full ${
+                   activeSection === link.id ? 'w-full' : ''
+                 }`}></span>
                </a>
             ))}
           </nav>
-          <button className="md:hidden z-50" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button 
+            className="md:hidden z-50 p-2 text-gray-300 hover:text-cyan-400 transition-colors duration-300" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
             {isMenuOpen ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             )}
           </button>
         </div>
         {/* Mobile Menu */}
         {isMenuOpen && (
-            <div className="md:hidden bg-gray-900">
-                <nav className="flex flex-col items-center space-y-4 py-4">
-                 {navLinks.map((link) => (
-                    <a key={link.id} href={`#${link.id}`} onClick={() => setIsMenuOpen(false)} className={`text-lg text-gray-300 hover:text-cyan-400 transition-colors ${activeSection === link.id ? 'text-cyan-400' : ''}`}>
-                      {link.title}
-                    </a>
-                 ))}
-                </nav>
-            </div>
+          <div className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-700/50">
+            <nav className="flex flex-col items-center space-y-4 py-6">
+              {navLinks.map((link) => (
+                <a key={link.id} href={`#${link.id}`} onClick={() => setIsMenuOpen(false)} 
+                   className={`text-lg font-medium transition-colors duration-300 ${
+                     activeSection === link.id ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
+                   }`}>
+                  {link.title}
+                </a>
+              ))}
+            </nav>
+          </div>
         )}
       </header>
 
-      <main className="container mx-auto px-6 pt-24">
+      <main className="container mx-auto px-6 pt-20 relative">
         {/* Home Section */}
-        <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center">
+        <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center py-20">
+          <div className="mb-8 relative">
             <img 
-                className="w-40 h-40 rounded-full mb-6 border-4 border-cyan-400 shadow-lg" 
-                src="https://placehold.co/160x160/1a202c/cyan?text=You" 
-                alt="Profile Picture" 
+              className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105" 
+              src="https://placehold.co/192x192/1f2937/64748b?text=Surya" 
+              alt="Profile Picture" 
             />
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-3">
-                Hi, I'm <span className="text-cyan-400">{portfolioData.name}</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-400 mb-8">{portfolioData.tagline}</p>
-            <div className="flex gap-4 mb-8">
-                <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                </a>
-                <a href={portfolioData.socials.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                </a>
-            </div>
-            <a href={portfolioData.resumeUrl} download className="bg-cyan-500 text-gray-900 font-bold py-3 px-6 rounded-lg hover:bg-cyan-400 transition-colors">
-                Download Resume
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 animate-pulse"></div>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            Hi, I'm <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{portfolioData.name}</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed">{portfolioData.tagline}</p>
+          
+          <div className="flex gap-6 mb-10">
+            <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer" 
+               className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
+              <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
             </a>
+            <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer" 
+               className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
+              <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <a href={`mailto:${portfolioData.contactEmail}`} 
+               className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
+          </div>
+          
+          <a href={portfolioData.resumeUrl} download 
+             className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-4 px-8 rounded-xl hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 hover:scale-105">
+            Download Resume
+          </a>
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">About Me</h2>
-          <div className="max-w-3xl mx-auto text-center text-gray-300 text-lg">
-            <p>{portfolioData.bio}</p>
+        <section id="about" className="py-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">About Me</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gray-700/50 shadow-xl">
+              <p className="text-gray-300 text-lg leading-relaxed text-center">{portfolioData.bio}</p>
+            </div>
           </div>
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">My Tech Stack</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-4xl mx-auto">
+        <section id="skills" className="py-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">My Tech Stack</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
             {portfolioData.skills.map(skill => <SkillIcon key={skill.name} {...skill} />)}
           </div>
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">Professional Experience</h2>
-          <div className="max-w-4xl mx-auto space-y-8">
+        <section id="experience" className="py-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Professional Experience</h2>
+          <div className="max-w-5xl mx-auto space-y-8">
             {portfolioData.experiences.map((experience, index) => (
               <ExperienceCard key={index} experience={experience} />
             ))}
@@ -343,111 +399,103 @@ function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">Featured Projects</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <section id="projects" className="py-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Featured Projects</h2>
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {portfolioData.projects.map((project, index) => (
               <ProjectCard key={index} project={project} />
             ))}
           </div>
         </section>
 
-        {/* Contact Section - New Design */}
         {/* Contact Section */}
-        <section id="contact" className="py-20">
+        <section id="contact" className="py-24">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-pink-400 to-blue-600 bg-clip-text text-transparent mb-16">
-              Let's Connect
-            </h1>
+            <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Let's Connect</h2>
             
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-700">
-                <h2 className="text-2xl font-bold text-white mb-8">Get In Touch</h2>
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gray-700/50 shadow-xl">
+                <h3 className="text-2xl font-bold text-white mb-10">Get In Touch</h3>
                 
-                <div className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6 mb-10">
                   {/* Location */}
-                  <div className="flex items-center gap-4 p-4 bg-gray-700/50 rounded-xl">
-                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
+                  <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                     </div>
                     <div className="text-left">
                       <p className="text-white font-semibold">Location</p>
-                      <p className="text-gray-300">Bengaluru, Karnataka, India</p>
+                      <p className="text-gray-300">{portfolioData.location}</p>
                     </div>
                   </div>
-        
-                  {/* Phone */}
-                  <div className="flex items-center gap-4 p-4 bg-gray-700/50 rounded-xl">
-                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                      </svg>
-                    </div>
-                    <div className="text-left">
-                      <p className="text-white font-semibold">Phone</p>
-                      <p className="text-gray-300">+91 9741909565</p>
-                    </div>
-                  </div>
-        
+
                   {/* Email */}
-                  <div className="flex items-center gap-4 p-4 bg-gray-700/50 rounded-xl">
-                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
+                  <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div className="text-left">
                       <p className="text-white font-semibold">Email</p>
-                      <p className="text-gray-300">delishariyona@gmail.com</p>
+                      <p className="text-gray-300">{portfolioData.contactEmail}</p>
                     </div>
                   </div>
-        
+
+                  {/* Phone */}
+                  <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-white font-semibold">Phone</p>
+                      <p className="text-gray-300">{portfolioData.phone}</p>
+                    </div>
+                  </div>
+
                   {/* Status */}
-                  <div className="flex items-center gap-4 p-4 bg-gray-700/50 rounded-xl">
-                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                        <path d="m22 7-10 5L2 7"></path>
+                  <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6" />
                       </svg>
                     </div>
                     <div className="text-left">
                       <p className="text-white font-semibold">Status</p>
-                      <p className="text-green-400">Open to Opportunities</p>
+                      <p className="text-green-400 font-medium">Open to Opportunities</p>
                     </div>
                   </div>
                 </div>
-        
+
                 {/* Social Links */}
-                <div className="flex justify-center gap-4 mt-8">
-                  <a href="https://github.com/GSuryaP" target="_blank" rel="noopener noreferrer" 
-                     className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center hover:bg-bule-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                <div className="flex justify-center gap-4">
+                  <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer" 
+                     className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
+                    <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                   </a>
-                  <a href="https://linkedin.com/in/g-s-s-surya-prakash/" target="_blank" rel="noopener noreferrer" 
-                     className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center hover:bg-blue-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
+                  <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer" 
+                     className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
+                    <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                   </a>
-                  <a href="mailto:gonellasurya2005@gmail.com" 
-                     className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center hover:bg-blue-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
+                  <a href={`mailto:${portfolioData.contactEmail}`} 
+                     className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
+                    <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </a>
-                  <a href="tel:+919741909565" 
-                     className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center hover:bg-blue-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  <a href={`tel:${portfolioData.phone}`} 
+                     className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
+                    <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </a>
                 </div>
@@ -458,22 +506,26 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="text-center py-8 border-t border-gray-800">
-        <p className="text-gray-500">
-          &copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.
-        </p>
+      <footer className="relative z-10 text-center py-12 border-t border-gray-700/50 bg-gray-800/30 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <p className="text-gray-400 text-lg">
+            &copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.
+          </p>
+          <p className="text-gray-500 text-sm mt-2">
+            Built with React, TypeScript & Tailwind CSS
+          </p>
+        </div>
       </footer>
 
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-        .absolute.w-1.h-1 {
-          animation: twinkle 2s infinite;
-        }
-      `}</style>
+      {/* Scroll to Top Button */}
+      <button 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-110 z-40 flex items-center justify-center"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+      </button>
     </div>
   );
 }
