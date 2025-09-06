@@ -187,9 +187,7 @@ function App() {
         period: "2023 - Present",
         type: "Education",
         description: [
-          "I am currently pursuing a B.Tech in Computer Science and Engineering at PES University, maintaining a CGPA of 8.73 through my 5th semester.", 
-          "I have been honored with the Prof. CNR Scholarship for the 1st, 3rd, 4th semesters, awarded to the top 20%",
-          "Other than academics, I actively participate in campus life as a member of multiple clubs.",
+          "I am currently pursuing a B.Tech in Computer Science and Engineering at PES University, maintaining a CGPA of 8.73 through my 5th semester. I have been honored with the Prof. CNR Scholarship for the 1st, 3rd, 4th semesters, awarded to the top 20%. Other than academics, I actively participate in campus life as a member of multiple clubs.",
         ],
         technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "AWS"]
       },
