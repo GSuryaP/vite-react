@@ -32,7 +32,9 @@ interface Project {
 // SkillIcon Component with typed props
 const SkillIcon: React.FC<Skill> = ({ icon, name }) => (
   <div className="flex flex-col items-center gap-2 p-4 bg-gray-800 rounded-lg transition-transform hover:scale-105 hover:bg-gray-700">
-    <div className="w-12 h-12" dangerouslySetInnerHTML={{ __html: icon }} />
+    <div className="w-12 h-12 flex items-center justify-center">
+      {icon} {/* Render JSX element directly */}
+    </div>
     <span className="text-sm font-medium text-gray-300">{name}</span>
   </div>
 );
@@ -109,7 +111,7 @@ function App() {
     { name: "Node.js", icon: <SiNodedotjs color="#339933" size={40} /> },
     { name: "Git", icon: <SiGit color="#F05032" size={40} /> },
     { name: "GitHub", icon: <SiGithub color="#181717" size={40} /> },
-  ] as Skill[],
+  ],
 
 
     // skills: [ 
