@@ -182,15 +182,14 @@ function App() {
 
     experiences: [
       {
-        title: "Full-Stack Development Intern",
-        company: "Tech Innovations Ltd",
-        period: "Jun 2024 - Aug 2024",
-        type: "Internship",
+        title: "Computer Science Engineering Student",
+        company: "PES University",
+        period: "2023 - Present",
+        type: "Education",
         description: [
-          "Developed and maintained web applications using React.js and Node.js, serving 1000+ daily active users with 99.9% uptime",
-          "Collaborated with senior developers to implement new features and optimize existing codebase, reducing load times by 35%",
-          "Built responsive UI components and integrated REST APIs for seamless data flow across multiple platforms",
-          "Participated in code reviews and followed agile development methodologies, contributing to sprint planning and retrospectives"
+          "I am currently pursuing a B.Tech in Computer Science and Engineering at PES University, maintaining a CGPA of 8.73 through my 5th semester.", 
+          "I have been honored with the Prof. CNR Scholarship for the 1st, 3rd, 4th semesters, awarded to the top 20%",
+          "Other than academics, I actively participate in campus life as a member of multiple clubs.",
         ],
         technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "AWS"]
       },
@@ -444,7 +443,7 @@ function App() {
 
         {/* Experience Section */}
         <section id="experience" className="py-24">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Professional Experience</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Education & Experience</h2>
           <div className="max-w-5xl mx-auto space-y-8">
             {portfolioData.experiences.map((experience, index) => (
               <ExperienceCard key={index} experience={experience} />
