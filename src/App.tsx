@@ -30,7 +30,7 @@ interface Project {
 // --- Helper Components ---
 
 // SkillIcon Component with typed props
-const SkillIcon: React.FC<{ icon: string; name: string }> = ({ icon, name }) => (
+const SkillIcon: React.FC<Skill> = ({ icon, name }) => (
   <div className="flex flex-col items-center gap-2 p-4 bg-gray-800 rounded-lg transition-transform hover:scale-105 hover:bg-gray-700">
     <div className="w-12 h-12" dangerouslySetInnerHTML={{ __html: icon }} />
     <span className="text-sm font-medium text-gray-300">{name}</span>
