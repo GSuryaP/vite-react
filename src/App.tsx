@@ -149,7 +149,7 @@ function App() {
 
   // --- Portfolio Data ---
   const portfolioData = {
-    name: "G S S Surya Prakash",
+    name: "Gonella Siva Sai Surya Prakash",
     tagline: "Full-Stack Developer & AI Enthusiast | Building Scalable Solutions for Tomorrow's Challenges",
     bio: "I am a passionate Computer Science Engineering student at PES University, Bengaluru, with a strong foundation in full-stack development and emerging technologies. Currently in my third year, I've developed expertise in modern web technologies, machine learning, and cloud computing through both academic projects and self-directed learning. My journey in tech began with curiosity about how applications work behind the scenes, which led me to explore everything from responsive front-end interfaces to robust backend architectures. I thrive in collaborative environments and have experience working in agile teams during hackathons and group projects. I'm particularly interested in the intersection of AI and web development, and I'm actively contributing to open-source projects while seeking internship opportunities where I can apply my skills to solve real-world problems and continue growing as a developer.",
     contactEmail: "gonellasurya2005@gmail.com",
