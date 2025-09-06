@@ -447,11 +447,11 @@ function App() {
         {/* Contact Section */}
         <section id="contact" className="py-24">
           <div className="text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Reach Out At</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Connect At</h2>
             
             <div className="max-w-3xl mx-auto">
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gray-700/50 shadow-xl">
-                <h3 className="text-2xl font-bold text-white mb-10">Contact</h3>
+                <h3 className="text-2xl font-bold text-white mb-10">Details</h3>
                 
                 <div className="grid md:grid-cols-2 gap-6 mb-10">
                   {/* Location */}
