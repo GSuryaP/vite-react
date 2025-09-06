@@ -149,7 +149,7 @@ function App() {
 
   // --- Portfolio Data ---
   const portfolioData = {
-    name: "G S S Surya Prakash",
+    name: "Gonella Siva Sai Surya Prakash",
     tagline: "A CSE Undergrad & AI Enthusiast | Exploring the Future of Technology",
     bio: "I am a passionate Computer Science Engineering student at PES University, Bengaluru, with a strong foundation in full-stack development and emerging technologies. Currently in my third year, I've developed expertise in modern web technologies, machine learning, and cloud computing through both academic projects and self-directed learning. My journey in tech began with curiosity about how applications work behind the scenes, which led me to explore everything from responsive front-end interfaces to robust backend architectures. I thrive in collaborative environments and have experience working in agile teams during hackathons and group projects. I'm particularly interested in the intersection of AI and web development, and I'm actively contributing to open-source projects while seeking internship opportunities where I can apply my skills to solve real-world problems and continue growing as a developer.",
     contactEmail: "gonellasurya2005@gmail.com",
@@ -182,7 +182,6 @@ function App() {
       { name: "MySQL", icon: <SiMysql color="#4479A1" size={48} /> },
       { name: "HTML5", icon: <SiHtml5 color="#E34F26" size={48} /> },
       { name: "CSS3", icon: <SiCss3 color="#1572B6" size={48} /> },
-      { name: "Tailwind CSS", icon: <SiTailwindcss color="#06B6D4" size={48} /> },
       { name: "C++", icon: <SiCplusplus color="#00599C" size={48} /> },
       { name: "C", icon: <SiC color="#00599C" size={48} /> },
       { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
