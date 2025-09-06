@@ -99,7 +99,7 @@ function App() {
       github: "https://github.com/GSuryaP",
     },
 
-  skills = [
+  skills: [
     { name: "Python", icon: <SiPython color="#3776AB" size={40} /> },
     { name: "MySQL", icon: <SiMysql color="#4479A1" size={40} /> },
     { name: "C", icon: <SiC color="#00599C" size={40} /> },
