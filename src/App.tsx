@@ -380,7 +380,7 @@ function App() {
           <div className="mb-8 relative">
             <img 
               className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105 object-cover" 
-              src="/path-to-your-photo.jpg" 
+              src="/profile.jpg" 
               alt="G S S Surya Prakash - Profile Picture" 
               onError={(e) => { 
                 (e.target as HTMLImageElement).onerror = null; 
