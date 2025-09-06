@@ -149,7 +149,7 @@ function App() {
 
   // --- Portfolio Data ---
   const portfolioData = {
-    name: "Gonella Siva Sai Surya Prakash",
+    name: "G S S Surya Prakash",
     tagline: "Full-Stack Developer & AI Enthusiast | Building Scalable Solutions for Tomorrow's Challenges",
     bio: "I am a passionate Computer Science Engineering student at PES University, Bengaluru, with a strong foundation in full-stack development and emerging technologies. Currently in my third year, I've developed expertise in modern web technologies, machine learning, and cloud computing through both academic projects and self-directed learning. My journey in tech began with curiosity about how applications work behind the scenes, which led me to explore everything from responsive front-end interfaces to robust backend architectures. I thrive in collaborative environments and have experience working in agile teams during hackathons and group projects. I'm particularly interested in the intersection of AI and web development, and I'm actively contributing to open-source projects while seeking internship opportunities where I can apply my skills to solve real-world problems and continue growing as a developer.",
     contactEmail: "gonellasurya2005@gmail.com",
@@ -222,53 +222,87 @@ function App() {
       }
     ] as Experience[],
 
-        projects: [
+    projects: [
       {
         title: "RASA-Driven SDN Tool",
         description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=SDN+Tool",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-        liveUrl: "https://github.com/GSuryaP/rasa-sdn-tool",
         repoUrl: "https://github.com/GSuryaP/rasa-sdn-tool",
       },
       {
         title: "SpaceNet - Network Speed Dashboard",
         description: "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=SpaceNet+Dashboard",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
         tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-        liveUrl: "https://github.com/GSuryaP/spacenet-dashboard",
         repoUrl: "https://github.com/GSuryaP/spacenet-dashboard",
       },
       {
         title: "Personal ChatRoom",
         description: "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=Personal+ChatRoom",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M13 8L15 10L13 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
         tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-        liveUrl: "https://github.com/GSuryaP/personal-chatroom",
         repoUrl: "https://github.com/GSuryaP/personal-chatroom",
       },
       {
         title: "Fitzen - Fitness Tracker",
         description: "Developed a comprehensive fitness tracker application using the MERN stack for fitness enthusiasts to monitor their activities. Provides users with tips, motivation, and activity tracking via a clean and responsive interface with detailed analytics.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=Fitzen+App",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M6.5 6.5C6.5 5.11929 7.61929 4 9 4C10.3807 4 11.5 5.11929 11.5 6.5C11.5 7.88071 10.3807 9 9 9C7.61929 9 6.5 7.88071 6.5 6.5Z" stroke="currentColor" strokeWidth="2"/>
+            <path d="M17.5 6.5C17.5 5.11929 16.3807 4 15 4C13.6193 4 12.5 5.11929 12.5 6.5C12.5 7.88071 13.6193 9 15 9C16.3807 9 17.5 7.88071 17.5 6.5Z" stroke="currentColor" strokeWidth="2"/>
+            <path d="M7 14L9 16L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 14V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M15 14V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        ),
         tags: ["HTML", "CSS", "JavaScript", "MongoDB", "React", "Node.js"],
-        liveUrl: "https://github.com/GSuryaP/fitzen-fitness-tracker",
         repoUrl: "https://github.com/GSuryaP/fitzen-fitness-tracker",
       },
       {
         title: "Weather & AQI Tracker",
         description: "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=Weather+Tracker",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M18 10H22L20 7L18 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 14H22L20 17L18 14Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 17H3S1 17 1 15S3 13 3 13H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 8V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 21V16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
         tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-        liveUrl: "https://github.com/GSuryaP/weather-aqi-tracker",
         repoUrl: "https://github.com/GSuryaP/weather-aqi-tracker",
       },
       {
         title: "Personal Social Calendar",
         description: "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
-        image: "https://placehold.co/600x400/1f2937/64748b?text=Social+Calendar",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+            <path d="M8 14H10V16H8V14Z" stroke="currentColor" strokeWidth="2"/>
+          </svg>
+        ),
         tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-        liveUrl: "https://github.com/GSuryaP/personal-social-calendar",
         repoUrl: "https://github.com/GSuryaP/personal-social-calendar",
       },
     ] as Project[],
@@ -348,11 +382,15 @@ function App() {
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center py-20">
           <div className="mb-8 relative">
             <img 
-              className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105" 
-              src="https://placehold.co/192x192/1f2937/64748b?text=Surya" 
-              alt="Profile Picture" 
+              className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105 object-cover" 
+              src="/path-to-your-photo.jpg" 
+              alt="G S S Surya Prakash - Profile Picture" 
+              onError={(e) => { 
+                (e.target as HTMLImageElement).onerror = null; 
+                (e.target as HTMLImageElement).src = 'https://placehold.co/192x192/1f2937/64748b?text=Surya'; 
+              }}
             />
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 animate-pulse"></div>
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 animate-pulse" title="Available for opportunities"></div>
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
             Hi, I'm <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{portfolioData.name}</span>
