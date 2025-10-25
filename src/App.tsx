@@ -244,7 +244,7 @@ function App() {
           </svg>
         ),
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-        repoUrl: "https://gonellasurya-portfolio.vercel.app/#projects",
+        repoUrl: "/#projects",
       },
       {
         title: "SpaceNet - Network Speed Dashboard",
