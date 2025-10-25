@@ -244,7 +244,7 @@ function App() {
           </svg>
         ),
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-        repoUrl: "/#projects",
+        repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
       },
       {
         title: "SpaceNet - Network Speed Dashboard",
