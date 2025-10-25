@@ -201,15 +201,12 @@ function App() {
         technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "AWS"]
       },
       {
-        title: "Frontend Developer",
-        company: "StartupXYZ",
-        period: "Jan 2024 - May 2024",
-        type: "Part-time",
+        title: "Research Intern",
+        company: "Center of Computer Networks and CyberSecurity (CCNCS)",
+        period: "June 2025 - July 2025",
+        type: "Summer Internship",
         description: [
-          "Created responsive web interfaces for mobile and desktop platforms using React and Tailwind CSS, supporting 5+ device breakpoints",
-          "Improved website performance by 40% through code optimization, lazy loading implementation, and image compression techniques",
-          "Worked closely with UI/UX designers to translate Figma mockups into pixel-perfect web applications with 100% design accuracy",
-          "Implemented user authentication and authorization features using Firebase, supporting OAuth and email/password login methods"
+          "As a Research Intern at the Center of Computer Networks and CyberSecurity (CCNCS), I developed an intelligent SDN management system by integrating the ONOS distributed controller cluster with a RASA-powered conversational AI and Mininet, enabling real-time network monitoring, automated flow control, and failure detection through REST APIs and a React-based visualization dashboard."
         ],
         technologies: ["React", "Tailwind CSS", "JavaScript", "Firebase", "Figma", "Git"]
       },
