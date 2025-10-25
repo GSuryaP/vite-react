@@ -219,6 +219,16 @@ function App() {
           "As the Logistics Head of Equinox – The Space Club, I oversee event planning and coordination, managing resources, schedules, and teams to ensure smooth execution of workshops, hackathons, and other activities with efficient logistical support and timely operations."
         ], 
         technologies: []
+      },
+      {
+        title: "SMCC Head",
+        company: "Equinox - The Space Club, PESU ECC",
+        period: "Sep 2024 - May 2025",
+        type: "Club domain head",
+        description: [
+          "As the Social Media and Content Creator for Equinox – The Space Club, I handled digital outreach by designing engaging posts, managing social media campaigns, and creating content to promote events."
+        ], 
+        technologies: []
       }
     ] as Experience[],
 
