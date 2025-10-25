@@ -206,20 +206,17 @@ function App() {
         period: "June 2025 - July 2025",
         type: "Summer Internship",
         description: [
-          "As a Research Intern at the Center of Computer Networks and CyberSecurity (CCNCS), I developed an intelligent SDN management system by integrating the ONOS distributed controller cluster with a RASA-powered conversational AI and Mininet, enabling real-time network monitoring, automated flow control, and failure detection through REST APIs and a React-based visualization dashboard."
+          "As a Research Intern at CCNCS, I developed an intelligent SDN management system by integrating the ONOS distributed controller cluster using Mininet with a RASA-powered conversational AI, enabling real-time network monitoring, automated flow control, and failure detection through REST APIs and a visualization dashboard."
         ],
-        technologies: ["React", "Tailwind CSS", "JavaScript", "Firebase", "Figma", "Git"]
+        technologies: ["SDN", "RASA", "ONOS", "Mininet", "Atomix", "Python"]
       },
       {
-        title: "Open Source Contributor",
-        company: "Various Projects",
-        period: "Sep 2023 - Present",
-        type: "Volunteer",
+        title: "Logistics Head",
+        company: "Equinox - The Space Club, PESU ECC",
+        period: "May 2025 - Present",
+        type: "Club domain head",
         description: [
-          "Contributing to multiple open-source projects on GitHub with focus on web development and Python libraries, with 50+ merged PRs",
-          "Fixed critical bugs and implemented new features across different repositories, improving functionality for thousands of users",
-          "Collaborated with maintainers and contributors through issue discussions and pull requests, following best practices for code reviews",
-          "Gained experience in collaborative development, version control best practices, and maintaining backward compatibility"
+          "As the Logistics Head of Equinox – The Space Club, I oversee event planning and coordination, managing resources, schedules, and teams to ensure smooth execution of workshops, hackathons, and other activities with efficient logistical support and timely operations."
         ],
         technologies: ["Python", "JavaScript", "React", "Git", "GitHub Actions", "Docker"]
       }
