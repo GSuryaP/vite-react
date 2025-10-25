@@ -232,83 +232,15 @@ function App() {
       }
     ] as Experience[],
 
-    // projects: [
-    //   {
-    //     title: "RASA-Driven SDN Tool",
-    //     description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
-    //     icon: (
-    //       <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-    //         <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //       </svg>
-    //     ),
-    //     tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-    //     repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
-    //   },
-    //   {
-    //     title: "SpaceNet - Network Speed Dashboard",
-    //     description: "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
-    //     icon: (
-    //       <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-    //         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-    //         <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //       </svg>
-    //     ),
-    //     tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-    //     repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
-    //   },
-    //   {
-    //     title: "Personal ChatRoom",
-    //     description: "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
-    //     icon: (
-    //       <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-    //         <path d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M13 8L15 10L13 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //       </svg>
-    //     ),
-    //     tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-    //     repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
-    //   },
-    //   {
-    //     title: "Weather & AQI Tracker",
-    //     description: "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
-    //     icon: (
-    //       <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-    //         <path d="M18 10H22L20 7L18 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M18 14H22L20 17L18 14Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M9 17H3S1 17 1 15S3 13 3 13H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M12 8V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //         <path d="M12 21V16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    //       </svg>
-    //     ),
-    //     tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-    //     repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
-    //   },
-    //   {
-    //     title: "Personal Social Calendar",
-    //     description: "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
-    //     icon: (
-    //       <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-    //         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-    //         <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    //         <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    //         <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
-    //         <path d="M8 14H10V16H8V14Z" stroke="currentColor" strokeWidth="2"/>
-    //       </svg>
-    //     ),
-    //     tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-    //     repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
-    //   },
-    // ] as Project[],
-  projects: [
+    projects: [
       {
         title: "RASA-Driven SDN Tool",
         description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
         icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-            <path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.32L19.5 8.25V15.75L12 19.68L4.5 15.75V8.25L12 4.32Z"/>
-            <path d="M12 7L6 10V14L12 17L18 14V10L12 7Z"/>
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ),
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
@@ -318,9 +250,9 @@ function App() {
         title: "SpaceNet - Network Speed Dashboard",
         description: "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
         icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 6V12L16 14" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ),
         tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
@@ -330,8 +262,9 @@ function App() {
         title: "Personal ChatRoom",
         description: "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
         icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/>
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M13 8L15 10L13 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ),
         tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
@@ -341,13 +274,12 @@ function App() {
         title: "Weather & AQI Tracker",
         description: "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
         icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-            <path d="M14.5 17C14.5 18.93 12.93 20.5 11 20.5C9.07 20.5 7.5 18.93 7.5 17H6C6 19.76 8.24 22 11 22C13.76 22 16 19.76 16 17H14.5Z"/>
-            <circle cx="18" cy="10" r="1.5"/>
-            <circle cx="18" cy="6" r="1"/>
-            <circle cx="6" cy="10" r="1.5"/>
-            <circle cx="6" cy="6" r="1"/>
-            <path d="M12 2V6M12 18V22"/>
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path d="M18 10H22L20 7L18 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 14H22L20 17L18 14Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 17H3S1 17 1 15S3 13 3 13H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 8V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 21V16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ),
         tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
@@ -357,19 +289,18 @@ function App() {
         title: "Personal Social Calendar",
         description: "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
         icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-            <path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19Z"/>
-            <rect x="7" y="10" width="2" height="2"/>
-            <rect x="11" y="10" width="2" height="2"/>
-            <rect x="15" y="10" width="2" height="2"/>
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+            <path d="M8 14H10V16H8V14Z" stroke="currentColor" strokeWidth="2"/>
           </svg>
         ),
         tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
         repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
       },
     ] as Project[],
-  };
-  
   };
 
   const navLinks = [
