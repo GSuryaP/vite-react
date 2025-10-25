@@ -217,7 +217,8 @@ function App() {
         type: "Club domain head",
         description: [
           "As the Logistics Head of Equinox – The Space Club, I oversee event planning and coordination, managing resources, schedules, and teams to ensure smooth execution of workshops, hackathons, and other activities with efficient logistical support and timely operations."
-        ]
+        ], 
+        technologies: []
       }
     ] as Experience[],
 
