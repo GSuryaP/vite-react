@@ -155,7 +155,7 @@ function App() {
     contactEmail: "gonellasurya2005@gmail.com",
     phone: "+91 9880410689",
     location: "Bengaluru, Karnataka, India",
-    resumeUrl: "/GonellaSurya_Resume.pdf",
+    resumeUrl: "/GonellaSuryaPrakash_Resume.pdf",
     socials: {
       linkedin: "https://linkedin.com/in/g-s-s-surya-prakash/",
       github: "https://github.com/GSuryaP",
