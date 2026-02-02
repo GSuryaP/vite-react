@@ -233,19 +233,56 @@ function App() {
     ] as Experience[],
 
     projects: [
+      // {
+      //   title: "RASA-Driven SDN Tool",
+      //   description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
+      //   icon: (
+      //     <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+      //       <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      //       <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      //       <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      //     </svg>
+      //   ),
+      //   tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
+      //   repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
+      // },
       {
-        title: "RASA-Driven SDN Tool",
-        description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        ),
-        tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-        repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
-      },
+  title: "RASA-Driven SDN Tool",
+
+  description:
+    "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
+
+  // 👇 Graphic-style header (replaces image completely)
+  header: (
+    <div className="h-40 rounded-t-xl bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
+      
+      {/* subtle tech grid background */}
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[size:20px_20px]" />
+
+      {/* Icon + Title */}
+      <div className="relative z-10 flex flex-col items-center gap-3 text-center">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          className="w-14 h-14 text-cyan-400"
+        >
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+
+        <span className="text-white font-semibold tracking-wide">
+          RASA-Driven SDN Tool
+        </span>
+      </div>
+    </div>
+  ),
+
+  tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
+
+  repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
+},
+
       {
         title: "SpaceNet - Network Speed Dashboard",
         description: "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
