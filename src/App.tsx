@@ -26,7 +26,7 @@ interface Skill {
 interface Project {
   title: string;
   description: string;
-  image: string;
+  icon: React.ReactNode; // ✅ Fixed: was "image: string"
   tags: string[];
   liveUrl?: string;
   repoUrl?: string;
@@ -51,19 +51,15 @@ const SkillIcon: React.FC<Skill> = ({ icon, name }) => (
   </div>
 );
 
+// ✅ Fixed ProjectCard: renders icon as JSX, not <img>
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20 hover:border-cyan-500/50">
-    <div className="relative overflow-hidden">
-      <img 
-        src={project.image} 
-        alt={project.title} 
-        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" 
-        onError={(e) => { 
-          (e.target as HTMLImageElement).onerror = null; 
-          (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/1f2937/64748b?text=Project+Image'; 
-        }} 
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div className="relative flex items-center justify-center h-48 bg-gradient-to-br from-gray-800 to-gray-900 border-b border-gray-700/50 overflow-hidden">
+      {/* Decorative background glow */}
+      <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
+        {project.icon}
+      </div>
     </div>
     <div className="p-6">
       <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
@@ -75,13 +71,13 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
       </div>
       <div className="flex justify-between gap-3">
         {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" 
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
              className="flex-1 text-center bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
             Live Demo
           </a>
         )}
         {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" 
+          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer"
              className="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg">
             Source Code
           </a>
@@ -105,7 +101,7 @@ const ExperienceCard: React.FC<{ experience: Experience }> = ({ experience }) =>
         </span>
       </div>
     </div>
-    
+
     <ul className="text-gray-300 mb-6 space-y-3">
       {experience.description.map((point, index) => (
         <li key={index} className="flex items-start">
@@ -114,7 +110,7 @@ const ExperienceCard: React.FC<{ experience: Experience }> = ({ experience }) =>
         </li>
       ))}
     </ul>
-    
+
     <div className="flex flex-wrap gap-2">
       {experience.technologies.map((tech, index) => (
         <span key={index} className="text-xs bg-gray-700/80 text-gray-300 px-3 py-1 rounded-full border border-gray-600/50">
@@ -170,22 +166,23 @@ function App() {
         name: "RASA",
         icon: (
           <img
-            src="/rasa.jpg" // Replace with your actual file name in public folder
+            src="/rasa.jpg"
             alt="RASA"
-            className="w-12 h-12" // adjust size as needed
+            className="w-12 h-12"
           />
         ),
       },
       { name: "Node.js", icon: <SiNodedotjs color="#339933" size={48} /> },
-      { name: "Express", icon: <SiExpress color="#000000" size={48} /> },
+      { name: "Express", icon: <SiExpress color="#ffffff" size={48} /> },
       { name: "MongoDB", icon: <SiMongodb color="#47A248" size={48} /> },
       { name: "MySQL", icon: <SiMysql color="#4479A1" size={48} /> },
       { name: "HTML5", icon: <SiHtml5 color="#E34F26" size={48} /> },
       { name: "CSS3", icon: <SiCss color="#1572B6" size={48} /> },
+      { name: "Tailwind", icon: <SiTailwindcss color="#06B6D4" size={48} /> },
       { name: "C++", icon: <SiCplusplus color="#00599C" size={48} /> },
       { name: "C", icon: <SiC color="#00599C" size={48} /> },
       { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
-      { name: "GitHub", icon: <SiGithub color="#181717" size={48} /> },
+      { name: "GitHub", icon: <SiGithub color="#ffffff" size={48} /> },
       { name: "Firebase", icon: <SiFirebase color="#FFCA28" size={48} /> },
     ],
 
@@ -217,7 +214,7 @@ function App() {
         type: "Club domain head",
         description: [
           "As the Logistics Head of Equinox – The Space Club, I oversee event planning and coordination, managing resources, schedules, and teams to ensure smooth execution of workshops, hackathons, and other activities with efficient logistical support and timely operations."
-        ], 
+        ],
         technologies: []
       },
       {
@@ -227,195 +224,119 @@ function App() {
         type: "Club domain head",
         description: [
           "As the Social Media and Content Creator for Equinox – The Space Club, I handled digital outreach by designing engaging posts, managing social media campaigns, and creating content to promote events."
-        ], 
+        ],
         technologies: []
       }
     ] as Experience[],
 
-      projects: [
-  {
-    title: "RASA-Driven SDN Tool",
-    description:
-      "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-        <circle cx="12" cy="5" r="2" stroke="#22d3ee" strokeWidth="2" />
-        <circle cx="5" cy="19" r="2" stroke="#22d3ee" strokeWidth="2" />
-        <circle cx="19" cy="19" r="2" stroke="#22d3ee" strokeWidth="2" />
-        <path
-          d="M12 7V12M12 12L6 17M12 12L18 17"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-    repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
-  },
-
-  {
-    title: "SpaceNet - Network Speed Dashboard",
-    description:
-      "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-        <path
-          d="M12 2L14.5 9H22L16 13.5L18.5 20.5L12 16L5.5 20.5L8 13.5L2 9H9.5L12 2Z"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-    repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
-  },
-
-  {
-    title: "Personal ChatRoom",
-    description:
-      "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-        <path
-          d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8 10H16M8 14H13"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-    tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-    repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
-  },
-
-  {
-    title: "Weather & AQI Tracker",
-    description:
-      "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-        <circle cx="12" cy="10" r="4" stroke="#22d3ee" strokeWidth="2" />
-        <path
-          d="M12 2V4M12 16V18M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 10H4M20 10H22M4.93 15.07L6.34 13.66M17.66 6.34L19.07 4.93"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M5 19H19M7 21H17"
-          stroke="#22d3ee"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-    tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-    repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
-  },
-
-  {
-    title: "Personal Social Calendar",
-    description:
-      "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#22d3ee" strokeWidth="2" />
-        <line x1="16" y1="2" x2="16" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-        <line x1="8" y1="2" x2="8" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-        <line x1="3" y1="10" x2="21" y2="10" stroke="#22d3ee" strokeWidth="2" />
-        <circle cx="8" cy="15" r="1" fill="#22d3ee" />
-        <circle cx="12" cy="15" r="1" fill="#22d3ee" />
-        <circle cx="16" cy="15" r="1" fill="#22d3ee" />
-      </svg>
-    ),
-    tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-    repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
-  },
-] as Project[],
-  //   projects: [
-  //     {
-  //       title: "RASA-Driven SDN Tool",
-  //       description: "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
-  //       icon: (
-  //         <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-  //           <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //         </svg>
-  //       ),
-  //       tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-  //       repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
-  //     },
-
-  //     {
-  //       title: "SpaceNet - Network Speed Dashboard",
-  //       description: "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
-  //       icon: (
-  //         <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-  //           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-  //           <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //         </svg>
-  //       ),
-  //       tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-  //       repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
-  //     },
-  //     {
-  //       title: "Personal ChatRoom",
-  //       description: "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
-  //       icon: (
-  //         <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-  //           <path d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M13 8L15 10L13 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //         </svg>
-  //       ),
-  //       tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-  //       repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
-  //     },
-  //     {
-  //       title: "Weather & AQI Tracker",
-  //       description: "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
-  //       icon: (
-  //         <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-  //           <path d="M18 10H22L20 7L18 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M18 14H22L20 17L18 14Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M9 17H3S1 17 1 15S3 13 3 13H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M12 8V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M12 21V16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //         </svg>
-  //       ),
-  //       tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-  //       repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
-  //     },
-  //     {
-  //       title: "Personal Social Calendar",
-  //       description: "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
-  //       icon: (
-  //         <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-  //           <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-  //           <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-  //           <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-  //           <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
-  //           <path d="M8 14H10V16H8V14Z" stroke="currentColor" strokeWidth="2"/>
-  //         </svg>
-  //       ),
-  //       tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-  //       repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
-  //     },
-  //   ] as Project[],
+    projects: [
+      {
+        title: "RASA-Driven SDN Tool",
+        description:
+          "Built a RASA-powered conversational assistant enabling real-time monitoring, health checks, and fault detection for distributed SDN controllers via ONOS REST APIs. Simulated SDN networks using Mininet with custom RASA actions for automated flow queries and troubleshooting.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <circle cx="12" cy="5" r="2" stroke="#22d3ee" strokeWidth="2" />
+            <circle cx="5" cy="19" r="2" stroke="#22d3ee" strokeWidth="2" />
+            <circle cx="19" cy="19" r="2" stroke="#22d3ee" strokeWidth="2" />
+            <path
+              d="M12 7V12M12 12L6 17M12 12L18 17"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+        tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
+        repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
+      },
+      {
+        title: "SpaceNet - Network Speed Dashboard",
+        description:
+          "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path
+              d="M12 2L14.5 9H22L16 13.5L18.5 20.5L12 16L5.5 20.5L8 13.5L2 9H9.5L12 2Z"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+        tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
+        repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
+      },
+      {
+        title: "Personal ChatRoom",
+        description:
+          "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <path
+              d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 10H16M8 14H13"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        ),
+        tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
+        repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
+      },
+      {
+        title: "Weather & AQI Tracker",
+        description:
+          "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <circle cx="12" cy="10" r="4" stroke="#22d3ee" strokeWidth="2" />
+            <path
+              d="M12 2V4M12 16V18M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 10H4M20 10H22M4.93 15.07L6.34 13.66M17.66 6.34L19.07 4.93"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M5 19H19M7 21H17"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        ),
+        tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
+        repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
+      },
+      {
+        title: "Personal Social Calendar",
+        description:
+          "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#22d3ee" strokeWidth="2" />
+            <line x1="16" y1="2" x2="16" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+            <line x1="8" y1="2" x2="8" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+            <line x1="3" y1="10" x2="21" y2="10" stroke="#22d3ee" strokeWidth="2" />
+            <circle cx="8" cy="15" r="1" fill="#22d3ee" />
+            <circle cx="12" cy="15" r="1" fill="#22d3ee" />
+            <circle cx="16" cy="15" r="1" fill="#22d3ee" />
+          </svg>
+        ),
+        tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
+        repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
+      },
+    ] as Project[],
   };
-
-
 
   const navLinks = [
     { id: 'home', title: 'Home' },
@@ -443,7 +364,7 @@ function App() {
           </a>
           <nav className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
-               <a key={link.id} href={`#${link.id}`} 
+               <a key={link.id} href={`#${link.id}`}
                   className={`text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium relative group ${
                     activeSection === link.id ? 'text-cyan-400' : ''
                   }`}>
@@ -454,8 +375,8 @@ function App() {
                </a>
             ))}
           </nav>
-          <button 
-            className="md:hidden z-50 p-2 text-gray-300 hover:text-cyan-400 transition-colors duration-300" 
+          <button
+            className="md:hidden z-50 p-2 text-gray-300 hover:text-cyan-400 transition-colors duration-300"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -474,7 +395,7 @@ function App() {
           <div className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-700/50">
             <nav className="flex flex-col items-center space-y-4 py-6">
               {navLinks.map((link) => (
-                <a key={link.id} href={`#${link.id}`} onClick={() => setIsMenuOpen(false)} 
+                <a key={link.id} href={`#${link.id}`} onClick={() => setIsMenuOpen(false)}
                    className={`text-lg font-medium transition-colors duration-300 ${
                      activeSection === link.id ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
                    }`}>
@@ -490,13 +411,13 @@ function App() {
         {/* Home Section */}
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center py-20">
           <div className="mb-8 relative">
-            <img 
-              className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105 object-cover" 
-              src="/profile.png" 
-              alt="G S S Surya Prakash - Profile Picture" 
-              onError={(e) => { 
-                (e.target as HTMLImageElement).onerror = null; 
-                (e.target as HTMLImageElement).src = 'https://placehold.co/192x192/1f2937/64748b?text=Surya'; 
+            <img
+              className="w-48 h-48 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/20 transition-transform duration-300 hover:scale-105 object-cover"
+              src="/profile.png"
+              alt="G S S Surya Prakash - Profile Picture"
+              onError={(e) => {
+                (e.target as HTMLImageElement).onerror = null;
+                (e.target as HTMLImageElement).src = 'https://placehold.co/192x192/1f2937/64748b?text=Surya';
               }}
             />
             <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 animate-pulse" title="Available for opportunities"></div>
@@ -505,29 +426,29 @@ function App() {
             Hi, I'm <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{portfolioData.name}</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed">{portfolioData.tagline}</p>
-          
+
           <div className="flex gap-6 mb-10">
-            <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer" 
+            <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer"
                className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
               <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </a>
-            <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer" 
+            <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer"
                className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
               <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
               </svg>
             </a>
-            <a href={`mailto:${portfolioData.contactEmail}`} 
+            <a href={`mailto:${portfolioData.contactEmail}`}
                className="p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 text-gray-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-gray-700/50 transition-all duration-300 hover:scale-110">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </a>
           </div>
-          
-          <a href={portfolioData.resumeUrl} download 
+
+          <a href={portfolioData.resumeUrl} download
              className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-4 px-8 rounded-xl hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 hover:scale-105">
             Download Resume
           </a>
@@ -575,11 +496,11 @@ function App() {
         <section id="contact" className="py-24">
           <div className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Connect At</h2>
-            
+
             <div className="max-w-3xl mx-auto">
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gray-700/50 shadow-xl">
                 <h3 className="text-2xl font-bold text-white mb-10">Details</h3>
-                
+
                 <div className="grid md:grid-cols-2 gap-6 mb-10">
                   {/* Location */}
                   <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
@@ -625,7 +546,7 @@ function App() {
                   <div className="flex items-center gap-4 p-6 bg-gray-700/30 rounded-xl border border-gray-600/30 hover:bg-gray-700/50 hover:border-cyan-500/30 transition-all duration-300">
                     <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
                       <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6" />
                       </svg>
                     </div>
                     <div className="text-left">
@@ -637,25 +558,25 @@ function App() {
 
                 {/* Social Links */}
                 <div className="flex justify-center gap-4">
-                  <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer" 
+                  <a href={portfolioData.socials.github} target="_blank" rel="noopener noreferrer"
                      className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
                     <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                   </a>
-                  <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer" 
+                  <a href={portfolioData.socials.linkedin} target="_blank" rel="noopener noreferrer"
                      className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
                     <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                   </a>
-                  <a href={`mailto:${portfolioData.contactEmail}`} 
+                  <a href={`mailto:${portfolioData.contactEmail}`}
                      className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
                     <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </a>
-                  <a href={`tel:${portfolioData.phone}`} 
+                  <a href={`tel:${portfolioData.phone}`}
                      className="w-14 h-14 bg-gray-700/50 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/50 border border-gray-600/30 transition-all duration-300 hover:scale-110 group">
                     <svg className="w-6 h-6 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -681,7 +602,7 @@ function App() {
       </footer>
 
       {/* Scroll to Top Button */}
-      <button 
+      <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-110 z-40 flex items-center justify-center"
       >
