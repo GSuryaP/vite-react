@@ -413,7 +413,7 @@ function App() {
   //       repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
   //     },
   //   ] as Project[],
-  // };
+  };
 
 
 
