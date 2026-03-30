@@ -11,7 +11,7 @@ import {
   SiGithub,
   SiMongodb,
   SiHtml5,
-  SiCss3,
+  SiCss,
   SiTailwindcss,
   SiExpress,
   SiFirebase
@@ -181,7 +181,7 @@ function App() {
       { name: "MongoDB", icon: <SiMongodb color="#47A248" size={48} /> },
       { name: "MySQL", icon: <SiMysql color="#4479A1" size={48} /> },
       { name: "HTML5", icon: <SiHtml5 color="#E34F26" size={48} /> },
-      { name: "CSS3", icon: <SiCss3 color="#1572B6" size={48} /> },
+      { name: "CSS3", icon: <SiCss color="#1572B6" size={48} /> },
       { name: "C++", icon: <SiCplusplus color="#00599C" size={48} /> },
       { name: "C", icon: <SiC color="#00599C" size={48} /> },
       { name: "Git", icon: <SiGit color="#F05032" size={48} /> },
