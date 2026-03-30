@@ -249,6 +249,35 @@ function App() {
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
         repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
       },
+      
+      {
+        title: "Distributed Image Processing Pipeline",
+        description:
+          "A distributed image processing system using Apache Kafka for async communication between a FastAPI master node and multiple PIL-based worker nodes. The master splits images into tiles, publishes them to Kafka, workers process and return results, and the master reconstructs the final image — with a real-time heartbeat monitoring dashboard.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            {/* Central Kafka broker */}
+            <rect x="9" y="9" width="6" height="6" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            {/* Master node (top) */}
+            <rect x="9.5" y="2" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="12" y1="6" x2="12" y2="9" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Worker node left */}
+            <rect x="2" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="6" y1="12" x2="9" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Worker node right */}
+            <rect x="18" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="18" y1="12" x2="15" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Client (bottom) */}
+            <rect x="9.5" y="18" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="12" y1="18" x2="12" y2="15" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Heartbeat pulse on worker left */}
+            <path d="M3 11.5h.5l.5-1 .5 2 .5-1H5.5" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+        tags: ["Apache Kafka", "FastAPI", "Python", "Pillow", "Docker", "Distributed Systems"],
+        repoUrl: "https://github.com/GSuryaP/Distributed-Image-Processing-Pipeline",
+      },
+      
       // {
       //   title: "SpaceNet - Network Speed Dashboard",
       //   description:
@@ -291,30 +320,7 @@ function App() {
       //   tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
       //   repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
       // },
-      {
-        title: "Weather & AQI Tracker",
-        description:
-          "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <circle cx="12" cy="10" r="4" stroke="#22d3ee" strokeWidth="2" />
-            <path
-              d="M12 2V4M12 16V18M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 10H4M20 10H22M4.93 15.07L6.34 13.66M17.66 6.34L19.07 4.93"
-              stroke="#22d3ee"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M5 19H19M7 21H17"
-              stroke="#22d3ee"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        ),
-        tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
-        repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
-      },
+      
       // {
       //   title: "Personal Social Calendar",
       //   description:
@@ -356,7 +362,7 @@ function App() {
           </svg>
         ),
         tags: ["HTML", "CSS", "JavaScript", "Node.js", "Python", "GitHub API"],
-        repoUrl: "https://github.com/GSuryaP",
+        repoUrl: "https://github.com/GSuryaP/Github-Repository-Tracker",
       },
 
       // ── NEW PROJECT 2: Personal Finance Analytics Dashboard ──
@@ -387,7 +393,7 @@ function App() {
           </svg>
         ),
         tags: ["React", "Vite", "Tailwind CSS", "Recharts", "JavaScript", "CRUD"],
-        repoUrl: "https://github.com/GSuryaP/finance-dashboard",
+        repoUrl: "https://github.com/GSuryaP/Personal-Finance-Dashboard",
       },
 
       // ── NEW PROJECT 3: AdaptiveLearn AI ──
@@ -429,37 +435,35 @@ function App() {
           </svg>
         ),
         tags: ["AWS S3", "AWS Lambda", "Amazon Bedrock", "Python", "HTML", "CSV"],
-        repoUrl: "https://github.com/GSuryaP",
+        repoUrl: "https://github.com/GSuryaP/AdaptiveLearn-AI",
+      },
+
+      {
+        title: "Weather & AQI Tracker",
+        description:
+          "Built a Tkinter-based application that verifies city names using OpenWeatherMap API and displays comprehensive environmental data including Air Quality Index (AQI) and detailed weather information with user-friendly interface and error handling.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            <circle cx="12" cy="10" r="4" stroke="#22d3ee" strokeWidth="2" />
+            <path
+              d="M12 2V4M12 16V18M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 10H4M20 10H22M4.93 15.07L6.34 13.66M17.66 6.34L19.07 4.93"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M5 19H19M7 21H17"
+              stroke="#22d3ee"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        ),
+        tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
+        repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
       },
 
       // ── NEW PROJECT 4: Distributed Image Processing Pipeline ──
-      {
-        title: "Distributed Image Processing Pipeline",
-        description:
-          "A distributed image processing system using Apache Kafka for async communication between a FastAPI master node and multiple PIL-based worker nodes. The master splits images into tiles, publishes them to Kafka, workers process and return results, and the master reconstructs the final image — with a real-time heartbeat monitoring dashboard.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            {/* Central Kafka broker */}
-            <rect x="9" y="9" width="6" height="6" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
-            {/* Master node (top) */}
-            <rect x="9.5" y="2" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
-            <line x1="12" y1="6" x2="12" y2="9" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            {/* Worker node left */}
-            <rect x="2" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
-            <line x1="6" y1="12" x2="9" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            {/* Worker node right */}
-            <rect x="18" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
-            <line x1="18" y1="12" x2="15" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            {/* Client (bottom) */}
-            <rect x="9.5" y="18" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
-            <line x1="12" y1="18" x2="12" y2="15" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            {/* Heartbeat pulse on worker left */}
-            <path d="M3 11.5h.5l.5-1 .5 2 .5-1H5.5" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        ),
-        tags: ["Apache Kafka", "FastAPI", "Python", "Pillow", "Docker", "Distributed Systems"],
-        repoUrl: "https://github.com/GSuryaP",
-      },
     ] as Project[],
   };
 
