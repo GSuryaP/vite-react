@@ -26,7 +26,7 @@ interface Skill {
 interface Project {
   title: string;
   description: string;
-  icon: React.ReactNode; // ✅ Fixed: was "image: string"
+  icon: React.ReactNode;
   tags: string[];
   liveUrl?: string;
   repoUrl?: string;
@@ -51,11 +51,9 @@ const SkillIcon: React.FC<Skill> = ({ icon, name }) => (
   </div>
 );
 
-// ✅ Fixed ProjectCard: renders icon as JSX, not <img>
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <div className="group bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20 hover:border-cyan-500/50">
     <div className="relative flex items-center justify-center h-48 bg-gradient-to-br from-gray-800 to-gray-900 border-b border-gray-700/50 overflow-hidden">
-      {/* Decorative background glow */}
       <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
         {project.icon}
@@ -334,6 +332,133 @@ function App() {
         ),
         tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
         repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
+      },
+
+      // ── NEW PROJECT 1: GitHub Repository Tracker ──
+      {
+        title: "GitHub Repository Tracker",
+        description:
+          "A modern interactive dashboard for tracking GitHub repositories, users, commits, and open issues. Features a real-time stats overview, live search, aurora-style animated background with floating orbs, and quick-access tools — all powered by a Node.js API and a Python GitHub sync script.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            {/* Octocat-inspired outline */}
+            <path
+              d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"
+              stroke="#22d3ee"
+              strokeWidth="1.2"
+              fill="none"
+            />
+            {/* Branch lines */}
+            <path d="M8 17v-4M12 17v-6M16 17v-4" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="8" cy="11" r="1.5" fill="#22d3ee" />
+            <circle cx="12" cy="9" r="1.5" fill="#22d3ee" />
+            <circle cx="16" cy="11" r="1.5" fill="#22d3ee" />
+          </svg>
+        ),
+        tags: ["HTML", "CSS", "JavaScript", "Node.js", "Python", "GitHub API"],
+        repoUrl: "https://github.com/GSuryaP",
+      },
+
+      // ── NEW PROJECT 2: Personal Finance Analytics Dashboard ──
+      {
+        title: "Personal Finance Analytics Dashboard",
+        description:
+          "A FinTech analytics dashboard built with React and Tailwind CSS for managing personal transactions in real time. Supports full CRUD operations, dynamic Recharts visualizations (line & pie charts), dark/light mode toggle, real-time search, and auto-recalculated metrics for income, expenses, net balance, and savings rate.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            {/* Bar chart */}
+            <rect x="3" y="12" width="3" height="9" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            <rect x="8" y="8" width="3" height="13" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            <rect x="13" y="5" width="3" height="16" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            <rect x="18" y="9" width="3" height="12" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            {/* Trend line */}
+            <path
+              d="M4.5 11L9.5 7L14.5 4L19.5 8"
+              stroke="#22d3ee"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="2 1"
+            />
+            {/* Dollar sign */}
+            <circle cx="19" cy="4" r="2.5" stroke="#22d3ee" strokeWidth="1.5" />
+            <path d="M19 2.5V3M19 5V5.5" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M17.8 3.8h1.5a.7.7 0 0 1 0 1.4H17.8" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+          </svg>
+        ),
+        tags: ["React", "Vite", "Tailwind CSS", "Recharts", "JavaScript", "CRUD"],
+        repoUrl: "https://github.com/GSuryaP/finance-dashboard",
+      },
+
+      // ── NEW PROJECT 3: AdaptiveLearn AI ──
+      {
+        title: "AdaptiveLearn AI",
+        description:
+          "An AI-powered teacher analytics dashboard built on AWS free-tier services. Reads student scores and progress from S3 CSV files via a Python Lambda function, uses Amazon Bedrock (Titan) for LLM-driven insights, and surfaces weak topics and struggling students through a clean HTML frontend — no server required.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            {/* Brain outline */}
+            <path
+              d="M12 3C9.5 3 7.5 4.8 7.5 7c0 .6.1 1.1.4 1.6C6.3 9.1 5 10.5 5 12.2c0 1.1.5 2.1 1.3 2.8C6.1 15.3 6 15.6 6 16c0 1.7 1.3 3 3 3h6c1.7 0 3-1.3 3-3 0-.4-.1-.7-.3-1 .8-.7 1.3-1.7 1.3-2.8 0-1.7-1.3-3.1-2.9-3.6.3-.5.4-1 .4-1.6C16.5 4.8 14.5 3 12 3z"
+              stroke="#22d3ee"
+              strokeWidth="1.5"
+              fill="none"
+            />
+            {/* AWS cloud hint */}
+            <path
+              d="M9 12h6M9 14.5h4"
+              stroke="#22d3ee"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            {/* Sparkle / AI */}
+            <path
+              d="M12 6v1M10.5 7.5l.7.7M13.5 7.5l-.7.7"
+              stroke="#22d3ee"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+            {/* Lambda symbol hint at bottom */}
+            <path
+              d="M9 20l1.5-2.5L12 20M12 20l1.5-2.5L15 20"
+              stroke="#22d3ee"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+        tags: ["AWS S3", "AWS Lambda", "Amazon Bedrock", "Python", "HTML", "CSV"],
+        repoUrl: "https://github.com/GSuryaP",
+      },
+
+      // ── NEW PROJECT 4: Distributed Image Processing Pipeline ──
+      {
+        title: "Distributed Image Processing Pipeline",
+        description:
+          "A distributed image processing system using Apache Kafka for async communication between a FastAPI master node and multiple PIL-based worker nodes. The master splits images into tiles, publishes them to Kafka, workers process and return results, and the master reconstructs the final image — with a real-time heartbeat monitoring dashboard.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+            {/* Central Kafka broker */}
+            <rect x="9" y="9" width="6" height="6" rx="1" stroke="#22d3ee" strokeWidth="1.8" />
+            {/* Master node (top) */}
+            <rect x="9.5" y="2" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="12" y1="6" x2="12" y2="9" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Worker node left */}
+            <rect x="2" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="6" y1="12" x2="9" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Worker node right */}
+            <rect x="18" y="9.5" width="4" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="18" y1="12" x2="15" y2="12" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Client (bottom) */}
+            <rect x="9.5" y="18" width="5" height="4" rx="1" stroke="#22d3ee" strokeWidth="1.5" />
+            <line x1="12" y1="18" x2="12" y2="15" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Heartbeat pulse on worker left */}
+            <path d="M3 11.5h.5l.5-1 .5 2 .5-1H5.5" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+        tags: ["Apache Kafka", "FastAPI", "Python", "Pillow", "Docker", "Distributed Systems"],
+        repoUrl: "https://github.com/GSuryaP",
       },
     ] as Project[],
   };
