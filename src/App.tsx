@@ -249,48 +249,48 @@ function App() {
         tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
         repoUrl: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot",
       },
-      {
-        title: "SpaceNet - Network Speed Dashboard",
-        description:
-          "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <path
-              d="M12 2L14.5 9H22L16 13.5L18.5 20.5L12 16L5.5 20.5L8 13.5L2 9H9.5L12 2Z"
-              stroke="#22d3ee"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ),
-        tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
-        repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
-      },
-      {
-        title: "Personal ChatRoom",
-        description:
-          "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <path
-              d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z"
-              stroke="#22d3ee"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M8 10H16M8 14H13"
-              stroke="#22d3ee"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        ),
-        tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
-        repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
-      },
+      // {
+      //   title: "SpaceNet - Network Speed Dashboard",
+      //   description:
+      //     "Built a space-themed interactive dashboard to monitor real-time latency, bandwidth, and packet loss using TCP/UDP socket simulation. Features multi-threaded architecture with MongoDB storage, Matplotlib visualization, and responsive Tkinter UI with congestion alerts.",
+      //   icon: (
+      //     <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+      //       <path
+      //         d="M12 2L14.5 9H22L16 13.5L18.5 20.5L12 16L5.5 20.5L8 13.5L2 9H9.5L12 2Z"
+      //         stroke="#22d3ee"
+      //         strokeWidth="2"
+      //         strokeLinecap="round"
+      //         strokeLinejoin="round"
+      //       />
+      //     </svg>
+      //   ),
+      //   tags: ["Python", "Tkinter", "Sockets", "MongoDB", "Matplotlib", "Threading"],
+      //   repoUrl: "https://github.com/GSuryaP/SpaceNet-Network-Speed-Dashboard",
+      // },
+      // {
+      //   title: "Personal ChatRoom",
+      //   description:
+      //     "Developed a GUI-based UDP chat application with real-time messaging capabilities, featuring customizable network settings and cross-platform compatibility. Implemented multi-threaded architecture with dark/light theme switching and responsive UI design.",
+      //   icon: (
+      //     <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+      //       <path
+      //         d="M21 15A2 2 0 0 1 19 17H7L4 20V6A2 2 0 0 1 6 4H19A2 2 0 0 1 21 6V15Z"
+      //         stroke="#22d3ee"
+      //         strokeWidth="2"
+      //         strokeLinecap="round"
+      //         strokeLinejoin="round"
+      //       />
+      //       <path
+      //         d="M8 10H16M8 14H13"
+      //         stroke="#22d3ee"
+      //         strokeWidth="2"
+      //         strokeLinecap="round"
+      //       />
+      //     </svg>
+      //   ),
+      //   tags: ["Python", "Tkinter", "UDP Sockets", "Threading", "GUI"],
+      //   repoUrl: "https://github.com/GSuryaP/Personal_ChatRoom_socket-programming",
+      // },
       {
         title: "Weather & AQI Tracker",
         description:
@@ -315,24 +315,24 @@ function App() {
         tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON", "GUI"],
         repoUrl: "https://github.com/GSuryaP/Weather-AQI_Tracker",
       },
-      {
-        title: "Personal Social Calendar",
-        description:
-          "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#22d3ee" strokeWidth="2" />
-            <line x1="16" y1="2" x2="16" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-            <line x1="8" y1="2" x2="8" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-            <line x1="3" y1="10" x2="21" y2="10" stroke="#22d3ee" strokeWidth="2" />
-            <circle cx="8" cy="15" r="1" fill="#22d3ee" />
-            <circle cx="12" cy="15" r="1" fill="#22d3ee" />
-            <circle cx="16" cy="15" r="1" fill="#22d3ee" />
-          </svg>
-        ),
-        tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
-        repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
-      },
+      // {
+      //   title: "Personal Social Calendar",
+      //   description:
+      //     "Developed a Social Calendar application using Tkinter for an intuitive GUI interface. Implemented MySQL database integration to efficiently manage birthday records, events, and personal scheduling with full CRUD operations and data persistence.",
+      //   icon: (
+      //     <svg viewBox="0 0 24 24" fill="none" className="w-16 h-16">
+      //       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#22d3ee" strokeWidth="2" />
+      //       <line x1="16" y1="2" x2="16" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+      //       <line x1="8" y1="2" x2="8" y2="6" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+      //       <line x1="3" y1="10" x2="21" y2="10" stroke="#22d3ee" strokeWidth="2" />
+      //       <circle cx="8" cy="15" r="1" fill="#22d3ee" />
+      //       <circle cx="12" cy="15" r="1" fill="#22d3ee" />
+      //       <circle cx="16" cy="15" r="1" fill="#22d3ee" />
+      //     </svg>
+      //   ),
+      //   tags: ["Python", "Tkinter", "MySQL", "Database", "GUI", "CRUD"],
+      //   repoUrl: "https://github.com/GSuryaP/Personal_Calendar",
+      // },
 
       // ── NEW PROJECT 1: GitHub Repository Tracker ──
       {
