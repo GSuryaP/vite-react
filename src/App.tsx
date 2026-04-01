@@ -1,28 +1,26 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SiPython, SiMysql, SiC, SiCplusplus, SiJavascript, SiReact,
-  SiNodedotjs, SiGit, SiGithub, SiMongodb, SiHtml5, SiCss3,
+  SiNodedotjs, SiGit, SiGithub, SiMongodb, SiHtml5, SiCss,
   SiTailwindcss, SiExpress, SiFirebase,
 } from "react-icons/si";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COLOR THEMES
-// Edit these freely — change hex values to restyle the whole site.
-// Each theme has: accent (primary), accent2 (secondary), accentText (on accent bg)
 // ─────────────────────────────────────────────────────────────────────────────
 const COLOR_THEMES = [
   {
     id: "violet-amber",
-    label: "Violet × Amber",       // ← CURRENT DEFAULT
+    label: "Violet × Amber",
     preview: ["#7c3aed", "#f59e0b", "#06b6d4"],
-    accent:       "#7c3aed",        // primary glow & buttons
-    accentLight:  "#a78bfa",        // lighter tint for text/borders
+    accent:       "#7c3aed",
+    accentLight:  "#a78bfa",
     accentGlow:   "rgba(124,58,237,0.18)",
     accentBtn:    "linear-gradient(135deg,#7c3aed,#6d28d9)",
-    accent2:      "#f59e0b",        // secondary dots / highlights
+    accent2:      "#f59e0b",
     accent2Light: "#fcd34d",
-    accent3:      "#06b6d4",        // tertiary
-    star:         "167,139,250",    // RGB for starfield
+    accent3:      "#06b6d4",
+    star:         "167,139,250",
   },
   {
     id: "cyan-rose",
@@ -105,7 +103,7 @@ const SKILLS = [
   { name: "MongoDB",    icon: <SiMongodb />,    color: "#47A248", pct: 75 },
   { name: "MySQL",      icon: <SiMysql />,      color: "#4479A1", pct: 73 },
   { name: "HTML5",      icon: <SiHtml5 />,      color: "#E34F26", pct: 92 },
-  { name: "CSS3",       icon: <SiCss3 />,       color: "#1572B6", pct: 88 },
+  { name: "CSS3",       icon: <SiCss />,        color: "#1572B6", pct: 88 },
   { name: "Tailwind",   icon: <SiTailwindcss />,color: "#06B6D4", pct: 85 },
   { name: "C++",        icon: <SiCplusplus />,  color: "#00599C", pct: 77 },
   { name: "C",          icon: <SiC />,          color: "#00599C", pct: 75 },
@@ -195,10 +193,10 @@ const PROJECTS = [
 ];
 
 const SOCIALS = [
-  { label: "GitHub",   href: "https://github.com/GSuryaP",                       icon: <SiGithub size={16} /> },
-  { label: "LinkedIn", href: "https://linkedin.com/in/g-s-s-surya-prakash/",     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
-  { label: "Email",    href: "mailto:gonellasurya2005@gmail.com",                 icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> },
-  { label: "Resume",   href: "/GonellaSuryaPrakash_Resume.pdf", download: true,   icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg> },
+  { label: "GitHub",   href: "https://github.com/GSuryaP",                   icon: <SiGithub size={16} />, download: false },
+  { label: "LinkedIn", href: "https://linkedin.com/in/g-s-s-surya-prakash/", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>, download: false },
+  { label: "Email",    href: "mailto:gonellasurya2005@gmail.com",             icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>, download: false },
+  { label: "Resume",   href: "/GonellaSuryaPrakash_Resume.pdf",               icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>, download: true },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -213,23 +211,18 @@ const StarField: React.FC<{ starRgb: string }> = ({ starRgb }) => {
     let raf: number;
     type Star = { x: number; y: number; r: number; a: number; va: number; vx: number; vy: number };
     let stars: Star[] = [];
-
     const resize = () => {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
       stars = Array.from({ length: Math.floor((canvas.width * canvas.height) / 7000) }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.3 + 0.2,
-        a: Math.random() * 0.5 + 0.1,
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 1.3 + 0.2, a: Math.random() * 0.5 + 0.1,
         va: (Math.random() - 0.5) * 0.003,
-        vx: (Math.random() - 0.5) * 0.07,
-        vy: (Math.random() - 0.5) * 0.07,
+        vx: (Math.random() - 0.5) * 0.07, vy: (Math.random() - 0.5) * 0.07,
       }));
     };
     resize();
     window.addEventListener("resize", resize);
-
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       stars.forEach(s => {
@@ -237,17 +230,14 @@ const StarField: React.FC<{ starRgb: string }> = ({ starRgb }) => {
         if (s.a < 0.05 || s.a > 0.75) s.va *= -1;
         if (s.x < 0) s.x = canvas.width;  if (s.x > canvas.width)  s.x = 0;
         if (s.y < 0) s.y = canvas.height; if (s.y > canvas.height) s.y = 0;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${starRgb},${s.a})`;
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${starRgb},${s.a})`; ctx.fill();
       });
       raf = requestAnimationFrame(draw);
     };
     draw();
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
   }, [starRgb]);
-
   return <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }} />;
 };
 
@@ -271,7 +261,6 @@ const Cursor: React.FC<{ color: string }> = ({ color }) => {
     tick();
     return () => { document.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
   }, []);
-
   const base: React.CSSProperties = { position: "fixed", top: 0, left: 0, borderRadius: "50%", pointerEvents: "none", transform: "translate(-50%,-50%)", zIndex: 9999 };
   return (
     <>
@@ -320,66 +309,30 @@ const SectionLabel: React.FC<{ children: React.ReactNode; color: string }> = ({ 
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// THEME PICKER PANEL
+// THEME PICKER
 // ─────────────────────────────────────────────────────────────────────────────
 const ThemePicker: React.FC<{ current: Theme; onChange: (t: Theme) => void }> = ({ current, onChange }) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ position: "fixed", bottom: 28, left: 28, zIndex: 200 }}>
-      {/* Toggle button */}
-      <button
-        onClick={() => setOpen(o => !o)}
-        title="Switch color theme"
-        style={{
-          width: 44, height: 44, borderRadius: "50%", border: "none", cursor: "pointer",
-          background: current.accent, boxShadow: `0 4px 20px ${current.accentGlow}`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 18, transition: "transform .2s",
-          color: "#fff",
-        }}
+      <button onClick={() => setOpen(o => !o)} title="Switch color theme"
+        style={{ width: 44, height: 44, borderRadius: "50%", border: "none", cursor: "pointer", background: current.accent, boxShadow: `0 4px 20px ${current.accentGlow}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, transition: "transform .2s", color: "#fff" }}
         onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.1)")}
-        onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-      >
-        🎨
-      </button>
-
-      {/* Panel */}
+        onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}>🎨</button>
       {open && (
-        <div style={{
-          position: "absolute", bottom: 54, left: 0,
-          background: "rgba(10,10,20,0.97)", backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16,
-          padding: "16px 14px", width: 220,
-          boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
-        }}>
-          <div style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", color: "#64748b", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 14, paddingLeft: 4 }}>
-            Color Themes
-          </div>
+        <div style={{ position: "absolute", bottom: 54, left: 0, background: "rgba(10,10,20,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "16px 14px", width: 220, boxShadow: "0 20px 60px rgba(0,0,0,0.6)" }}>
+          <div style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", color: "#64748b", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 14, paddingLeft: 4 }}>Color Themes</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {COLOR_THEMES.map(t => (
               <button key={t.id} onClick={() => { onChange(t); setOpen(false); }}
-                style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  padding: "9px 12px", borderRadius: 10, border: "none", cursor: "pointer",
-                  background: current.id === t.id ? "rgba(255,255,255,0.08)" : "transparent",
-                  outline: current.id === t.id ? `1px solid ${t.accent}` : "1px solid transparent",
-                  transition: "all .15s",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", borderRadius: 10, border: "none", cursor: "pointer", background: current.id === t.id ? "rgba(255,255,255,0.08)" : "transparent", outline: current.id === t.id ? `1px solid ${t.accent}` : "1px solid transparent", transition: "all .15s" }}
                 onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
-                onMouseLeave={e => (e.currentTarget.style.background = current.id === t.id ? "rgba(255,255,255,0.08)" : "transparent")}
-              >
-                {/* Color swatches */}
+                onMouseLeave={e => (e.currentTarget.style.background = current.id === t.id ? "rgba(255,255,255,0.08)" : "transparent")}>
                 <div style={{ display: "flex", gap: 3, flexShrink: 0 }}>
-                  {t.preview.map((c, i) => (
-                    <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
-                  ))}
+                  {t.preview.map((col, i) => <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: col }} />)}
                 </div>
-                <span style={{ fontSize: 12, color: current.id === t.id ? "#e2e8f0" : "#94a3b8", fontWeight: 500, textAlign: "left" }}>
-                  {t.label}
-                </span>
-                {current.id === t.id && (
-                  <span style={{ marginLeft: "auto", fontSize: 10, color: t.accentLight }}>✓</span>
-                )}
+                <span style={{ fontSize: 12, color: current.id === t.id ? "#e2e8f0" : "#94a3b8", fontWeight: 500, textAlign: "left" }}>{t.label}</span>
+                {current.id === t.id && <span style={{ marginLeft: "auto", fontSize: 10, color: t.accentLight }}>✓</span>}
               </button>
             ))}
           </div>
@@ -396,76 +349,26 @@ const ThemePicker: React.FC<{ current: Theme; onChange: (t: Theme) => void }> = 
 // ORBITAL AVATAR
 // ─────────────────────────────────────────────────────────────────────────────
 const OrbitalAvatar: React.FC<{ theme: Theme }> = ({ theme }) => {
-  const size = 300;
   const badges = [
-    { text: "Python",  dot: "#3776AB", style: { top: 16, right: -10 } },
-    { text: "React",   dot: "#61DAFB", style: { bottom: 40, left: -20 } },
-    { text: "Node.js", dot: "#339933", style: { bottom: 10, right: -5 } },
+    { text: "Python",  dot: "#3776AB", style: { top: 16, right: -10 } as React.CSSProperties },
+    { text: "React",   dot: "#61DAFB", style: { bottom: 40, left: -20 } as React.CSSProperties },
+    { text: "Node.js", dot: "#339933", style: { bottom: 10, right: -5 } as React.CSSProperties },
   ];
   return (
-    <div style={{ position: "relative", width: size, height: size, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {/* Orbiting rings */}
+    <div style={{ position: "relative", width: 300, height: 300, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
       {[0, 1, 2].map(i => (
-        <div key={i} style={{
-          position: "absolute",
-          inset: -40 - i * 30,
-          borderRadius: "50%",
-          border: `1px solid ${i === 0 ? theme.accent + "30" : i === 1 ? theme.accent2 + "18" : theme.accent3 + "12"}`,
-          animation: `spin-${i % 2 === 0 ? "cw" : "ccw"} ${20 + i * 9}s linear infinite`,
-        }}>
-          {/* Dot on each ring */}
-          <div style={{
-            position: "absolute",
-            width: 8 - i, height: 8 - i,
-            borderRadius: "50%",
-            background: i === 0 ? theme.accentLight : i === 1 ? theme.accent2Light : theme.accent3,
-            boxShadow: `0 0 12px ${i === 0 ? theme.accentLight : i === 1 ? theme.accent2Light : theme.accent3}`,
-            top: "50%", left: "50%",
-            marginTop: -(4 - i * 0.5),
-            marginLeft: -(4 - i * 0.5),
-          }} />
+        <div key={i} style={{ position: "absolute", inset: -40 - i * 30, borderRadius: "50%", border: `1px solid ${i === 0 ? theme.accent + "30" : i === 1 ? theme.accent2 + "18" : theme.accent3 + "12"}`, animation: `spin-${i % 2 === 0 ? "cw" : "ccw"} ${20 + i * 9}s linear infinite` }}>
+          <div style={{ position: "absolute", width: 8 - i, height: 8 - i, borderRadius: "50%", background: i === 0 ? theme.accentLight : i === 1 ? theme.accent2Light : theme.accent3, boxShadow: `0 0 12px ${i === 0 ? theme.accentLight : i === 1 ? theme.accent2Light : theme.accent3}`, top: "50%", left: "50%", marginTop: -(4 - i * 0.5), marginLeft: -(4 - i * 0.5) }} />
         </div>
       ))}
-
-      {/* Avatar */}
-      <div style={{
-        width: 190, height: 190, borderRadius: "50%", overflow: "hidden",
-        border: `2px solid ${theme.accent}60`,
-        boxShadow: `0 0 0 8px ${theme.accentGlow}, 0 0 60px ${theme.accent}30`,
-        position: "relative", zIndex: 5,
-        background: `linear-gradient(135deg, #0f0f1a, ${theme.accent}40)`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <img
-          src="/profile.png"
-          alt="Surya Prakash"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          onError={e => {
-            e.currentTarget.style.display = "none";
-            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-            if (fallback) fallback.style.display = "flex";
-          }}
-        />
-        <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontSize: 60, fontWeight: 800, color: "rgba(255,255,255,0.5)" }}>
-          S
-        </div>
+      <div style={{ width: 190, height: 190, borderRadius: "50%", overflow: "hidden", border: `2px solid ${theme.accent}60`, boxShadow: `0 0 0 8px ${theme.accentGlow}, 0 0 60px ${theme.accent}30`, position: "relative", zIndex: 5, background: `linear-gradient(135deg, #0f0f1a, ${theme.accent}40)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          onError={e => { e.currentTarget.style.display = "none"; const f = e.currentTarget.nextElementSibling as HTMLElement; if (f) f.style.display = "flex"; }} />
+        <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontSize: 60, fontWeight: 800, color: "rgba(255,255,255,0.5)" }}>S</div>
       </div>
-
-      {/* Floating skill badges */}
       {badges.map((b, i) => (
-        <div key={i} style={{
-          position: "absolute", zIndex: 10,
-          background: "rgba(10,10,20,0.92)", backdropFilter: "blur(12px)",
-          border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8,
-          padding: "5px 10px", fontSize: 11, fontWeight: 600, color: "#e2e8f0",
-          display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
-          animation: `badge-float ${3.5 + i * 0.6}s ease-in-out infinite`,
-          animationDelay: `${-i * 1.2}s`,
-          ...b.style,
-        }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: b.dot }} />
-          {b.text}
+        <div key={i} style={{ position: "absolute", zIndex: 10, background: "rgba(10,10,20,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "5px 10px", fontSize: 11, fontWeight: 600, color: "#e2e8f0", display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,0.4)", animation: `badge-float ${3.5 + i * 0.6}s ease-in-out infinite`, animationDelay: `${-i * 1.2}s`, ...b.style }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: b.dot }} />{b.text}
         </div>
       ))}
     </div>
@@ -480,7 +383,6 @@ const TypedWord: React.FC<{ words: string[]; color: string }> = ({ words, color 
   const [deleting, setDeleting] = useState(false);
   const [wi, setWi] = useState(0);
   const [ci, setCi] = useState(words[0].length);
-
   useEffect(() => {
     const delay = deleting ? 50 : ci === words[wi].length ? 2000 : 90;
     const id = setTimeout(() => {
@@ -494,7 +396,6 @@ const TypedWord: React.FC<{ words: string[]; color: string }> = ({ words, color 
     }, delay);
     return () => clearTimeout(id);
   }, [ci, deleting, wi, words]);
-
   return <span style={{ color, fontWeight: 600 }}>{text}<span style={{ opacity: Math.sin(Date.now() / 500) > 0 ? 1 : 0 }}>|</span></span>;
 };
 
@@ -502,14 +403,9 @@ const TypedWord: React.FC<{ words: string[]; color: string }> = ({ words, color 
 // STAT CARD
 // ─────────────────────────────────────────────────────────────────────────────
 const StatCard: React.FC<{ num: string; label: string; theme: Theme }> = ({ num, label, theme }) => (
-  <div style={{
-    padding: "24px 20px", borderRadius: 16,
-    background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
-    position: "relative", overflow: "hidden", transition: "border-color .3s, transform .3s", cursor: "default",
-  }}
+  <div style={{ padding: "24px 20px", borderRadius: 16, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", position: "relative", overflow: "hidden", transition: "border-color .3s, transform .3s", cursor: "default" }}
     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLDivElement).style.borderColor = `${theme.accent}40`; }}
-    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.07)"; }}
-  >
+    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.07)"; }}>
     <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 0% 0%, ${theme.accentGlow} 0%, transparent 60%)`, pointerEvents: "none" }} />
     <div style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-1.5px", color: "#e2e8f0", lineHeight: 1 }}>{num}</div>
     <div style={{ fontSize: 10, color: "#64748b", fontFamily: "JetBrains Mono,monospace", letterSpacing: "0.12em", textTransform: "uppercase", marginTop: 8 }}>{label}</div>
@@ -523,34 +419,12 @@ const SkillPill: React.FC<{ skill: typeof SKILLS[0]; theme: Theme; delay: number
   const { ref, visible } = useReveal();
   const [hov, setHov] = useState(false);
   return (
-    <div ref={ref}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(20px)",
-        transition: `opacity .6s ease ${delay}s, transform .6s ease ${delay}s`,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-        padding: "18px 10px",
-        borderRadius: 12,
-        background: hov ? `${theme.accent}08` : "rgba(255,255,255,0.03)",
-        border: `1px solid ${hov ? theme.accent + "40" : "rgba(255,255,255,0.07)"}`,
-        cursor: "default",
-        transitionProperty: "opacity, transform, border-color, background",
-        transitionDuration: `0.6s, 0.6s, 0.2s, 0.2s`,
-      }}>
-      <div style={{ fontSize: 26, color: skill.color, filter: hov ? `drop-shadow(0 0 8px ${skill.color})` : "none", transition: "filter .2s" }}>
-        {skill.icon}
-      </div>
-      <div style={{ fontSize: 10, fontWeight: 600, color: hov ? "#e2e8f0" : "#64748b", letterSpacing: "0.04em", transition: "color .2s", textAlign: "center" }}>
-        {skill.name}
-      </div>
+    <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: `opacity .6s ease ${delay}s, transform .6s ease ${delay}s, border-color .2s, background .2s`, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "18px 10px", borderRadius: 12, background: hov ? `${theme.accent}08` : "rgba(255,255,255,0.03)", border: `1px solid ${hov ? theme.accent + "40" : "rgba(255,255,255,0.07)"}`, cursor: "default" }}>
+      <div style={{ fontSize: 26, color: skill.color, filter: hov ? `drop-shadow(0 0 8px ${skill.color})` : "none", transition: "filter .2s" }}>{skill.icon}</div>
+      <div style={{ fontSize: 10, fontWeight: 600, color: hov ? "#e2e8f0" : "#64748b", letterSpacing: "0.04em", transition: "color .2s", textAlign: "center" }}>{skill.name}</div>
       <div style={{ width: "100%", height: 2, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%", borderRadius: 99,
-          background: `linear-gradient(90deg, ${theme.accent}, ${theme.accentLight})`,
-          width: visible ? `${skill.pct}%` : "0%",
-          transition: `width 1.2s cubic-bezier(.16,1,.3,1) ${delay + 0.2}s`,
-        }} />
+        <div style={{ height: "100%", borderRadius: 99, background: `linear-gradient(90deg, ${theme.accent}, ${theme.accentLight})`, width: visible ? `${skill.pct}%` : "0%", transition: `width 1.2s cubic-bezier(.16,1,.3,1) ${delay + 0.2}s` }} />
       </div>
     </div>
   );
@@ -563,37 +437,22 @@ const ExpCard: React.FC<{ exp: typeof EXPERIENCES[0]; theme: Theme; delay: numbe
   const [hov, setHov] = useState(false);
   return (
     <Reveal delay={delay} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 24, alignItems: "start" }}>
-      {/* Timeline */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, paddingTop: 4 }}>
         <div style={{ width: 12, height: 12, borderRadius: "50%", background: theme.accent, boxShadow: `0 0 16px ${theme.accent}`, flexShrink: 0 }} />
         {!isLast && <div style={{ flex: 1, width: 1, background: "rgba(255,255,255,0.07)", minHeight: 40 }} />}
       </div>
-      {/* Body */}
-      <div
-        onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-        style={{
-          padding: 28, borderRadius: 16, marginBottom: 16,
-          background: "rgba(255,255,255,0.03)",
-          border: `1px solid ${hov ? theme.accent + "40" : "rgba(255,255,255,0.07)"}`,
-          borderLeft: `3px solid ${hov ? theme.accent : "transparent"}`,
-          transform: hov ? "translateX(4px)" : "translateX(0)",
-          transition: "all .25s cubic-bezier(.16,1,.3,1)",
-          position: "relative", overflow: "hidden",
-        }}>
+      <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+        style={{ padding: 28, borderRadius: 16, marginBottom: 16, background: "rgba(255,255,255,0.03)", border: `1px solid ${hov ? theme.accent + "40" : "rgba(255,255,255,0.07)"}`, borderLeft: `3px solid ${hov ? theme.accent : "transparent"}`, transform: hov ? "translateX(4px)" : "translateX(0)", transition: "all .25s cubic-bezier(.16,1,.3,1)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 0% 50%, ${theme.accentGlow} 0%, transparent 60%)`, opacity: hov ? 1 : 0, transition: "opacity .3s", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "inline-block", fontFamily: "JetBrains Mono,monospace", fontSize: 10, fontWeight: 500, color: theme.accentLight, background: `${theme.accent}18`, border: `1px solid ${theme.accent}30`, borderRadius: 6, padding: "2px 8px", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
-            {exp.badge}
-          </div>
+          <div style={{ display: "inline-block", fontFamily: "JetBrains Mono,monospace", fontSize: 10, fontWeight: 500, color: theme.accentLight, background: `${theme.accent}18`, border: `1px solid ${theme.accent}30`, borderRadius: 6, padding: "2px 8px", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>{exp.badge}</div>
           <div style={{ fontSize: 16, fontWeight: 700, color: "#e2e8f0", marginBottom: 3, letterSpacing: "-0.3px" }}>{exp.title}</div>
           <div style={{ fontSize: 13, color: theme.accentLight, fontWeight: 500, marginBottom: 3 }}>{exp.company}</div>
           <div style={{ fontSize: 11, color: "#475569", fontFamily: "JetBrains Mono,monospace", marginBottom: 12 }}>{exp.period}</div>
           <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.75 }}>{exp.desc}</div>
           {exp.tags.length > 0 && (
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
-              {exp.tags.map(t => (
-                <span key={t} style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", fontWeight: 500, color: "#94a3b8", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "2px 8px" }}>{t}</span>
-              ))}
+              {exp.tags.map(t => <span key={t} style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", fontWeight: 500, color: "#94a3b8", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "2px 8px" }}>{t}</span>)}
             </div>
           )}
         </div>
@@ -611,44 +470,26 @@ const ProjCard: React.FC<{ proj: typeof PROJECTS[0]; theme: Theme; delay: number
   const [my, setMy] = useState(50);
   return (
     <Reveal delay={delay} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div
-        onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-        onMouseMove={e => {
-          const r = e.currentTarget.getBoundingClientRect();
-          setMx(((e.clientX - r.left) / r.width) * 100);
-          setMy(((e.clientY - r.top)  / r.height) * 100);
-        }}
-        style={{
-          borderRadius: 20, background: "rgba(255,255,255,0.03)", border: `1px solid ${hov ? theme.accent + "45" : "rgba(255,255,255,0.07)"}`,
-          overflow: "hidden", flex: 1, display: "flex", flexDirection: "column",
-          transform: hov ? "translateY(-6px)" : "translateY(0)",
-          boxShadow: hov ? `0 24px 60px rgba(0,0,0,0.4)` : "none",
-          transition: "all .3s cubic-bezier(.16,1,.3,1)", cursor: "default", position: "relative",
-        }}>
-        {/* Magnetic glow */}
+      <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+        onMouseMove={e => { const r = e.currentTarget.getBoundingClientRect(); setMx(((e.clientX - r.left) / r.width) * 100); setMy(((e.clientY - r.top) / r.height) * 100); }}
+        style={{ borderRadius: 20, background: "rgba(255,255,255,0.03)", border: `1px solid ${hov ? theme.accent + "45" : "rgba(255,255,255,0.07)"}`, overflow: "hidden", flex: 1, display: "flex", flexDirection: "column", transform: hov ? "translateY(-6px)" : "translateY(0)", boxShadow: hov ? `0 24px 60px rgba(0,0,0,0.4)` : "none", transition: "all .3s cubic-bezier(.16,1,.3,1)", cursor: "default", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at ${mx}% ${my}%, ${theme.accentGlow} 0%, transparent 55%)`, opacity: hov ? 1 : 0, transition: "opacity .3s", pointerEvents: "none", zIndex: 0 }} />
-
         <div style={{ padding: "24px 24px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, position: "relative", zIndex: 1 }}>
-          <div style={{ width: 46, height: 46, borderRadius: 12, background: `${theme.accent}18`, border: `1px solid ${theme.accent}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
-            {proj.emoji}
-          </div>
+          <div style={{ width: 46, height: 46, borderRadius: 12, background: `${theme.accent}18`, border: `1px solid ${theme.accent}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{proj.emoji}</div>
           {proj.repo && (
             <a href={proj.repo} target="_blank" rel="noreferrer"
               style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8", fontSize: 14, transition: "all .2s" }}
-              onMouseEnter={e => { (e.currentTarget).style.background = `${theme.accent}25`; (e.currentTarget).style.borderColor = `${theme.accent}50`; (e.currentTarget).style.color = theme.accentLight; }}
-              onMouseLeave={e => { (e.currentTarget).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget).style.borderColor = "rgba(255,255,255,0.1)"; (e.currentTarget).style.color = "#94a3b8"; }}>
+              onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = `${theme.accent}25`; a.style.borderColor = `${theme.accent}50`; a.style.color = theme.accentLight; }}
+              onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(255,255,255,0.05)"; a.style.borderColor = "rgba(255,255,255,0.1)"; a.style.color = "#94a3b8"; }}>
               <SiGithub size={13} />
             </a>
           )}
         </div>
-
         <div style={{ padding: "16px 24px 24px", flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: hov ? theme.accentLight : "#e2e8f0", marginBottom: 8, letterSpacing: "-0.2px", transition: "color .2s" }}>{proj.title}</div>
           <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.75, flex: 1, marginBottom: 18 }}>{proj.desc}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-            {proj.tags.map(t => (
-              <span key={t} style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", fontWeight: 500, padding: "2px 8px", borderRadius: 6, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: hov ? theme.accentLight : "#64748b", transition: "color .2s" }}>{t}</span>
-            ))}
+            {proj.tags.map(t => <span key={t} style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", fontWeight: 500, padding: "2px 8px", borderRadius: 6, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: hov ? theme.accentLight : "#64748b", transition: "color .2s" }}>{t}</span>)}
           </div>
         </div>
       </div>
@@ -663,7 +504,7 @@ const NAV_LINKS = ["Home", "About", "Skills", "Experience", "Projects", "Contact
 
 const Nav: React.FC<{ theme: Theme }> = ({ theme }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("Home");
+  const [active, setActive]     = useState("Home");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -686,35 +527,25 @@ const Nav: React.FC<{ theme: Theme }> = ({ theme }) => {
     <>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: scrolled ? "12px 0" : "20px 0", transition: "all .4s", ...navBg }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", background: `linear-gradient(135deg, ${theme.accentLight}, ${theme.accent2Light})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            GSS.dev
-          </div>
-          {/* Desktop links */}
+          <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", background: `linear-gradient(135deg, ${theme.accentLight}, ${theme.accent2Light})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>GSS.dev</div>
           <div style={{ display: "flex", alignItems: "center", gap: 4 }} className="nav-desktop">
             {NAV_LINKS.map(l => (
               <a key={l} href={`#${l.toLowerCase()}`}
                 style={{ fontSize: 13, fontWeight: 500, padding: "7px 14px", borderRadius: 8, transition: "all .2s", color: active === l ? "#e2e8f0" : "#64748b", background: active === l ? "rgba(255,255,255,0.07)" : "transparent", textDecoration: "none" }}
                 onMouseEnter={e => { if (active !== l) { (e.currentTarget as HTMLAnchorElement).style.color = "#e2e8f0"; (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)"; } }}
-                onMouseLeave={e => { if (active !== l) { (e.currentTarget as HTMLAnchorElement).style.color = "#64748b"; (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; } }}>
-                {l}
-              </a>
+                onMouseLeave={e => { if (active !== l) { (e.currentTarget as HTMLAnchorElement).style.color = "#64748b"; (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; } }}>{l}</a>
             ))}
           </div>
-          {/* Hamburger */}
-          <button onClick={() => setMenuOpen(o => !o)}
-            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }} className="nav-ham">
+          <button onClick={() => setMenuOpen(o => !o)} style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }} className="nav-ham">
             {[0,1,2].map(i => <span key={i} style={{ display: "block", width: 22, height: 2, background: "#94a3b8", borderRadius: 2 }} />)}
           </button>
         </div>
       </nav>
-      {/* Mobile menu */}
       {menuOpen && (
         <div style={{ position: "fixed", top: 68, left: 16, right: 16, zIndex: 99, background: "rgba(10,10,20,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: 12 }}>
           {NAV_LINKS.map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-              style={{ display: "block", padding: "12px 16px", borderRadius: 10, fontSize: 14, fontWeight: 500, color: "#94a3b8", textDecoration: "none" }}>
-              {l}
-            </a>
+              style={{ display: "block", padding: "12px 16px", borderRadius: 10, fontSize: 14, fontWeight: 500, color: "#94a3b8", textDecoration: "none" }}>{l}</a>
           ))}
         </div>
       )}
@@ -735,7 +566,6 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Global styles injected once
   useEffect(() => {
     const s = document.createElement("style");
     s.textContent = `
@@ -758,11 +588,9 @@ export default function App() {
     return () => document.head.removeChild(s);
   }, []);
 
-  const c = theme; // shorthand
-
-  // ── section helpers ────────────────────────────────────────────────────────
+  const c = theme;
   const sectionPad: React.CSSProperties = { position: "relative", zIndex: 2, padding: "120px 0" };
-  const container: React.CSSProperties = { maxWidth: 1140, margin: "0 auto", padding: "0 24px" };
+  const container:  React.CSSProperties = { maxWidth: 1140, margin: "0 auto", padding: "0 24px" };
 
   return (
     <>
@@ -773,22 +601,17 @@ export default function App() {
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section id="home" style={{ ...sectionPad, minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 80px" }}>
-        {/* Ambient blobs */}
         <div style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", background: `radial-gradient(circle, ${c.accentGlow} 0%, transparent 65%)`, top: -200, left: -200, animation: "glow-drift 12s ease-in-out infinite", pointerEvents: "none" }} />
         <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: `radial-gradient(circle, ${c.accent2}10 0%, transparent 65%)`, bottom: -100, right: 0, animation: "glow-drift 16s ease-in-out infinite reverse", pointerEvents: "none" }} />
-
         <div style={container}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 80 }} className="hero-grid">
             <div>
-              {/* Badge */}
               <Reveal>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${c.accent}18`, border: `1px solid ${c.accent}40`, color: c.accentLight, fontFamily: "JetBrains Mono,monospace", fontSize: 11, fontWeight: 500, padding: "6px 14px", borderRadius: 99, marginBottom: 28, letterSpacing: "0.1em", textTransform: "uppercase" as const }}>
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981", animation: "pulse-dot 2s ease-in-out infinite", display: "inline-block" }} />
                   Open to Opportunities
                 </div>
               </Reveal>
-
-              {/* Name */}
               <Reveal delay={0.1}>
                 <h1 style={{ fontSize: "clamp(36px,6vw,70px)", fontWeight: 800, letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 20 }}>
                   <span style={{ background: `linear-gradient(135deg, #fff 0%, ${c.accentLight} 50%, ${c.accent2Light} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% 200%", animation: "gradient-pan 6s ease infinite" }}>
@@ -796,26 +619,19 @@ export default function App() {
                   </span>
                 </h1>
               </Reveal>
-
-              {/* Tagline with typed word */}
               <Reveal delay={0.2}>
                 <p style={{ fontSize: 16, color: "#64748b", lineHeight: 1.75, maxWidth: 480, marginBottom: 40 }}>
                   CSE undergrad at PES University — building{" "}
-                  <TypedWord
-                    words={["full-stack systems", "distributed pipelines", "conversational AI", "intelligent web apps"]}
-                    color={c.accentLight}
-                  />
+                  <TypedWord words={["full-stack systems", "distributed pipelines", "conversational AI", "intelligent web apps"]} color={c.accentLight} />
                   {" "}for the future.
                 </p>
               </Reveal>
-
-              {/* CTA buttons */}
               <Reveal delay={0.3}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 52 }}>
                   <a href="/GonellaSuryaPrakash_Resume.pdf" download
                     style={{ display: "inline-flex", alignItems: "center", gap: 8, background: c.accentBtn, color: "white", fontSize: 14, fontWeight: 600, padding: "13px 26px", borderRadius: 10, boxShadow: `0 8px 30px ${c.accentGlow}`, cursor: "pointer", border: "none", transition: "transform .2s, box-shadow .2s" }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 14px 40px ${c.accent}60`; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 8px 30px ${c.accentGlow}`; }}>
+                    onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(-2px)"; a.style.boxShadow = `0 14px 40px ${c.accent}60`; }}
+                    onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(0)"; a.style.boxShadow = `0 8px 30px ${c.accentGlow}`; }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
                     Download Resume
                   </a>
@@ -828,8 +644,6 @@ export default function App() {
                   </a>
                 </div>
               </Reveal>
-
-              {/* Stats row */}
               <Reveal delay={0.4}>
                 <div style={{ display: "flex", gap: 36, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
                   {[["8.73","CGPA"],["6+","Projects"],["1","Internship"],["2+","Club Roles"]].map(([n,l]) => (
@@ -841,11 +655,7 @@ export default function App() {
                 </div>
               </Reveal>
             </div>
-
-            {/* Orbital avatar */}
-            <Reveal delay={0.2}>
-              <OrbitalAvatar theme={c} />
-            </Reveal>
+            <Reveal delay={0.2}><OrbitalAvatar theme={c} /></Reveal>
           </div>
         </div>
       </section>
@@ -854,31 +664,18 @@ export default function App() {
       <section id="about" style={sectionPad}>
         <div style={container}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start" }}>
-            {/* Left */}
             <div>
               <Reveal><SectionLabel color={c.accentLight}>Who I Am</SectionLabel></Reveal>
-              <Reveal delay={0.1}>
-                <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 16 }}>
-                  Passionate Builder,<br />Curious Mind
-                </h2>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.85, marginBottom: 16 }}>
-                  I'm a <strong style={{ color: "#e2e8f0" }}>3rd-year Computer Science Engineering student</strong> at PES University, Bengaluru — with a strong grip on full-stack development, distributed systems, and AI-powered applications.
-                </p>
-              </Reveal>
-              <Reveal delay={0.3}>
-                <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.85, marginBottom: 32 }}>
-                  My journey began with curiosity about how applications work behind the scenes, and grew into a passion for <strong style={{ color: "#e2e8f0" }}>distributed computing, conversational AI, and intelligent web apps</strong>. I love shipping things that matter.
-                </p>
-              </Reveal>
+              <Reveal delay={0.1}><h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 16 }}>Passionate Builder,<br />Curious Mind</h2></Reveal>
+              <Reveal delay={0.2}><p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.85, marginBottom: 16 }}>I'm a <strong style={{ color: "#e2e8f0" }}>3rd-year Computer Science Engineering student</strong> at PES University, Bengaluru — with a strong grip on full-stack development, distributed systems, and AI-powered applications.</p></Reveal>
+              <Reveal delay={0.3}><p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.85, marginBottom: 32 }}>My journey began with curiosity about how applications work behind the scenes, and grew into a passion for <strong style={{ color: "#e2e8f0" }}>distributed computing, conversational AI, and intelligent web apps</strong>. I love shipping things that matter.</p></Reveal>
               <Reveal delay={0.4}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
-                    { icon: "📍", label: "Location",  value: "Bengaluru, Karnataka, India" },
-                    { icon: "🎓", label: "Degree",    value: "B.Tech CSE — PES University" },
-                    { icon: "📧", label: "Email",     value: "gonellasurya2005@gmail.com" },
-                    { icon: "📱", label: "Phone",     value: "+91 9880410689" },
+                    { icon: "📍", label: "Location", value: "Bengaluru, Karnataka, India" },
+                    { icon: "🎓", label: "Degree",   value: "B.Tech CSE — PES University" },
+                    { icon: "📧", label: "Email",    value: "gonellasurya2005@gmail.com" },
+                    { icon: "📱", label: "Phone",    value: "+91 9880410689" },
                   ].map(row => (
                     <div key={row.label} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 16px", borderRadius: 10, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", fontSize: 13 }}>
                       <span style={{ fontSize: 16, width: 20, textAlign: "center", flexShrink: 0 }}>{row.icon}</span>
@@ -889,15 +686,10 @@ export default function App() {
                 </div>
               </Reveal>
             </div>
-
-            {/* Right: stat cards */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               {[["8.73","Current CGPA"],["6+","Projects Built"],["3×","Scholarships"],["2+","Club Roles"]].map(([n,l], i) => (
-                <Reveal key={l} delay={0.1 + i * 0.1}>
-                  <StatCard num={n} label={l} theme={c} />
-                </Reveal>
+                <Reveal key={l} delay={0.1 + i * 0.1}><StatCard num={n} label={l} theme={c} /></Reveal>
               ))}
-              {/* Timeline card */}
               <Reveal delay={0.5} style={{ gridColumn: "1 / -1" }}>
                 <div style={{ padding: 24, borderRadius: 16, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
                   <div style={{ fontSize: 10, fontFamily: "JetBrains Mono,monospace", color: "#475569", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 18 }}>Timeline</div>
@@ -928,22 +720,12 @@ export default function App() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56, flexWrap: "wrap", gap: 24 }}>
             <div>
               <Reveal><SectionLabel color={c.accentLight}>Tech Arsenal</SectionLabel></Reveal>
-              <Reveal delay={0.1}>
-                <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", lineHeight: 1.1 }}>
-                  Technologies<br />I Work With
-                </h2>
-              </Reveal>
+              <Reveal delay={0.1}><h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", lineHeight: 1.1 }}>Technologies<br />I Work With</h2></Reveal>
             </div>
-            <Reveal delay={0.2}>
-              <p style={{ fontSize: 14, color: "#64748b", maxWidth: 280, textAlign: "right", lineHeight: 1.7 }}>
-                A curated stack of languages, frameworks, and tools I use to build things end-to-end.
-              </p>
-            </Reveal>
+            <Reveal delay={0.2}><p style={{ fontSize: 14, color: "#64748b", maxWidth: 280, textAlign: "right", lineHeight: 1.7 }}>A curated stack of languages, frameworks, and tools I use to build things end-to-end.</p></Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: 10 }}>
-            {SKILLS.map((skill, i) => (
-              <SkillPill key={skill.name} skill={skill} theme={c} delay={i * 0.04} />
-            ))}
+            {SKILLS.map((skill, i) => <SkillPill key={skill.name} skill={skill} theme={c} delay={i * 0.04} />)}
           </div>
         </div>
       </section>
@@ -952,15 +734,9 @@ export default function App() {
       <section id="experience" style={sectionPad}>
         <div style={container}>
           <Reveal><SectionLabel color={c.accentLight}>Background</SectionLabel></Reveal>
-          <Reveal delay={0.1}>
-            <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: 56 }}>
-              Education &amp;<br />Experience
-            </h2>
-          </Reveal>
+          <Reveal delay={0.1}><h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: 56 }}>Education &amp;<br />Experience</h2></Reveal>
           <div>
-            {EXPERIENCES.map((exp, i) => (
-              <ExpCard key={i} exp={exp} theme={c} delay={i * 0.1} isLast={i === EXPERIENCES.length - 1} />
-            ))}
+            {EXPERIENCES.map((exp, i) => <ExpCard key={i} exp={exp} theme={c} delay={i * 0.1} isLast={i === EXPERIENCES.length - 1} />)}
           </div>
         </div>
       </section>
@@ -984,9 +760,7 @@ export default function App() {
             </Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 18 }}>
-            {PROJECTS.map((proj, i) => (
-              <ProjCard key={i} proj={proj} theme={c} delay={i * 0.08} />
-            ))}
+            {PROJECTS.map((proj, i) => <ProjCard key={i} proj={proj} theme={c} delay={i * 0.08} />)}
           </div>
         </div>
       </section>
@@ -995,19 +769,10 @@ export default function App() {
       <section id="contact" style={{ ...sectionPad, paddingBottom: 160 }}>
         <div style={container}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start" }}>
-            {/* Left */}
             <div>
               <Reveal><SectionLabel color={c.accentLight}>Let's Talk</SectionLabel></Reveal>
-              <Reveal delay={0.1}>
-                <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: 16 }}>Get In Touch</h2>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.75, marginBottom: 36 }}>
-                  I'm actively looking for internship and collaborative opportunities. Whether you have a project in mind or just want to connect — my inbox is always open.
-                </p>
-              </Reveal>
-
-              {/* Contact rows */}
+              <Reveal delay={0.1}><h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: 16 }}>Get In Touch</h2></Reveal>
+              <Reveal delay={0.2}><p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.75, marginBottom: 36 }}>I'm actively looking for internship and collaborative opportunities. Whether you have a project in mind or just want to connect — my inbox is always open.</p></Reveal>
               <Reveal delay={0.3}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
                   {[
@@ -1015,13 +780,11 @@ export default function App() {
                     { icon: "📞", label: "Phone",    value: "+91 9880410689",              href: "tel:+919880410689" },
                     { icon: "📍", label: "Location", value: "Bengaluru, Karnataka, India", href: undefined },
                   ].map(row => (
-                    <a key={row.label} href={row.href ?? "#"} target={row.href?.startsWith("http") ? "_blank" : undefined}
+                    <a key={row.label} href={row.href ?? "#"}
                       style={{ display: "flex", alignItems: "center", gap: 14, padding: "15px 18px", borderRadius: 12, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", transition: "all .2s", cursor: row.href ? "pointer" : "default" }}
                       onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; if(row.href){a.style.borderColor=`${c.accent}50`;a.style.background=`${c.accent}08`;a.style.transform="translateX(4px)";} }}
                       onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor="rgba(255,255,255,0.07)";a.style.background="rgba(255,255,255,0.03)";a.style.transform="translateX(0)"; }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.accent}15`, border: `1px solid ${c.accent}25`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
-                        {row.icon}
-                      </div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.accent}15`, border: `1px solid ${c.accent}25`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{row.icon}</div>
                       <div>
                         <div style={{ fontSize: 10, color: "#475569", fontFamily: "JetBrains Mono,monospace", letterSpacing: "0.1em", textTransform: "uppercase" }}>{row.label}</div>
                         <div style={{ fontSize: 13, fontWeight: 500, color: "#e2e8f0", marginTop: 1 }}>{row.value}</div>
@@ -1030,68 +793,31 @@ export default function App() {
                   ))}
                 </div>
               </Reveal>
-
-              {/* ── ALL 4 SOCIAL BUTTONS — ALL PRIMARY/PURPLE ───────────── */}
               <Reveal delay={0.4}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                   {SOCIALS.map(s => (
-                    <a
-                      key={s.label}
-                      href={s.href}
+                    <a key={s.label} href={s.href}
                       target={s.href.startsWith("mailto") || s.href.startsWith("tel") ? undefined : "_blank"}
                       rel="noreferrer"
-                      {...(s as any).download ? { download: true } : {}}
-                      style={{
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                        padding: "13px 16px", borderRadius: 12,
-                        /* ── All 4 are the same primary gradient ── */
-                        background: c.accentBtn,
-                        color: "white",
-                        fontSize: 13, fontWeight: 600,
-                        border: "none", cursor: "pointer",
-                        boxShadow: `0 4px 20px ${c.accentGlow}`,
-                        transition: "transform .2s, box-shadow .2s, filter .2s",
-                      }}
-                      onMouseEnter={e => {
-                        const a = e.currentTarget as HTMLAnchorElement;
-                        a.style.transform = "translateY(-3px)";
-                        a.style.boxShadow = `0 10px 32px ${c.accent}70`;
-                        a.style.filter = "brightness(1.1)";
-                      }}
-                      onMouseLeave={e => {
-                        const a = e.currentTarget as HTMLAnchorElement;
-                        a.style.transform = "translateY(0)";
-                        a.style.boxShadow = `0 4px 20px ${c.accentGlow}`;
-                        a.style.filter = "brightness(1)";
-                      }}
-                    >
-                      {s.icon}
-                      {s.label}
+                      download={s.download || undefined}
+                      style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "13px 16px", borderRadius: 12, background: c.accentBtn, color: "white", fontSize: 13, fontWeight: 600, border: "none", cursor: "pointer", boxShadow: `0 4px 20px ${c.accentGlow}`, transition: "transform .2s, box-shadow .2s, filter .2s" }}
+                      onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(-3px)"; a.style.boxShadow = `0 10px 32px ${c.accent}70`; a.style.filter = "brightness(1.1)"; }}
+                      onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(0)"; a.style.boxShadow = `0 4px 20px ${c.accentGlow}`; a.style.filter = "brightness(1)"; }}>
+                      {s.icon}{s.label}
                     </a>
                   ))}
                 </div>
               </Reveal>
             </div>
-
-            {/* CTA Card */}
             <Reveal delay={0.3}>
-              <div style={{
-                padding: 40, borderRadius: 20, textAlign: "center",
-                background: `linear-gradient(135deg, ${c.accent}12 0%, ${c.accent}06 50%, ${c.accent2}06 100%)`,
-                border: `1px solid ${c.accent}30`,
-                position: "relative", overflow: "hidden",
-              }}>
+              <div style={{ padding: 40, borderRadius: 20, textAlign: "center", background: `linear-gradient(135deg, ${c.accent}12 0%, ${c.accent}06 50%, ${c.accent2}06 100%)`, border: `1px solid ${c.accent}30`, position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: -1, left: "20%", right: "20%", height: 1, background: `linear-gradient(90deg, transparent, ${c.accentLight}, transparent)` }} />
                 <div style={{ fontSize: 52, marginBottom: 20 }}>🚀</div>
                 <h3 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.8px", marginBottom: 12 }}>
                   Ready to build<br />
-                  <span style={{ background: `linear-gradient(135deg, ${c.accentLight}, ${c.accent2Light})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                    something great?
-                  </span>
+                  <span style={{ background: `linear-gradient(135deg, ${c.accentLight}, ${c.accent2Light})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>something great?</span>
                 </h3>
-                <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, marginBottom: 28 }}>
-                  I'm open to internships, research collaborations, freelance work, and open-source contributions. Let's create something impactful together.
-                </p>
+                <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, marginBottom: 28 }}>I'm open to internships, research collaborations, freelance work, and open-source contributions. Let's create something impactful together.</p>
                 <a href="mailto:gonellasurya2005@gmail.com"
                   style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: c.accentBtn, color: "white", fontSize: 14, fontWeight: 600, padding: "14px 24px", borderRadius: 10, boxShadow: `0 8px 30px ${c.accentGlow}`, cursor: "pointer", transition: "transform .2s, box-shadow .2s" }}
                   onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(-2px)"; a.style.boxShadow = `0 14px 40px ${c.accent}60`; }}
@@ -1111,45 +837,20 @@ export default function App() {
       {/* ── FOOTER ────────────────────────────────────────────────────────── */}
       <footer style={{ position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)", background: "#050508", padding: "28px 0" }}>
         <div style={{ ...container, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <p style={{ fontSize: 12, color: "#334155", fontFamily: "JetBrains Mono,monospace" }}>
-            © 2025 <span style={{ color: c.accentLight }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.
-          </p>
-          <p style={{ fontSize: 12, color: "#334155", fontFamily: "JetBrains Mono,monospace" }}>
-            Built with <span style={{ color: c.accentLight }}>♥</span> — React · TypeScript · CSS-in-JS
-          </p>
+          <p style={{ fontSize: 12, color: "#334155", fontFamily: "JetBrains Mono,monospace" }}>© 2025 <span style={{ color: c.accentLight }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.</p>
+          <p style={{ fontSize: 12, color: "#334155", fontFamily: "JetBrains Mono,monospace" }}>Built with <span style={{ color: c.accentLight }}>♥</span> — React · TypeScript · CSS-in-JS</p>
         </div>
       </footer>
 
       {/* ── BACK TO TOP ───────────────────────────────────────────────────── */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        style={{
-          position: "fixed", bottom: 32, right: 32, zIndex: 50,
-          width: 44, height: 44, borderRadius: "50%",
-          background: c.accent, color: "white", fontSize: 18,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          cursor: "pointer", border: "none",
-          opacity: showBtt ? 1 : 0, pointerEvents: showBtt ? "all" : "none",
-          transform: showBtt ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity .3s, transform .3s",
-          boxShadow: `0 4px 20px ${c.accentGlow}`,
-        }}
+      <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        style={{ position: "fixed", bottom: 32, right: 32, zIndex: 50, width: 44, height: 44, borderRadius: "50%", background: c.accent, color: "white", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", border: "none", opacity: showBtt ? 1 : 0, pointerEvents: showBtt ? "all" : "none", transform: showBtt ? "translateY(0)" : "translateY(10px)", transition: "opacity .3s, transform .3s", boxShadow: `0 4px 20px ${c.accentGlow}` }}
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-3px)"}
-        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = showBtt ? "translateY(0)" : "translateY(10px)"}
-      >
-        ↑
-      </button>
+        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.transform = showBtt ? "translateY(0)" : "translateY(10px)"}>↑</button>
 
-      {/* Responsive styles */}
       <style>{`
-        @media(max-width:900px){
-          .hero-grid{ grid-template-columns: 1fr !important; }
-        }
-        @media(max-width:768px){
-          #about .about-grid, #contact .contact-grid{
-            grid-template-columns: 1fr !important;
-          }
-        }
+        @media(max-width:900px){ .hero-grid{ grid-template-columns: 1fr !important; } }
+        @media(max-width:768px){ #about > div > div, #contact > div > div { grid-template-columns: 1fr !important; } }
       `}</style>
     </>
   );
