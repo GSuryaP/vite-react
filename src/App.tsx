@@ -321,7 +321,7 @@ export default function App() {
         period: "2023 – Present",
         type: "Education",
         description: [
-          "Pursuing a B.Tech in Computer Science and Engineering, maintaining a CGPA of 8.73 through my 5th semester. Awarded the Prof. CNR Scholarship for the 1st, 3rd, and 4th semesters — given to the top 20% of the batch.",
+          "Pursuing a B.Tech in Computer Science and Engineering, maintaining a CGPA of 8.61 through my 6th semester. Awarded the Prof. CNR Scholarship for the 1st, 3rd, and 4th semesters — given to the top 20% of the batch.",
           "Actively involved in campus life as a member of multiple technical and non-technical clubs, participating in hackathons and collaborative engineering projects.",
         ],
         technologies: ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "AWS"],
@@ -582,8 +582,8 @@ export default function App() {
               </div>
 
               <h1 style={{ fontFamily: "'Orbitron', monospace", fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.02em' }}>
-                <GlitchText className="block text-green-400 text-5xl md:text-7xl lg:text-8xl">SURYA</GlitchText>
-                <GlitchText className="block text-white text-5xl md:text-7xl lg:text-8xl mt-1">PRAKASH</GlitchText>
+                <GlitchText className="block text-green-400 text-5xl md:text-7xl lg:text-8xl">GONELLA SIVA SAI</GlitchText>
+                <GlitchText className="block text-white text-5xl md:text-7xl lg:text-8xl mt-1">SURYA PRAKASH</GlitchText>
               </h1>
 
               {/* tagline — larger, readable */}
@@ -658,7 +658,7 @@ export default function App() {
                 {/* Avatar */}
                 <div className="absolute inset-10 rounded-full overflow-hidden border border-green-500/25"
                   style={{ boxShadow: '0 0 40px rgba(74,222,128,0.12), inset 0 0 40px rgba(0,0,0,0.5)' }}>
-                  <img src="/profile.png" alt="Surya Prakash" className="w-full h-full object-cover"
+                  <img src="/imagee.jpeg" alt="Surya Prakash" className="w-full h-full object-cover"
                     onError={e => { (e.target as HTMLImageElement).onerror = null; (e.target as HTMLImageElement).src = 'https://placehold.co/280x280/030603/4ade80?text=GSS'; }} />
                   <div className="absolute inset-0 pointer-events-none"
                     style={{ background: 'repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.07) 3px,rgba(0,0,0,0.07) 4px)' }} />
@@ -672,7 +672,7 @@ export default function App() {
                 {/* floating tags */}
                 <div className="absolute -right-5 top-1/4 bg-[#030603] border border-green-900/70 px-3 py-2 shadow-lg"
                   style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '12px', color: '#4ade80' }}>
-                  CGPA: 8.73
+                  CGPA: 8.61
                 </div>
                 <div className="absolute -left-6 bottom-1/3 bg-[#030603] border border-amber-900/50 px-3 py-2 shadow-lg"
                   style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '12px', color: 'rgb(251,191,36)' }}>
@@ -745,7 +745,7 @@ export default function App() {
 
               {/* Stats */}
               <div className="lg:col-span-2 grid grid-cols-2 gap-0 border border-gray-900/60">
-                <AnimCounter value="8.73" label="CGPA" />
+                <AnimCounter value="8.61" label="CGPA" />
                 <AnimCounter value="6"    suffix="+" label="Projects" />
                 <AnimCounter value="1"    label="Internship" />
                 <AnimCounter value="2"    suffix="+" label="Club Roles" />
