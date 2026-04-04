@@ -1037,14 +1037,20 @@ export default function App() {
                   <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, marginBottom: 28 }}>
                     Open to internships, research collaborations, freelance projects, and open-source work. Let's create something impactful together.
                   </p>
-                  <a href={`mailto:${DATA.email}`} {...hoverProps}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...hoverProps}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                       background: "linear-gradient(135deg, #f97316, #ea580c)", color: "white",
                       fontWeight: 700, fontSize: 15, padding: "14px 24px", borderRadius: 11,
-                      boxShadow: "0 8px 28px rgba(249,115,22,0.35)", transition: "all .2s", cursor: "pointer" }}
+                      boxShadow: "0 8px 28px rgba(249,115,22,0.35)", transition: "all .2s", cursor: "pointer"
+                    }}
                     onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 14px 40px rgba(249,115,22,0.5)"; }}
-                    onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = ""; a.style.boxShadow = "0 8px 28px rgba(249,115,22,0.35)"; }}>
-                    Start a Conversation ↗
+                    onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = ""; a.style.boxShadow = "0 8px 28px rgba(249,115,22,0.35)"; }}
+                  >
+                    💬 Chat on WhatsApp ↗
                   </a>
                   <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid rgba(255,255,255,0.06)",
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
