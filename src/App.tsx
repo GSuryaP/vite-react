@@ -686,15 +686,17 @@ export default function App() {
               {/* CTA */}
               <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.28s",
                 display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 48 }}>
-                <a href={DATA.resume} download {...hoverProps}
+                <a href="#contact"
+                  onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  {...hoverProps}
                   style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px",
                     borderRadius: 10, background: "linear-gradient(135deg, #f97316, #ea580c)",
                     color: "white", fontWeight: 700, fontSize: 14, letterSpacing: "0.01em",
                     boxShadow: "0 8px 32px rgba(249,115,22,0.35)", transition: "all .2s" }}
                   onMouseEnter={e => { const a = e.target as HTMLAnchorElement; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 14px 40px rgba(249,115,22,0.5)"; }}
-                  onMouseLeave={e => { const a = e.target as HTMLAnchorElement; a.style.transform = ""; a.style.boxShadow = "0 8px 32px rgba(249,115,22,0.35)"; }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
-                  Download Resume
+                  onMouseLeave={e => { const a = e.target as HTMLAnchorElement; a.style.transform = ""; a.style.boxShadow = "0 8px 32px rgba(249,115,22,0.35)"; }}
+                >
+                  💬 Get In Touch
                 </a>
                 <a href="#projects" {...hoverProps}
                   style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px",
