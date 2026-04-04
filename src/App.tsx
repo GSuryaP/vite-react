@@ -1037,7 +1037,7 @@ export default function App() {
                   <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, marginBottom: 28 }}>
                     Open to internships, research collaborations, freelance projects, and open-source work. Let's create something impactful together.
                   </p>
-                    href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
+                  <a href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
                     target="_blank"
                     rel="noopener noreferrer"
                     {...hoverProps}
