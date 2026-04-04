@@ -1050,13 +1050,14 @@ export default function App() {
                     onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 14px 40px rgba(249,115,22,0.5)"; }}
                     onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.transform = ""; a.style.boxShadow = "0 8px 28px rgba(249,115,22,0.35)"; }}
                   >
-                    💬 Chat on WhatsApp ↗
-                  </a>
-                  <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid rgba(255,255,255,0.06)",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                     <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e",
                       boxShadow: "0 0 8px #22c55e", display: "inline-block",
                       animation: "pulse-ring 2s ease-in-out infinite" }} />
+                    💬 Chat on WhatsApp ↗
+                    
+                  </a>
+                  <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid rgba(255,255,255,0.06)",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                     {/* <span style={{ fontSize: 12, color: "#475569" }}>Available · Replies within 24h</span> */}
                   </div>
                 </div>
