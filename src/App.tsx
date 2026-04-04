@@ -1051,7 +1051,7 @@ export default function App() {
                     <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e",
                       boxShadow: "0 0 8px #22c55e", display: "inline-block",
                       animation: "pulse-ring 2s ease-in-out infinite" }} />
-                    <span style={{ fontSize: 12, color: "#475569" }}>Available · Replies within 24h</span>
+                    {/* <span style={{ fontSize: 12, color: "#475569" }}>Available · Replies within 24h</span> */}
                   </div>
                 </div>
               </div>
