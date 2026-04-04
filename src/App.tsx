@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   SiPython, SiMysql, SiC, SiCplusplus, SiJavascript,
   SiReact, SiNodedotjs, SiGit, SiGithub, SiMongodb,
-  SiHtml5, SiCss3, SiTailwindcss, SiExpress, SiFirebase
+  SiHtml5, SiCss, SiTailwindcss, SiExpress, SiFirebase
 } from "react-icons/si";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -306,7 +306,7 @@ export default function App() {
       { name: "MongoDB",    icon: <SiMongodb    color="#47A248" size={28} /> },
       { name: "MySQL",      icon: <SiMysql      color="#4479A1" size={28} /> },
       { name: "HTML5",      icon: <SiHtml5      color="#E34F26" size={28} /> },
-      { name: "CSS3",       icon: <SiCss3       color="#1572B6" size={28} /> },
+      { name: "CSS3",       icon: <SiCss       color="#1572B6" size={28} /> },
       { name: "Tailwind",   icon: <SiTailwindcss color="#06B6D4" size={28} /> },
       { name: "C++",        icon: <SiCplusplus  color="#00599C" size={28} /> },
       { name: "C",          icon: <SiC          color="#6699cc" size={28} /> },
