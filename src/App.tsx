@@ -17,10 +17,15 @@ interface Project {
   tags: string[]; repo?: string; live?: string;
 }
 interface Skill { name: string; icon: React.ReactNode; color: string; pct: number; }
-type ThemeKey = "green" | "orange" | "blue" | "light";
+type ThemeKey = "slate" | "amber" | "azure" | "paper";
 
 /* ============================================================
    THEMES
+   Reskinned from the original neon-matrix look to a calmer,
+   editorial "engineer's notebook" palette: a deep slate base,
+   a warm signal accent, and a cool secondary for data/links.
+   Same structural roles as before (bg/accent/cyan/text/etc.)
+   so nothing else in the component needs to change.
 ============================================================ */
 interface Theme {
   bg: string; bgAlt: string; bgCard: string;
@@ -34,49 +39,49 @@ interface Theme {
 }
 
 const THEMES: Record<ThemeKey, Theme> = {
-  green: {
-    bg: "#050a0e", bgAlt: "#070d12", bgCard: "rgba(0,255,136,0.03)",
-    accent: "#00ff88", accentDim: "#00cc6a", cyan: "#00e5ff", cyanDim: "#00b8cc",
-    text: "#c8ffd4", textMuted: "#4a7c59", textDim: "#2a4a35",
-    border: "rgba(0,255,136,0.12)", borderHov: "rgba(0,255,136,0.35)",
-    navBg: "rgba(5,10,14,0.95)", footerBg: "#050a0e",
-    matrixOpacity: 0.07, gridOpacity: 0.035, textOnAccent: "#050a0e", isLight: false,
+  slate: {
+    bg: "#0b0e14", bgAlt: "#0e1118", bgCard: "rgba(255,255,255,0.025)",
+    accent: "#ff8a3d", accentDim: "#d96f2c", cyan: "#5ec8d8", cyanDim: "#46a3b3",
+    text: "#e8ecf1", textMuted: "#7a8494", textDim: "#3c4250",
+    border: "rgba(255,255,255,0.08)", borderHov: "rgba(255,138,61,0.45)",
+    navBg: "rgba(11,14,20,0.95)", footerBg: "#0b0e14",
+    matrixOpacity: 0.05, gridOpacity: 0.03, textOnAccent: "#0b0e14", isLight: false,
   },
-  orange: {
-    bg: "#0c0800", bgAlt: "#100d00", bgCard: "rgba(255,160,0,0.03)",
-    accent: "#ff9f00", accentDim: "#cc7e00", cyan: "#ffcc44", cyanDim: "#e6b030",
-    text: "#ffe8c0", textMuted: "#7a5a1a", textDim: "#3a2a08",
-    border: "rgba(255,160,0,0.14)", borderHov: "rgba(255,160,0,0.38)",
-    navBg: "rgba(12,8,0,0.95)", footerBg: "#0c0800",
-    matrixOpacity: 0.06, gridOpacity: 0.03, textOnAccent: "#0c0800", isLight: false,
+  amber: {
+    bg: "#0f0b06", bgAlt: "#130e07", bgCard: "rgba(255,200,120,0.03)",
+    accent: "#ffb347", accentDim: "#d99232", cyan: "#ff7a59", cyanDim: "#e0613f",
+    text: "#fbeedd", textMuted: "#8a7257", textDim: "#3f3220",
+    border: "rgba(255,179,71,0.14)", borderHov: "rgba(255,179,71,0.4)",
+    navBg: "rgba(15,11,6,0.95)", footerBg: "#0f0b06",
+    matrixOpacity: 0.04, gridOpacity: 0.025, textOnAccent: "#0f0b06", isLight: false,
   },
-  blue: {
-    bg: "#00050f", bgAlt: "#020810", bgCard: "rgba(0,160,255,0.03)",
-    accent: "#00aaff", accentDim: "#0088cc", cyan: "#44ddff", cyanDim: "#22bbdd",
-    text: "#c0e0ff", textMuted: "#2a5a7a", textDim: "#0a2a3a",
-    border: "rgba(0,160,255,0.14)", borderHov: "rgba(0,160,255,0.38)",
-    navBg: "rgba(0,5,15,0.95)", footerBg: "#00050f",
-    matrixOpacity: 0.06, gridOpacity: 0.03, textOnAccent: "#00050f", isLight: false,
+  azure: {
+    bg: "#06090f", bgAlt: "#080c13", bgCard: "rgba(120,180,255,0.03)",
+    accent: "#4fb6ff", accentDim: "#3a93d1", cyan: "#7ee0c3", cyanDim: "#5fc2a6",
+    text: "#dceaf9", textMuted: "#5d7591", textDim: "#222e3d",
+    border: "rgba(79,182,255,0.14)", borderHov: "rgba(79,182,255,0.4)",
+    navBg: "rgba(6,9,15,0.95)", footerBg: "#06090f",
+    matrixOpacity: 0.04, gridOpacity: 0.025, textOnAccent: "#06090f", isLight: false,
   },
-  light: {
-    bg: "#f4f7f4", bgAlt: "#edf2ed", bgCard: "rgba(0,140,80,0.04)",
-    accent: "#008c50", accentDim: "#006a3c", cyan: "#006fa8", cyanDim: "#005580",
-    text: "#1a2e1f", textMuted: "#557a62", textDim: "#b0cbb8",
-    border: "rgba(0,140,80,0.15)", borderHov: "rgba(0,140,80,0.4)",
-    navBg: "rgba(244,247,244,0.95)", footerBg: "#edf2ed",
-    matrixOpacity: 0.03, gridOpacity: 0.04, textOnAccent: "#ffffff", isLight: true,
+  paper: {
+    bg: "#f7f5f1", bgAlt: "#f0ede6", bgCard: "rgba(170,90,30,0.04)",
+    accent: "#b5541a", accentDim: "#8f4314", cyan: "#1f6f78", cyanDim: "#185a61",
+    text: "#211a13", textMuted: "#6b5d4d", textDim: "#cfc4b3",
+    border: "rgba(181,84,26,0.18)", borderHov: "rgba(181,84,26,0.45)",
+    navBg: "rgba(247,245,241,0.95)", footerBg: "#f0ede6",
+    matrixOpacity: 0.02, gridOpacity: 0.035, textOnAccent: "#ffffff", isLight: true,
   },
 };
 
 const THEME_META: Record<ThemeKey, { label: string; dot: string }> = {
-  green:  { label: "Green",  dot: "#00ff88" },
-  orange: { label: "Orange", dot: "#ff9f00" },
-  blue:   { label: "Blue",   dot: "#00aaff" },
-  light:  { label: "Light",  dot: "#008c50" },
+  slate: { label: "Slate", dot: "#ff8a3d" },
+  amber: { label: "Amber", dot: "#ffb347" },
+  azure: { label: "Azure", dot: "#4fb6ff" },
+  paper: { label: "Paper", dot: "#b5541a" },
 };
 
 /* ============================================================
-   DATA
+   DATA (unchanged)
 ============================================================ */
 const DATA = {
   name:     "Gonella Siva Sai\nSurya Prakash",
@@ -225,29 +230,30 @@ const Reveal: React.FC<{
 };
 
 /* ============================================================
-   MATRIX RAIN
+   SIGNAL RAIN (replaces the matrix-green rain; same mechanics,
+   themed as faint schematic/telemetry noise instead of code rain)
 ============================================================ */
-const MatrixRain: React.FC<{ color: string; opacity: number }> = ({ color, opacity }) => {
+const SignalRain: React.FC<{ color: string; opacity: number }> = ({ color, opacity }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = canvasRef.current; if (!canvas) return;
     const ctx = canvas.getContext("2d"); if (!ctx) return;
     let W = canvas.width = window.innerWidth;
     let H = canvas.height = window.innerHeight;
-    const cols = Math.floor(W / 20);
+    const cols = Math.floor(W / 22);
     const drops: number[] = Array(cols).fill(1);
-    const chars = "01アイウエオカキクケコ∑∫∂∇λπ≠≤≥∈∉∀∃";
+    const chars = "01·∑∫∂λπ≠≤≥";
     let raf: number;
     const draw = () => {
       ctx.fillStyle = "rgba(0,0,0,0.05)";
       ctx.fillRect(0, 0, W, H);
-      ctx.font = "13px 'Courier New', monospace";
+      ctx.font = "12px 'Courier New', monospace";
       drops.forEach((y, i) => {
         const ch = chars[Math.floor(Math.random() * chars.length)];
-        const a = Math.random() > 0.95 ? 1 : 0.15;
+        const a = Math.random() > 0.96 ? 1 : 0.12;
         ctx.fillStyle = a === 1 ? color : color + "26";
-        ctx.fillText(ch, i * 20, y * 20);
-        if (y * 20 > H && Math.random() > 0.975) drops[i] = 0;
+        ctx.fillText(ch, i * 22, y * 22);
+        if (y * 22 > H && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
       });
       raf = requestAnimationFrame(draw);
@@ -471,7 +477,7 @@ const STitle: React.FC<{ tag: string; title: string; sub?: string; T: Theme }> =
 );
 
 /* ============================================================
-   THEME SWITCHER — 100% state-based, no e.target
+   THEME SWITCHER
 ============================================================ */
 const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => void; T: Theme }> = ({ current, onSwitch, T }) => {
   const [open, setOpen] = useState(false);
@@ -506,7 +512,7 @@ const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => vo
       {open && (
         <div style={{
           position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 9999,
-          background: T.isLight ? T.bgAlt : "#0a0f0c",
+          background: T.isLight ? T.bgAlt : "#0a0c11",
           border: `1px solid ${T.borderHov}`, borderRadius: 6,
           overflow: "hidden", minWidth: 130, boxShadow: `0 8px 32px rgba(0,0,0,0.5)`,
         }}>
@@ -537,7 +543,7 @@ const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => vo
 };
 
 /* ============================================================
-   NAV LINK — own hover state, no shared mutation
+   NAV LINK
 ============================================================ */
 const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme }> = ({ href, label, active, T }) => {
   const [hov, setHov] = useState(false);
@@ -560,7 +566,7 @@ const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme
 };
 
 /* ============================================================
-   CONTACT ROW — own hover state
+   CONTACT ROW
 ============================================================ */
 const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: string; isAccent?: boolean; T: Theme }> = ({ icon, label, val, href, isAccent, T }) => {
   const [hov, setHov] = useState(false);
@@ -595,7 +601,7 @@ const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: st
 };
 
 /* ============================================================
-   SOCIAL BUTTON — own hover state
+   SOCIAL BUTTON
 ============================================================ */
 const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; download?: boolean; T: Theme }> = ({ label, href, icon, download, T }) => {
   const [hov, setHov] = useState(false);
@@ -624,7 +630,7 @@ const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; 
 };
 
 /* ============================================================
-   HERO CTA BUTTON — own hover state
+   HERO CTA BUTTON
 ============================================================ */
 const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.ReactNode; T: Theme }> = ({ href, primary, children, T }) => {
   const [hov, setHov] = useState(false);
@@ -656,7 +662,7 @@ const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.React
 };
 
 /* ============================================================
-   WHATSAPP BUTTON — own hover state
+   WHATSAPP BUTTON
 ============================================================ */
 const WABtn: React.FC<{ T: Theme }> = ({ T }) => {
   const [hov, setHov] = useState(false);
@@ -681,7 +687,7 @@ const WABtn: React.FC<{ T: Theme }> = ({ T }) => {
 };
 
 /* ============================================================
-   GITHUB PROJECTS LINK — own hover state
+   GITHUB PROJECTS LINK
 ============================================================ */
 const GithubLink: React.FC<{ T: Theme }> = ({ T }) => {
   const [hov, setHov] = useState(false);
@@ -704,7 +710,7 @@ const GithubLink: React.FC<{ T: Theme }> = ({ T }) => {
 };
 
 /* ============================================================
-   BACK TO TOP — own hover state
+   BACK TO TOP
 ============================================================ */
 const BackToTop: React.FC<{ show: boolean; T: Theme }> = ({ show, T }) => {
   const [hov, setHov] = useState(false);
@@ -737,16 +743,30 @@ const NAV_ITEMS = ["Home","About","Skills","Experience","Projects","Contact"];
    APP
 ============================================================ */
 export default function App() {
-  const [themeKey, setThemeKey] = useState<ThemeKey>("green");
+  const [themeKey, setThemeKey] = useState<ThemeKey>("slate");
   const T = THEMES[themeKey];
   const [active, setActive]       = useState("Home");
   const [scrolled, setScrolled]   = useState(false);
   const [mobileOpen, setMobile]   = useState(false);
   const [showBtt, setShowBtt]     = useState(false);
+
+  // ── Cursor position ──────────────────────────────────────
+  // FIX: previously the visible "ring" cursor was smoothed with
+  // a lerp loop (rx += (cursorX - rx) * 0.12) that runs on every
+  // animation frame independently of the actual mouse position.
+  // That made the rendered ring trail behind the real pointer,
+  // so by the time someone "saw" the cursor over a button, the
+  // browser's real hit-testing (based on the true, un-lagged
+  // mouse coordinates) had already moved on — producing exactly
+  // the dot/box misalignment shown in the screenshot.
+  // The fix: drive the ring directly off the same raw coordinates
+  // as the dot (no per-frame lag), and only animate *size*
+  // (cursorBig) with CSS, never *position*. Position changes are
+  // applied with effectively zero transition so the visible
+  // cursor is always pixel-accurate to what the browser is
+  // actually hover-testing against.
   const [cursorX, setCursorX]     = useState(0);
   const [cursorY, setCursorY]     = useState(0);
-  const [ringX, setRingX]         = useState(0);
-  const [ringY, setRingY]         = useState(0);
   const [cursorBig, setCursorBig] = useState(false);
   const [typedText, setTypedText] = useState("");
 
@@ -802,34 +822,26 @@ export default function App() {
     s.textContent = `body{background:${T.bg};color:${T.text}}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:${T.bg}}::-webkit-scrollbar-thumb{background:${T.accent};border-radius:99px}`;
   }, [T]);
 
-  useEffect(() => {
-    let rx = ringX, ry = ringY, raf: number;
-    const tick = () => {
-      rx += (cursorX - rx) * 0.12; ry += (cursorY - ry) * 0.12;
-      setRingX(rx); setRingY(ry); raf = requestAnimationFrame(tick);
-    };
-    tick();
-    return () => cancelAnimationFrame(raf);
-  }, [cursorX, cursorY]);
-
   const C: React.CSSProperties = { maxWidth: 1160, margin: "0 auto", padding: "0 24px" };
   const SP: React.CSSProperties = { position: "relative", zIndex: 2, padding: "100px 0" };
 
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100vh", transition: "background .4s, color .4s" }}>
 
-      {/* CURSOR DOT */}
+      {/* CURSOR DOT — exact mouse position, no smoothing */}
       <div style={{ position: "fixed", zIndex: 99999, pointerEvents: "none", left: cursorX, top: cursorY, transform: "translate(-50%,-50%)" }}>
         <div style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent, boxShadow: `0 0 10px ${T.accent},0 0 20px ${T.accent}66` }} />
       </div>
 
-      {/* CURSOR RING */}
+      {/* CURSOR RING — same coordinates as the dot, zero positional
+          lag. Only size/shape are animated (cursorBig), so the ring
+          always sits exactly over whatever the browser is hovering. */}
       <div style={{
         position: "fixed", zIndex: 99998, pointerEvents: "none",
-        left: ringX, top: ringY, transform: "translate(-50%,-50%)",
+        left: cursorX, top: cursorY, transform: "translate(-50%,-50%)",
         width: cursorBig ? 48 : 32, height: cursorBig ? 48 : 32,
         border: `1px solid ${T.accent}80`, borderRadius: cursorBig ? "50%" : "2px",
-        transition: "width .3s, height .3s, border-radius .3s, border-color .4s",
+        transition: "width .15s ease, height .15s ease, border-radius .15s ease, border-color .3s ease",
         boxShadow: `0 0 8px ${T.accent}33`,
       }} />
 
@@ -873,7 +885,7 @@ export default function App() {
 
       {/* ── HERO ── */}
       <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 80px", position: "relative", overflow: "hidden", zIndex: 2 }}>
-        <MatrixRain color={T.accent} opacity={T.matrixOpacity} />
+        <SignalRain color={T.accent} opacity={T.matrixOpacity} />
         <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, ${T.accent}0f 0%, transparent 65%)`, top: -100, right: -50, pointerEvents: "none", animation: "float-y 14s ease-in-out infinite" }} />
         <div style={{ ...C, position: "relative", zIndex: 1 }}>
           <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 72, alignItems: "center" }}>
@@ -948,7 +960,7 @@ export default function App() {
           </div>
         </div>
         {/* Ticker */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, overflow: "hidden", borderTop: `1px solid ${T.border}`, padding: "8px 0", background: T.isLight ? "rgba(237,242,237,0.85)" : "rgba(5,10,14,0.8)", backdropFilter: "blur(8px)" }}>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, overflow: "hidden", borderTop: `1px solid ${T.border}`, padding: "8px 0", background: T.isLight ? "rgba(240,237,230,0.85)" : "rgba(11,14,20,0.8)", backdropFilter: "blur(8px)" }}>
           <div style={{ display: "flex", whiteSpace: "nowrap", animation: "ticker 28s linear infinite" }}>
             {[...Array(2)].map((_,ri) => (
               <span key={ri} style={{ fontSize: 10, letterSpacing: "0.3em", color: T.textDim, fontFamily: "'Share Tech Mono',monospace" }}>
