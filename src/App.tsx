@@ -544,7 +544,7 @@ const WABtn: React.FC = () => (
 /* ============================================================
    SEND MAIL BUTTON
 ============================================================ */
-const MailBtn: React.FC = () => (
+const MailBtn: React.FC = () => ( <a
   
     href={`mailto:${DATA.email}?subject=Let's%20Connect&body=Hi%20Surya,%0D%0A%0D%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect.`}
     style={{
