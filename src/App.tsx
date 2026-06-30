@@ -306,9 +306,6 @@ const SkillCard: React.FC<{ skill: Skill; delay: number }> = ({ skill, delay }) 
         <span style={{ fontSize: 12, fontWeight: 600, color: T.ink, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.02em" }}>{skill.name}</span>
         <span />
       </div>
-      <div style={{ height: 3, background: T.line, overflow: "hidden" }}>
-        <div style={{ height: "100%", background: `linear-gradient(90deg,${T.signal},${T.clock})`, width: visible ? `${skill.pct}%` : "0%", transition: `width 1s cubic-bezier(.16,1,.3,1) ${delay + 0.1}s` }} />
-      </div>
     </div>
   );
 };
