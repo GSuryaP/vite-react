@@ -544,15 +544,15 @@ const WABtn: React.FC = () => (
 /* ============================================================
    SEND MAIL BUTTON
 ============================================================ */
-const MailBtn: React.FC = () => ( <a
-  
-    href={`mailto:${DATA.email}?subject=Let's%20Connect&body=Hi%20Surya,%0D%0A%0D%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect.`}
+const MailBtn: React.FC = () => (
+  <a
+    href={`mailto:${DATA.email}?subject=Let's Connect&body=Hi Surya,%0D%0A%0D%0AI came across your portfolio and would love to connect.`}
     style={{
       display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
       background: "transparent", color: T.ink, fontWeight: 700, fontSize: 12,
       padding: "13px 20px", letterSpacing: "0.08em", textTransform: "uppercase",
       textDecoration: "none", fontFamily: "'JetBrains Mono',monospace",
-      border: `1px solid ${T.lineStrong}`, marginTop: 10,
+      border: `1px solid ${T.lineStrong}`,
     }}>
     Send a Mail ↗
   </a>
@@ -916,8 +916,10 @@ export default function App() {
                   <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.8, margin: "16px 0 24px" }}>
                     Open to internships, research collaborations, freelance projects, and open-source work. Let's build something impactful together.
                   </p>
-                  <WABtn />
-                  <MailBtn />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    <WABtn />
+                    <MailBtn />
+                  </div>
                 </div>
               </div>
             </Reveal>
