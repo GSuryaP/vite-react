@@ -921,7 +921,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   SiPython, SiMysql, SiC, SiCplusplus, SiJavascript, SiReact,
-  SiNodedotjs, SiGit, SiGithub, SiMongodb, SiHtml5, SiCss3,
+  SiNodedotjs, SiGit, SiGithub, SiMongodb, SiHtml5, SiCss,
   SiTailwindcss, SiExpress, SiFirebase,
 } from "react-icons/si";
 
