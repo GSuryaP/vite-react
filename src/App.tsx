@@ -17,67 +17,65 @@ interface Project {
   tags: string[]; repo?: string; live?: string;
 }
 interface Skill { name: string; icon: React.ReactNode; color: string; pct: number; }
-type ThemeKey = "slate" | "amber" | "azure" | "paper";
+type ThemeKey = "datasheet" | "blueprint" | "graphite" | "darkroom";
 
 /* ============================================================
-   THEMES
-   Reskinned from the original neon-matrix look to a calmer,
-   editorial "engineer's notebook" palette: a deep slate base,
-   a warm signal accent, and a cool secondary for data/links.
-   Same structural roles as before (bg/accent/cyan/text/etc.)
-   so nothing else in the component needs to change.
+   DESIGN DIRECTION
+   "Spec Sheet" — the page reads like a hardware/component
+   datasheet for an engineer: labeled fields, hairline rules,
+   zero-radius corners on data blocks, a serif display face for
+   the headline (Fraunces) paired with a clean grotesk (Inter)
+   for body copy and a mono face (JetBrains Mono) reserved for
+   actual data — numbers, tags, code, periods. No neon, no
+   terminal cursor, no matrix rain — just a calm, legible
+   instrument panel. The signature element is the "PART NO."
+   header card in the hero, styled like a component datasheet
+   title block.
 ============================================================ */
 interface Theme {
-  bg: string; bgAlt: string; bgCard: string;
-  accent: string; accentDim: string;
-  cyan: string; cyanDim: string;
-  text: string; textMuted: string; textDim: string;
-  border: string; borderHov: string;
-  navBg: string; footerBg: string;
-  matrixOpacity: number; gridOpacity: number;
-  textOnAccent: string; isLight: boolean;
+  bg: string; bgAlt: string; bgCard: string; bgPanel: string;
+  ink: string; accent: string; accentSoft: string;
+  line: string; lineStrong: string;
+  textMuted: string; textFaint: string;
+  navBg: string; isLight: boolean;
 }
 
 const THEMES: Record<ThemeKey, Theme> = {
-  slate: {
-    bg: "#0b0e14", bgAlt: "#0e1118", bgCard: "rgba(255,255,255,0.025)",
-    accent: "#ff8a3d", accentDim: "#d96f2c", cyan: "#5ec8d8", cyanDim: "#46a3b3",
-    text: "#e8ecf1", textMuted: "#7a8494", textDim: "#3c4250",
-    border: "rgba(255,255,255,0.08)", borderHov: "rgba(255,138,61,0.45)",
-    navBg: "rgba(11,14,20,0.95)", footerBg: "#0b0e14",
-    matrixOpacity: 0.05, gridOpacity: 0.03, textOnAccent: "#0b0e14", isLight: false,
+  datasheet: {
+    bg: "#f3f1ea", bgAlt: "#ece8de", bgCard: "#fbfaf6", bgPanel: "#fffefb",
+    ink: "#16191c", accent: "#c3441f", accentSoft: "rgba(195,68,31,0.10)",
+    line: "rgba(22,25,28,0.14)", lineStrong: "rgba(22,25,28,0.32)",
+    textMuted: "#54585c", textFaint: "#8a8d8f",
+    navBg: "rgba(243,241,234,0.92)", isLight: true,
   },
-  amber: {
-    bg: "#0f0b06", bgAlt: "#130e07", bgCard: "rgba(255,200,120,0.03)",
-    accent: "#ffb347", accentDim: "#d99232", cyan: "#ff7a59", cyanDim: "#e0613f",
-    text: "#fbeedd", textMuted: "#8a7257", textDim: "#3f3220",
-    border: "rgba(255,179,71,0.14)", borderHov: "rgba(255,179,71,0.4)",
-    navBg: "rgba(15,11,6,0.95)", footerBg: "#0f0b06",
-    matrixOpacity: 0.04, gridOpacity: 0.025, textOnAccent: "#0f0b06", isLight: false,
+  blueprint: {
+    bg: "#0f2438", bgAlt: "#0c1e30", bgCard: "#13314a", bgPanel: "#163a57",
+    ink: "#eaf2fb", accent: "#ffb02e", accentSoft: "rgba(255,176,46,0.12)",
+    line: "rgba(234,242,251,0.14)", lineStrong: "rgba(234,242,251,0.34)",
+    textMuted: "#a9c0d6", textFaint: "#6f8aa3",
+    navBg: "rgba(15,36,56,0.92)", isLight: false,
   },
-  azure: {
-    bg: "#06090f", bgAlt: "#080c13", bgCard: "rgba(120,180,255,0.03)",
-    accent: "#4fb6ff", accentDim: "#3a93d1", cyan: "#7ee0c3", cyanDim: "#5fc2a6",
-    text: "#dceaf9", textMuted: "#5d7591", textDim: "#222e3d",
-    border: "rgba(79,182,255,0.14)", borderHov: "rgba(79,182,255,0.4)",
-    navBg: "rgba(6,9,15,0.95)", footerBg: "#06090f",
-    matrixOpacity: 0.04, gridOpacity: 0.025, textOnAccent: "#06090f", isLight: false,
+  graphite: {
+    bg: "#e9e9e6", bgAlt: "#e0e0db", bgCard: "#f5f5f1", bgPanel: "#ffffff",
+    ink: "#1c1c1a", accent: "#2a6f5e", accentSoft: "rgba(42,111,94,0.10)",
+    line: "rgba(28,28,26,0.14)", lineStrong: "rgba(28,28,26,0.32)",
+    textMuted: "#54534d", textFaint: "#8c8b85",
+    navBg: "rgba(233,233,230,0.92)", isLight: true,
   },
-  paper: {
-    bg: "#f7f5f1", bgAlt: "#f0ede6", bgCard: "rgba(170,90,30,0.04)",
-    accent: "#b5541a", accentDim: "#8f4314", cyan: "#1f6f78", cyanDim: "#185a61",
-    text: "#211a13", textMuted: "#6b5d4d", textDim: "#cfc4b3",
-    border: "rgba(181,84,26,0.18)", borderHov: "rgba(181,84,26,0.45)",
-    navBg: "rgba(247,245,241,0.95)", footerBg: "#f0ede6",
-    matrixOpacity: 0.02, gridOpacity: 0.035, textOnAccent: "#ffffff", isLight: true,
+  darkroom: {
+    bg: "#15120f", bgAlt: "#0f0c0a", bgCard: "#1d1916", bgPanel: "#221d19",
+    ink: "#f3ece2", accent: "#e8a23a", accentSoft: "rgba(232,162,58,0.12)",
+    line: "rgba(243,236,226,0.13)", lineStrong: "rgba(243,236,226,0.32)",
+    textMuted: "#c2b5a5", textFaint: "#837666",
+    navBg: "rgba(21,18,15,0.92)", isLight: false,
   },
 };
 
-const THEME_META: Record<ThemeKey, { label: string; dot: string }> = {
-  slate: { label: "Slate", dot: "#ff8a3d" },
-  amber: { label: "Amber", dot: "#ffb347" },
-  azure: { label: "Azure", dot: "#4fb6ff" },
-  paper: { label: "Paper", dot: "#b5541a" },
+const THEME_META: Record<ThemeKey, string> = {
+  datasheet: "Datasheet",
+  blueprint: "Blueprint",
+  graphite: "Graphite",
+  darkroom: "Darkroom",
 };
 
 /* ============================================================
@@ -218,64 +216,37 @@ const Reveal: React.FC<{
   dir?: "up" | "left" | "right"; className?: string; style?: React.CSSProperties;
 }> = ({ children, delay = 0, dir = "up", className, style }) => {
   const { ref, visible } = useReveal();
-  const from = dir === "left" ? "translateX(-32px)" : dir === "right" ? "translateX(32px)" : "translateY(24px)";
+  const from = dir === "left" ? "translateX(-24px)" : dir === "right" ? "translateX(24px)" : "translateY(18px)";
   return (
     <div ref={ref} className={className} style={{
       opacity: visible ? 1 : 0,
       transform: visible ? "none" : from,
-      transition: `opacity .65s cubic-bezier(.16,1,.3,1) ${delay}s, transform .65s cubic-bezier(.16,1,.3,1) ${delay}s`,
+      transition: `opacity .55s cubic-bezier(.16,1,.3,1) ${delay}s, transform .55s cubic-bezier(.16,1,.3,1) ${delay}s`,
       ...style,
     }}>{children}</div>
   );
 };
 
 /* ============================================================
-   SIGNAL RAIN (replaces the matrix-green rain; same mechanics,
-   themed as faint schematic/telemetry noise instead of code rain)
+   FIELD — a single labeled datasheet value (key building block
+   of the "spec sheet" signature throughout the page)
 ============================================================ */
-const SignalRain: React.FC<{ color: string; opacity: number }> = ({ color, opacity }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return;
-    const ctx = canvas.getContext("2d"); if (!ctx) return;
-    let W = canvas.width = window.innerWidth;
-    let H = canvas.height = window.innerHeight;
-    const cols = Math.floor(W / 22);
-    const drops: number[] = Array(cols).fill(1);
-    const chars = "01·∑∫∂λπ≠≤≥";
-    let raf: number;
-    const draw = () => {
-      ctx.fillStyle = "rgba(0,0,0,0.05)";
-      ctx.fillRect(0, 0, W, H);
-      ctx.font = "12px 'Courier New', monospace";
-      drops.forEach((y, i) => {
-        const ch = chars[Math.floor(Math.random() * chars.length)];
-        const a = Math.random() > 0.96 ? 1 : 0.12;
-        ctx.fillStyle = a === 1 ? color : color + "26";
-        ctx.fillText(ch, i * 22, y * 22);
-        if (y * 22 > H && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      });
-      raf = requestAnimationFrame(draw);
-    };
-    draw();
-    const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
-    window.addEventListener("resize", onResize);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
-  }, [color]);
-  return <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, opacity, pointerEvents: "none", zIndex: 0 }} />;
-};
+const Field: React.FC<{ label: string; children: React.ReactNode; T: Theme; accent?: boolean }> = ({ label, children, T, accent }) => (
+  <div>
+    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: "'JetBrains Mono',monospace" }}>{label}</div>
+    <div style={{ fontSize: 13, fontWeight: 600, color: accent ? T.accent : T.ink, fontFamily: "'JetBrains Mono',monospace" }}>{children}</div>
+  </div>
+);
 
 /* ============================================================
    ANIMATED COUNTER
 ============================================================ */
 const Counter: React.FC<{ to: string; suffix?: string; label: string; T: Theme }> = ({ to, suffix = "", label, T }) => {
   const [val, setVal] = useState("0");
-  const [hov, setHov] = useState(false);
   const { ref, visible } = useReveal();
   useEffect(() => {
     if (!visible) return;
-    const end = parseFloat(to); const dur = 1600;
+    const end = parseFloat(to); const dur = 1300;
     const run = (ts: number, t0: number) => {
       const p = Math.min((ts - t0) / dur, 1);
       const e = 1 - Math.pow(1 - p, 3);
@@ -285,26 +256,17 @@ const Counter: React.FC<{ to: string; suffix?: string; label: string; T: Theme }
     requestAnimationFrame(t => run(t, t));
   }, [visible, to]);
   return (
-    <div
-      ref={ref}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        textAlign: "center", padding: "28px 16px", background: T.bgCard,
-        border: `1px solid ${hov ? T.borderHov : T.border}`,
-        boxShadow: hov ? `0 0 20px ${T.accent}0f` : "none",
-        transition: "border-color .3s, box-shadow .3s",
-      }}>
-      <div style={{ fontSize: "clamp(28px,4vw,42px)", fontWeight: 700, lineHeight: 1, marginBottom: 6, fontFamily: "'Share Tech Mono','Courier New',monospace", color: T.accent, textShadow: `0 0 20px ${T.accent}80` }}>
-        {val}<span style={{ fontSize: "0.65em", color: T.cyan }}>{suffix}</span>
+    <div ref={ref} style={{ textAlign: "center", padding: "26px 14px", background: T.bgCard, border: `1px solid ${T.line}` }}>
+      <div style={{ fontSize: "clamp(26px,3.6vw,38px)", fontWeight: 700, lineHeight: 1, marginBottom: 8, fontFamily: "'Fraunces',serif", color: T.ink }}>
+        {val}<span style={{ fontSize: "0.6em", color: T.accent }}>{suffix}</span>
       </div>
-      <div style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.2em", color: T.textMuted, fontFamily: "'Share Tech Mono',monospace" }}>{label}</div>
+      <div style={{ fontSize: 9.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>{label}</div>
     </div>
   );
 };
 
 /* ============================================================
-   SKILL CARD
+   SKILL ROW
 ============================================================ */
 const SkillCard: React.FC<{ skill: Skill; delay: number; T: Theme }> = ({ skill, delay, T }) => {
   const { ref, visible } = useReveal();
@@ -315,21 +277,19 @@ const SkillCard: React.FC<{ skill: Skill; delay: number; T: Theme }> = ({ skill,
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(16px)",
-        transition: `opacity .55s ease ${delay}s, transform .55s ease ${delay}s, border-color .2s, background .2s, box-shadow .2s`,
-        background: hov ? `${T.accent}0d` : T.bgCard,
-        border: `1px solid ${hov ? T.borderHov : T.border}`,
-        borderRadius: 6, padding: "12px 14px 10px", cursor: "default",
-        display: "flex", flexDirection: "column", gap: 8,
-        boxShadow: hov ? `0 0 20px ${T.accent}14` : "none",
+        opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(10px)",
+        transition: `opacity .5s ease ${delay}s, transform .5s ease ${delay}s, border-color .2s, background .2s`,
+        background: hov ? T.accentSoft : T.bgCard,
+        border: `1px solid ${hov ? T.accent : T.line}`,
+        padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8,
       }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ fontSize: 20, color: skill.color, flexShrink: 0, filter: hov ? `drop-shadow(0 0 6px ${skill.color})` : "none", transition: "filter .2s" }}>{skill.icon}</div>
-        <span style={{ fontSize: 12, fontWeight: 700, color: hov ? T.accent : T.textMuted, fontFamily: "'Share Tech Mono',monospace", transition: "color .2s", letterSpacing: "0.05em" }}>{skill.name}</span>
-        <span style={{ marginLeft: "auto", fontSize: 10, color: T.cyan, fontFamily: "monospace" }}>{skill.pct}%</span>
+        <div style={{ fontSize: 18, color: skill.color, flexShrink: 0 }}>{skill.icon}</div>
+        <span style={{ fontSize: 12, fontWeight: 600, color: T.ink, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.02em" }}>{skill.name}</span>
+        <span style={{ marginLeft: "auto", fontSize: 10, color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>{skill.pct}%</span>
       </div>
-      <div style={{ height: 2, background: `${T.accent}14`, borderRadius: 99, overflow: "hidden" }}>
-        <div style={{ height: "100%", borderRadius: 99, background: `linear-gradient(90deg, ${T.accent}, ${T.cyan})`, width: visible ? `${skill.pct}%` : "0%", transition: `width 1.1s cubic-bezier(.16,1,.3,1) ${delay + 0.15}s`, boxShadow: hov ? `0 0 8px ${T.accent}99` : "none" }} />
+      <div style={{ height: 3, background: T.line, overflow: "hidden" }}>
+        <div style={{ height: "100%", background: T.accent, width: visible ? `${skill.pct}%` : "0%", transition: `width 1s cubic-bezier(.16,1,.3,1) ${delay + 0.1}s` }} />
       </div>
     </div>
   );
@@ -340,47 +300,37 @@ const SkillCard: React.FC<{ skill: Skill; delay: number; T: Theme }> = ({ skill,
 ============================================================ */
 const ExpCard: React.FC<{ exp: Experience; index: number; T: Theme }> = ({ exp, index, T }) => {
   const [open, setOpen] = useState(index === 0);
-  const getBadge = (b: string): [string, string] => {
-    if (b === "Education")  return [T.cyan, `${T.cyan}1a`];
-    if (b === "Internship") return [T.accent, `${T.accent}1a`];
-    return ["#a78bfa", "rgba(167,139,250,0.1)"];
-  };
-  const [bc, bgc] = getBadge(exp.badge);
   return (
-    <Reveal delay={index * 0.1}>
-      <div style={{ border: `1px solid ${open ? T.borderHov : T.border}`, borderRadius: 8, background: T.bgCard, overflow: "hidden", transition: "border-color .3s, box-shadow .3s", boxShadow: open ? `0 0 30px ${T.accent}0f` : "none", fontFamily: "'Share Tech Mono',monospace" }}>
-        {open && <div style={{ height: 1, background: `linear-gradient(90deg, ${T.accent}, ${T.cyan}, transparent)` }} />}
+    <Reveal delay={index * 0.08}>
+      <div style={{ border: `1px solid ${T.line}`, background: T.bgCard }}>
         <button
           onClick={() => setOpen(o => !o)}
           style={{ width: "100%", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, padding: "20px 22px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 16, flex: 1, minWidth: 0 }}>
-            <div style={{ flexShrink: 0, paddingTop: 5 }}>
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: open ? T.accent : T.textDim, boxShadow: open ? `0 0 12px ${T.accent}` : "none", border: `1px solid ${open ? T.accent : T.textMuted}`, transition: "all .3s" }} />
-            </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: open ? T.accent : T.textMuted, fontFamily: "'Share Tech Mono',monospace", transition: "color .2s" }}>{exp.role}</span>
-                <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 3, background: bgc, color: bc, border: `1px solid ${bc}40`, letterSpacing: "0.15em", textTransform: "uppercase" }}>{exp.badge}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 5 }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: "'Fraunces',serif" }}>{exp.role}</span>
+                <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 8px", background: T.accentSoft, color: T.accent, border: `1px solid ${T.accent}55`, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'JetBrains Mono',monospace" }}>{exp.badge}</span>
               </div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: T.cyan, marginBottom: 2 }}>{exp.org}</div>
-              <div style={{ fontSize: 11, color: T.textMuted, letterSpacing: "0.05em" }}><span style={{ color: T.accent, marginRight: 4 }}>$</span>{exp.period}</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: T.textMuted, marginBottom: 2 }}>{exp.org}</div>
+              <div style={{ fontSize: 11, color: T.textFaint, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.03em" }}>{exp.period}</div>
             </div>
           </div>
-          <div style={{ fontSize: 16, color: open ? T.accent : T.textMuted, flexShrink: 0, paddingTop: 2, transition: "all .3s", transform: open ? "rotate(45deg)" : "rotate(0deg)", fontFamily: "monospace" }}>+</div>
+          <div style={{ fontSize: 18, color: T.textFaint, flexShrink: 0, transition: "transform .25s", transform: open ? "rotate(45deg)" : "none", fontFamily: "monospace" }}>+</div>
         </button>
         {open && (
-          <div style={{ padding: "0 22px 22px 48px", borderTop: `1px solid ${T.accent}14` }}>
+          <div style={{ padding: "0 22px 22px", borderTop: `1px solid ${T.line}` }}>
             <div style={{ paddingTop: 16 }}>
               {exp.bullets.map((b, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-                  <span style={{ color: T.accent, flexShrink: 0, fontFamily: "monospace", fontSize: 12, marginTop: 2 }}>›</span>
-                  <p style={{ fontSize: 13, color: T.text, lineHeight: 1.8, fontFamily: "'Share Tech Mono',monospace" }}>{b}</p>
+                  <span style={{ color: T.accent, flexShrink: 0, fontFamily: "monospace", fontSize: 13, marginTop: 2 }}>—</span>
+                  <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.75 }}>{b}</p>
                 </div>
               ))}
               {exp.tags.length > 0 && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 14, paddingTop: 14, borderTop: `1px solid ${T.accent}0f` }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14, paddingTop: 14, borderTop: `1px solid ${T.line}` }}>
                   {exp.tags.map(t => (
-                    <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", borderRadius: 3, background: `${T.cyan}0f`, border: `1px solid ${T.cyan}33`, color: T.cyan, fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.05em" }}>{t}</span>
+                    <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.03em" }}>{t}</span>
                   ))}
                 </div>
               )}
@@ -397,61 +347,37 @@ const ExpCard: React.FC<{ exp: Experience; index: number; T: Theme }> = ({ exp, 
 ============================================================ */
 const ProjCard: React.FC<{ proj: Project; index: number; T: Theme }> = ({ proj, index, T }) => {
   const [hov, setHov] = useState(false);
-  const [ghHov, setGhHov] = useState(false);
-  const [mx, setMx] = useState(50);
-  const [my, setMy] = useState(50);
   return (
-    <Reveal delay={index * 0.07} style={{ height: "100%" }}>
+    <Reveal delay={index * 0.06} style={{ height: "100%" }}>
       <div
         onMouseEnter={() => setHov(true)}
         onMouseLeave={() => setHov(false)}
-        onMouseMove={e => {
-          const r = e.currentTarget.getBoundingClientRect();
-          setMx(((e.clientX - r.left) / r.width) * 100);
-          setMy(((e.clientY - r.top) / r.height) * 100);
-        }}
         style={{
           height: "100%", display: "flex", flexDirection: "column",
-          borderRadius: 8, border: `1px solid ${hov ? T.borderHov : T.border}`,
-          background: T.bgCard, overflow: "hidden", cursor: "default",
-          transform: hov ? "translateY(-4px)" : "none",
-          boxShadow: hov ? `0 20px 50px rgba(0,0,0,0.4),0 0 0 1px ${T.accent}26,0 0 40px ${T.accent}0a` : "none",
-          transition: "all .3s cubic-bezier(.16,1,.3,1)", position: "relative",
-          fontFamily: "'Share Tech Mono',monospace",
+          border: `1px solid ${hov ? T.accent : T.line}`,
+          background: T.bgCard, transition: "border-color .2s, transform .2s",
+          transform: hov ? "translateY(-3px)" : "none",
         }}>
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: `radial-gradient(circle at ${mx}% ${my}%, ${T.accent}0f 0%, transparent 55%)`, opacity: hov ? 1 : 0, transition: "opacity .3s" }} />
-        <div style={{ height: 1, background: `linear-gradient(90deg, ${T.accent}, ${T.cyan}, transparent)`, transform: hov ? "scaleX(1)" : "scaleX(0)", transformOrigin: "left", transition: "transform .45s cubic-bezier(.16,1,.3,1)" }} />
-        <div style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: `1px solid ${T.accent}0f`, background: `${T.accent}05` }}>
-          {["#ff5f57","#ffbd2e","#28ca41"].map((c, i) => (
-            <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c, opacity: 0.6 }} />
-          ))}
-          <span style={{ marginLeft: 8, fontSize: 10, color: T.textMuted, letterSpacing: "0.1em" }}>
-            ~/projects/{proj.title.toLowerCase().replace(/\s+/g, "-")}
+        <div style={{ padding: "10px 16px", display: "flex", alignItems: "center", gap: 8, borderBottom: `1px solid ${T.line}`, background: T.bgAlt }}>
+          <span style={{ fontSize: 10, color: T.textFaint, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.06em" }}>
+            NO. {String(index + 1).padStart(2, "0")}
           </span>
           {proj.repo && (
-            <a
-              href={proj.repo}
-              target="_blank"
-              rel="noreferrer"
-              onClick={e => e.stopPropagation()}
-              onMouseEnter={() => setGhHov(true)}
-              onMouseLeave={() => setGhHov(false)}
-              style={{ marginLeft: "auto", color: ghHov ? T.accent : T.textMuted, transition: "color .2s", display: "flex", alignItems: "center" }}>
+            <a href={proj.repo} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}
+              style={{ marginLeft: "auto", color: hov ? T.accent : T.textFaint, display: "flex", alignItems: "center", transition: "color .2s" }}>
               <SiGithub size={13} />
             </a>
           )}
         </div>
-        <div style={{ padding: "18px 20px 22px", flex: 1, display: "flex", flexDirection: "column", position: "relative", zIndex: 1 }}>
+        <div style={{ padding: "18px 20px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-            <span style={{ fontSize: 22 }}>{proj.emoji}</span>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: hov ? T.accent : T.text, fontFamily: "'Share Tech Mono',monospace", lineHeight: 1.3, transition: "color .2s" }}>{proj.title}</h3>
+            <span style={{ fontSize: 20 }}>{proj.emoji}</span>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: "'Fraunces',serif", lineHeight: 1.3 }}>{proj.title}</h3>
           </div>
-          <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.8, flex: 1, marginBottom: 16 }}>
-            <span style={{ color: T.cyan }}># </span>{proj.desc}
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+          <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.75, flex: 1, marginBottom: 16 }}>{proj.desc}</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {proj.tags.map(t => (
-              <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", borderRadius: 3, background: `${T.cyan}0d`, border: `1px solid ${T.cyan}${hov ? "40" : "1a"}`, color: hov ? T.cyan : T.textMuted, transition: "all .2s", fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.04em" }}>{t}</span>
+              <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.03em" }}>{t}</span>
             ))}
           </div>
         </div>
@@ -464,15 +390,13 @@ const ProjCard: React.FC<{ proj: Project; index: number; T: Theme }> = ({ proj, 
    SECTION TITLE
 ============================================================ */
 const STitle: React.FC<{ tag: string; title: string; sub?: string; T: Theme }> = ({ tag, title, sub, T }) => (
-  <Reveal style={{ marginBottom: 52 }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-      <span style={{ fontSize: 11, fontWeight: 700, color: T.cyan, letterSpacing: "0.25em", textTransform: "uppercase", fontFamily: "'Share Tech Mono',monospace" }}>
-        <span style={{ color: T.accent }}>$ </span>{tag}
-      </span>
-      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${T.border}, transparent)` }} />
+  <Reveal style={{ marginBottom: 48 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+      <span style={{ fontSize: 10.5, fontWeight: 700, color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "'JetBrains Mono',monospace" }}>{tag}</span>
+      <div style={{ flex: 1, height: 1, background: T.line }} />
     </div>
-    <h2 style={{ fontSize: "clamp(28px,4vw,46px)", fontWeight: 700, color: T.accent, lineHeight: 1.1, letterSpacing: "-0.02em", fontFamily: "'Share Tech Mono',monospace", textShadow: `0 0 40px ${T.accent}33` }}>{title}</h2>
-    {sub && <p style={{ fontSize: 13, color: T.textMuted, marginTop: 12, maxWidth: 500, lineHeight: 1.8, fontFamily: "'Share Tech Mono',monospace" }}>{sub}</p>}
+    <h2 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: T.ink, lineHeight: 1.1, letterSpacing: "-0.01em", fontFamily: "'Fraunces',serif" }}>{title}</h2>
+    {sub && <p style={{ fontSize: 13.5, color: T.textMuted, marginTop: 12, maxWidth: 520, lineHeight: 1.75 }}>{sub}</p>}
   </Reveal>
 );
 
@@ -481,8 +405,6 @@ const STitle: React.FC<{ tag: string; title: string; sub?: string; T: Theme }> =
 ============================================================ */
 const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => void; T: Theme }> = ({ current, onSwitch, T }) => {
   const [open, setOpen] = useState(false);
-  const [btnHov, setBtnHov] = useState(false);
-  const [itemHov, setItemHov] = useState<ThemeKey | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -495,45 +417,36 @@ const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => vo
     <div ref={wrapRef} style={{ position: "relative" }}>
       <button
         onClick={() => setOpen(o => !o)}
-        onMouseEnter={() => setBtnHov(true)}
-        onMouseLeave={() => setBtnHov(false)}
         style={{
           display: "flex", alignItems: "center", gap: 7, padding: "6px 12px",
-          borderRadius: 4, background: T.bgCard,
-          border: `1px solid ${btnHov ? T.borderHov : T.border}`,
-          cursor: "pointer", fontFamily: "'Share Tech Mono',monospace",
-          fontSize: 11, fontWeight: 700, color: T.accent, letterSpacing: "0.1em",
-          transition: "border-color .2s",
+          background: T.bgCard, border: `1px solid ${T.line}`,
+          cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
+          fontSize: 10.5, fontWeight: 700, color: T.ink, letterSpacing: "0.08em",
         }}>
-        <div style={{ width: 8, height: 8, borderRadius: "50%", background: THEME_META[current].dot, boxShadow: `0 0 6px ${THEME_META[current].dot}` }} />
-        {THEME_META[current].label}
-        <span style={{ fontSize: 9, opacity: 0.6, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▼</span>
+        <div style={{ width: 7, height: 7, borderRadius: "50%", background: T.accent }} />
+        {THEME_META[current]}
+        <span style={{ fontSize: 8, opacity: 0.6, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▼</span>
       </button>
       {open && (
         <div style={{
-          position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 9999,
-          background: T.isLight ? T.bgAlt : "#0a0c11",
-          border: `1px solid ${T.borderHov}`, borderRadius: 6,
-          overflow: "hidden", minWidth: 130, boxShadow: `0 8px 32px rgba(0,0,0,0.5)`,
+          position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 9999,
+          background: T.bgPanel, border: `1px solid ${T.lineStrong}`,
+          minWidth: 130, boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
         }}>
           {(Object.keys(THEMES) as ThemeKey[]).map(k => (
             <button
               key={k}
               onClick={() => { onSwitch(k); setOpen(false); }}
-              onMouseEnter={() => setItemHov(k)}
-              onMouseLeave={() => setItemHov(null)}
               style={{
-                display: "flex", alignItems: "center", gap: 10, width: "100%",
-                padding: "10px 14px",
-                background: (current === k || itemHov === k) ? `${THEME_META[k].dot}1a` : "transparent",
-                border: "none", cursor: "pointer", fontFamily: "'Share Tech Mono',monospace",
-                fontSize: 11, fontWeight: 700,
-                color: (current === k || itemHov === k) ? THEME_META[k].dot : T.textMuted,
-                letterSpacing: "0.1em", textAlign: "left", transition: "background .15s, color .15s",
+                display: "flex", alignItems: "center", gap: 9, width: "100%",
+                padding: "9px 13px", background: current === k ? T.accentSoft : "transparent",
+                border: "none", cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
+                fontSize: 10.5, fontWeight: 700,
+                color: current === k ? T.accent : T.textMuted,
+                letterSpacing: "0.08em", textAlign: "left",
               }}>
-              <div style={{ width: 8, height: 8, borderRadius: "50%", background: THEME_META[k].dot, boxShadow: current === k ? `0 0 6px ${THEME_META[k].dot}` : "none" }} />
-              {THEME_META[k].label}
-              {current === k && <span style={{ marginLeft: "auto", fontSize: 9, color: THEME_META[k].dot }}>✓</span>}
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: THEMES[k].accent }} />
+              {THEME_META[k]}
             </button>
           ))}
         </div>
@@ -545,31 +458,21 @@ const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => vo
 /* ============================================================
    NAV LINK
 ============================================================ */
-const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme }> = ({ href, label, active, T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <a
-      href={href}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        fontSize: 11, fontWeight: 600, padding: "6px 14px", borderRadius: 4,
-        color: active ? T.accent : hov ? T.text : T.textMuted,
-        background: active ? `${T.accent}14` : hov ? `${T.accent}05` : "transparent",
-        border: active ? `1px solid ${T.accent}33` : "1px solid transparent",
-        transition: "all .2s", letterSpacing: "0.1em", textTransform: "uppercase",
-        fontFamily: "'Share Tech Mono',monospace", textDecoration: "none",
-      }}>
-      {label}
-    </a>
-  );
-};
+const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme }> = ({ href, label, active, T }) => (
+  <a href={href} style={{
+    fontSize: 11, fontWeight: 600, padding: "6px 13px",
+    color: active ? T.accent : T.textMuted,
+    borderBottom: active ? `2px solid ${T.accent}` : "2px solid transparent",
+    letterSpacing: "0.08em", textTransform: "uppercase",
+    fontFamily: "'JetBrains Mono',monospace", textDecoration: "none",
+    transition: "color .2s, border-color .2s",
+  }}>{label}</a>
+);
 
 /* ============================================================
    CONTACT ROW
 ============================================================ */
 const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: string; isAccent?: boolean; T: Theme }> = ({ icon, label, val, href, isAccent, T }) => {
-  const [hov, setHov] = useState(false);
   const hasLink = !!href;
   const Tag = (hasLink ? "a" : "div") as "a" | "div";
   const linkProps = hasLink ? {
@@ -578,23 +481,15 @@ const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: st
     rel: "noreferrer",
   } : {};
   return (
-    <Tag
-      {...linkProps}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "flex", alignItems: "center", gap: 12, padding: "12px 16px",
-        borderRadius: 6, border: `1px solid ${hov && hasLink ? T.borderHov : T.border}`,
-        background: hov && hasLink ? `${T.accent}0a` : T.bgCard, transition: "all .2s",
-        transform: hov && hasLink ? "translateX(4px)" : "translateX(0)",
-        boxShadow: hov && hasLink ? `0 0 20px ${T.accent}0f` : "none",
-        cursor: hasLink ? "pointer" : "default", textDecoration: "none",
-        fontFamily: "'Share Tech Mono',monospace",
-      }}>
-      <div style={{ width: 38, height: 38, borderRadius: 6, flexShrink: 0, background: `${T.accent}0f`, border: `1px solid ${T.accent}26`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>{icon}</div>
+    <Tag {...linkProps} style={{
+      display: "flex", alignItems: "center", gap: 12, padding: "12px 16px",
+      border: `1px solid ${T.line}`, background: T.bgCard,
+      textDecoration: "none",
+    }}>
+      <div style={{ width: 34, height: 34, flexShrink: 0, background: T.accentSoft, border: `1px solid ${T.accent}33`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15 }}>{icon}</div>
       <div>
-        <div style={{ fontSize: 9, color: T.cyan, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 1 }}>{label}:</div>
-        <div style={{ fontSize: 12, fontWeight: 600, color: isAccent ? T.accent : T.text }}>{val}</div>
+        <div style={{ fontSize: 9, color: T.textFaint, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 2, fontFamily: "'JetBrains Mono',monospace" }}>{label}</div>
+        <div style={{ fontSize: 12.5, fontWeight: 600, color: isAccent ? T.accent : T.ink }}>{val}</div>
       </div>
     </Tag>
   );
@@ -603,136 +498,87 @@ const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: st
 /* ============================================================
    SOCIAL BUTTON
 ============================================================ */
-const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; download?: boolean; T: Theme }> = ({ label, href, icon, download, T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <a
-      href={href}
-      target={href.startsWith("mailto") ? undefined : "_blank"}
-      rel="noreferrer"
-      download={download || undefined}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-        padding: "11px", borderRadius: 5, fontWeight: 700, fontSize: 11,
-        border: `1px solid ${hov ? T.borderHov : T.border}`,
-        background: hov ? `${T.accent}0f` : T.bgCard,
-        color: hov ? T.accent : T.textMuted,
-        boxShadow: hov ? `0 0 16px ${T.accent}1a` : "none",
-        transform: hov ? "translateY(-2px)" : "translateY(0)",
-        fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.1em",
-        textTransform: "uppercase", transition: "all .2s", textDecoration: "none",
-      }}>
-      {icon} {label}
-    </a>
-  );
-};
+const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; download?: boolean; T: Theme }> = ({ label, href, icon, download, T }) => (
+  <a
+    href={href}
+    target={href.startsWith("mailto") ? undefined : "_blank"}
+    rel="noreferrer"
+    download={download || undefined}
+    style={{
+      display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+      padding: "11px", fontWeight: 700, fontSize: 11,
+      border: `1px solid ${T.line}`, background: T.bgCard, color: T.ink,
+      fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.08em",
+      textTransform: "uppercase", textDecoration: "none", transition: "border-color .2s, color .2s",
+    }}>
+    {icon} {label}
+  </a>
+);
 
 /* ============================================================
    HERO CTA BUTTON
 ============================================================ */
-const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.ReactNode; T: Theme }> = ({ href, primary, children, T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <a
-      href={href}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 24px",
-        borderRadius: 4, textDecoration: "none",
-        ...(primary ? {
-          background: T.accent, color: T.textOnAccent,
-          boxShadow: hov ? `0 0 40px ${T.accent}99` : `0 0 20px ${T.accent}4d`,
-        } : {
-          border: `1px solid ${hov ? T.borderHov : T.border}`,
-          background: hov ? `${T.accent}0d` : "transparent",
-          color: T.accent,
-          boxShadow: hov ? `0 0 20px ${T.accent}14` : "none",
-        }),
-        transform: hov ? "translateY(-2px)" : "translateY(0)",
-        fontWeight: primary ? 700 : 600, fontSize: 12, letterSpacing: "0.1em",
-        fontFamily: "'Share Tech Mono',monospace", textTransform: "uppercase",
-        transition: "all .2s",
-      }}>
-      {children}
-    </a>
-  );
-};
+const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.ReactNode; T: Theme }> = ({ href, primary, children, T }) => (
+  <a href={href} style={{
+    display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px",
+    textDecoration: "none",
+    ...(primary
+      ? { background: T.ink, color: T.bg }
+      : { border: `1px solid ${T.lineStrong}`, background: "transparent", color: T.ink }),
+    fontWeight: 700, fontSize: 11.5, letterSpacing: "0.08em",
+    fontFamily: "'JetBrains Mono',monospace", textTransform: "uppercase",
+  }}>{children}</a>
+);
 
 /* ============================================================
    WHATSAPP BUTTON
 ============================================================ */
-const WABtn: React.FC<{ T: Theme }> = ({ T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <a
-      href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
-      target="_blank" rel="noopener noreferrer"
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-        background: T.accent, color: T.textOnAccent, fontWeight: 700, fontSize: 12,
-        padding: "12px 20px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase",
-        boxShadow: hov ? `0 0 40px ${T.accent}80` : `0 0 20px ${T.accent}4d`,
-        transform: hov ? "translateY(-2px)" : "translateY(0)",
-        transition: "all .2s", textDecoration: "none", fontFamily: "'Share Tech Mono',monospace",
-      }}>
-      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 8px #22c55e", display: "inline-block", animation: "pulse-ring 2s ease-in-out infinite" }} />
-      &gt;_ WhatsApp Chat ↗
-    </a>
-  );
-};
+const WABtn: React.FC<{ T: Theme }> = ({ T }) => (
+  <a
+    href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
+    target="_blank" rel="noopener noreferrer"
+    style={{
+      display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+      background: T.accent, color: "#fff", fontWeight: 700, fontSize: 12,
+      padding: "13px 20px", letterSpacing: "0.08em", textTransform: "uppercase",
+      textDecoration: "none", fontFamily: "'JetBrains Mono',monospace",
+    }}>
+    Message on WhatsApp ↗
+  </a>
+);
 
 /* ============================================================
    GITHUB PROJECTS LINK
 ============================================================ */
-const GithubLink: React.FC<{ T: Theme }> = ({ T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <a
-      href={DATA.github} target="_blank" rel="noreferrer"
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px",
-        borderRadius: 4, border: `1px solid ${hov ? T.borderHov : T.border}`,
-        background: T.bgCard, color: hov ? T.accent : T.textMuted,
-        boxShadow: hov ? `0 0 16px ${T.accent}14` : "none",
-        fontSize: 11, fontWeight: 600, transition: "all .2s",
-        fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.08em", textDecoration: "none",
-      }}>
-      <SiGithub size={13} /> github.com/GSuryaP ↗
-    </a>
-  );
-};
+const GithubLink: React.FC<{ T: Theme }> = ({ T }) => (
+  <a href={DATA.github} target="_blank" rel="noreferrer" style={{
+    display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px",
+    border: `1px solid ${T.line}`, background: T.bgCard, color: T.textMuted,
+    fontSize: 11, fontWeight: 600, fontFamily: "'JetBrains Mono',monospace",
+    letterSpacing: "0.06em", textDecoration: "none",
+  }}>
+    <SiGithub size={13} /> github.com/GSuryaP ↗
+  </a>
+);
 
 /* ============================================================
    BACK TO TOP
 ============================================================ */
-const BackToTop: React.FC<{ show: boolean; T: Theme }> = ({ show, T }) => {
-  const [hov, setHov] = useState(false);
-  return (
-    <button
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        position: "fixed", bottom: 28, right: 28, zIndex: 50,
-        width: 42, height: 42, borderRadius: 4,
-        background: hov ? `${T.accent}1a` : T.bgAlt,
-        color: T.accent, border: `1px solid ${T.borderHov}`, fontSize: 16,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        opacity: show ? 1 : 0, pointerEvents: show ? "all" : "none",
-        transform: show ? "translateY(0)" : "translateY(12px)",
-        boxShadow: hov ? `0 0 30px ${T.accent}4d` : `0 0 20px ${T.accent}33`,
-        transition: "opacity .3s, transform .3s, background .2s, box-shadow .2s, border-color .4s, color .4s",
-        cursor: "pointer", fontFamily: "'Share Tech Mono',monospace",
-      }}>↑</button>
-  );
-};
+const BackToTop: React.FC<{ show: boolean; T: Theme }> = ({ show, T }) => (
+  <button
+    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    style={{
+      position: "fixed", bottom: 28, right: 28, zIndex: 50,
+      width: 40, height: 40, background: T.bgPanel,
+      color: T.ink, border: `1px solid ${T.lineStrong}`, fontSize: 15,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      opacity: show ? 1 : 0, pointerEvents: show ? "all" : "none",
+      transform: show ? "translateY(0)" : "translateY(10px)",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+      transition: "opacity .3s, transform .3s",
+      cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
+    }}>↑</button>
+);
 
 /* ============================================================
    NAV ITEMS
@@ -743,31 +589,12 @@ const NAV_ITEMS = ["Home","About","Skills","Experience","Projects","Contact"];
    APP
 ============================================================ */
 export default function App() {
-  const [themeKey, setThemeKey] = useState<ThemeKey>("slate");
+  const [themeKey, setThemeKey] = useState<ThemeKey>("datasheet");
   const T = THEMES[themeKey];
   const [active, setActive]       = useState("Home");
   const [scrolled, setScrolled]   = useState(false);
   const [mobileOpen, setMobile]   = useState(false);
   const [showBtt, setShowBtt]     = useState(false);
-
-  // ── Cursor position ──────────────────────────────────────
-  // FIX: previously the visible "ring" cursor was smoothed with
-  // a lerp loop (rx += (cursorX - rx) * 0.12) that runs on every
-  // animation frame independently of the actual mouse position.
-  // That made the rendered ring trail behind the real pointer,
-  // so by the time someone "saw" the cursor over a button, the
-  // browser's real hit-testing (based on the true, un-lagged
-  // mouse coordinates) had already moved on — producing exactly
-  // the dot/box misalignment shown in the screenshot.
-  // The fix: drive the ring directly off the same raw coordinates
-  // as the dot (no per-frame lag), and only animate *size*
-  // (cursorBig) with CSS, never *position*. Position changes are
-  // applied with effectively zero transition so the visible
-  // cursor is always pixel-accurate to what the browser is
-  // actually hover-testing against.
-  const [cursorX, setCursorX]     = useState(0);
-  const [cursorY, setCursorY]     = useState(0);
-  const [cursorBig, setCursorBig] = useState(false);
   const [typedText, setTypedText] = useState("");
 
   useEffect(() => {
@@ -775,7 +602,7 @@ export default function App() {
     const iv = setInterval(() => {
       if (i <= DATA.role.length) { setTypedText(DATA.role.slice(0, i)); i++; }
       else clearInterval(iv);
-    }, 45);
+    }, 40);
     return () => clearInterval(iv);
   }, []);
 
@@ -783,29 +610,22 @@ export default function App() {
     const s = document.createElement("style");
     s.id = "portfolio-base";
     s.textContent = `
-      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
-      *{box-sizing:border-box;margin:0;padding:0;cursor:none!important}
-      html{scroll-behavior:smooth;zoom:1.1}
-      body{font-family:'Share Tech Mono','Courier New',monospace;overflow-x:hidden}
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+      *{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth}
+      body{font-family:'Inter',sans-serif;overflow-x:hidden}
       a{text-decoration:none;color:inherit}
-      @keyframes float-y{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-      @keyframes spin-slow{to{transform:rotate(360deg)}}
-      @keyframes spin-rev{to{transform:rotate(-360deg)}}
+      a,button{cursor:pointer}
+      @keyframes slide-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+      @keyframes slide-right{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
       @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-      @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-      @keyframes glitch{0%,100%{transform:none;opacity:1}7%{transform:skew(-0.5deg,-0.9deg);opacity:.75}10%{transform:none;opacity:1}30%{transform:skew(.8deg,.1deg);opacity:.75}35%{transform:none;opacity:1}58%{transform:skew(-1deg,0.2deg);opacity:.75}60%{transform:none;opacity:1}92%{transform:skew(.5deg,-0.1deg);opacity:.75}95%{transform:none;opacity:1}}
-      @keyframes pulse-ring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(2);opacity:0}}
-      @keyframes slide-up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-      @keyframes slide-right{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
       @media(max-width:768px){.nav-desktop{display:none!important}.nav-ham{display:flex!important}.hero-grid{grid-template-columns:1fr!important}.about-grid{grid-template-columns:1fr!important}.contact-grid{grid-template-columns:1fr!important}}
     `;
     const old = document.getElementById("portfolio-base");
     if (old) document.head.removeChild(old);
     document.head.appendChild(s);
-    const onMove = (e: MouseEvent) => { setCursorX(e.clientX); setCursorY(e.clientY); };
-    document.addEventListener("mousemove", onMove);
     const onScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
       setShowBtt(window.scrollY > 500);
       for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
         const el = document.getElementById(NAV_ITEMS[i].toLowerCase());
@@ -813,70 +633,51 @@ export default function App() {
       }
     };
     window.addEventListener("scroll", onScroll);
-    return () => { document.removeEventListener("mousemove", onMove); window.removeEventListener("scroll", onScroll); };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     let s = document.getElementById("portfolio-theme-css") as HTMLStyleElement | null;
     if (!s) { s = document.createElement("style"); s.id = "portfolio-theme-css"; document.head.appendChild(s); }
-    s.textContent = `body{background:${T.bg};color:${T.text}}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:${T.bg}}::-webkit-scrollbar-thumb{background:${T.accent};border-radius:99px}`;
+    s.textContent = `body{background:${T.bg};color:${T.ink}}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:${T.bg}}::-webkit-scrollbar-thumb{background:${T.accent}}`;
   }, [T]);
 
-  const C: React.CSSProperties = { maxWidth: 1160, margin: "0 auto", padding: "0 24px" };
-  const SP: React.CSSProperties = { position: "relative", zIndex: 2, padding: "100px 0" };
+  const C: React.CSSProperties = { maxWidth: 1140, margin: "0 auto", padding: "0 24px" };
+  const SP: React.CSSProperties = { position: "relative", zIndex: 2, padding: "96px 0" };
 
   return (
-    <div style={{ background: T.bg, color: T.text, minHeight: "100vh", transition: "background .4s, color .4s" }}>
+    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", transition: "background .3s, color .3s" }}>
 
-      {/* CURSOR DOT — exact mouse position, no smoothing */}
-      <div style={{ position: "fixed", zIndex: 99999, pointerEvents: "none", left: cursorX, top: cursorY, transform: "translate(-50%,-50%)" }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent, boxShadow: `0 0 10px ${T.accent},0 0 20px ${T.accent}66` }} />
-      </div>
-
-      {/* CURSOR RING — same coordinates as the dot, zero positional
-          lag. Only size/shape are animated (cursorBig), so the ring
-          always sits exactly over whatever the browser is hovering. */}
+      {/* Faint blueprint grid backdrop — quiet, not decorative noise */}
       <div style={{
-        position: "fixed", zIndex: 99998, pointerEvents: "none",
-        left: cursorX, top: cursorY, transform: "translate(-50%,-50%)",
-        width: cursorBig ? 48 : 32, height: cursorBig ? 48 : 32,
-        border: `1px solid ${T.accent}80`, borderRadius: cursorBig ? "50%" : "2px",
-        transition: "width .15s ease, height .15s ease, border-radius .15s ease, border-color .3s ease",
-        boxShadow: `0 0 8px ${T.accent}33`,
+        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: T.isLight ? 0.05 : 0.06,
+        backgroundImage: `linear-gradient(${T.ink} 1px,transparent 1px),linear-gradient(90deg,${T.ink} 1px,transparent 1px)`,
+        backgroundSize: "64px 64px",
       }} />
-
-      {/* GRID BG */}
-      <div style={{
-        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: T.gridOpacity,
-        backgroundImage: `linear-gradient(${T.accent} 1px,transparent 1px),linear-gradient(90deg,${T.accent} 1px,transparent 1px),linear-gradient(${T.accent}4d 1px,transparent 1px),linear-gradient(90deg,${T.accent}4d 1px,transparent 1px)`,
-        backgroundSize: "80px 80px,80px 80px,16px 16px,16px 16px", transition: "opacity .4s",
-      }} />
-
-      {!T.isLight && <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", background: "repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px)" }} />}
 
       {/* ── NAV ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: scrolled ? "10px 0" : "18px 0", transition: "all .4s", background: scrolled ? T.navBg : "transparent", backdropFilter: scrolled ? "blur(20px)" : "none", borderBottom: scrolled ? `1px solid ${T.border}` : "none" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: scrolled ? "10px 0" : "16px 0", transition: "all .3s", background: scrolled ? T.navBg : "transparent", backdropFilter: scrolled ? "blur(14px)" : "none", borderBottom: scrolled ? `1px solid ${T.line}` : "1px solid transparent" }}>
         <div style={{ ...C, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="#home" style={{ fontFamily: "'Orbitron',monospace", fontWeight: 900, fontSize: 16, letterSpacing: "0.1em", color: T.accent, textShadow: `0 0 20px ${T.accent}80`, animation: "glitch 8s ease-in-out infinite", textDecoration: "none" }}>
-            GSS.dev<span style={{ color: T.cyan }}>_</span>
+          <a href="#home" style={{ fontFamily: "'Fraunces',serif", fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em", color: T.ink }}>
+            GSS<span style={{ color: T.accent }}>.</span>dev
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 4 }}>
               {NAV_ITEMS.map(n => <NavLink key={n} href={`#${n.toLowerCase()}`} label={n} active={active === n} T={T} />)}
             </div>
             <ThemeSwitcher current={themeKey} onSwitch={setThemeKey} T={T} />
-            <button className="nav-ham" onClick={() => setMobile(o => !o)} onMouseEnter={() => setCursorBig(true)} onMouseLeave={() => setCursorBig(false)}
-              style={{ display: "none", flexDirection: "column", gap: 4, background: "none", border: `1px solid ${T.border}`, borderRadius: 4, padding: "7px 9px", cursor: "pointer" }}>
-              {[0,1,2].map(i => <span key={i} style={{ width: 18, height: 1, background: T.accent, display: "block" }} />)}
+            <button className="nav-ham" onClick={() => setMobile(o => !o)}
+              style={{ display: "none", flexDirection: "column", gap: 4, background: "none", border: `1px solid ${T.line}`, padding: "7px 9px" }}>
+              {[0,1,2].map(i => <span key={i} style={{ width: 18, height: 1, background: T.ink, display: "block" }} />)}
             </button>
           </div>
         </div>
         {mobileOpen && (
-          <div style={{ background: T.navBg, backdropFilter: "blur(20px)", borderTop: `1px solid ${T.border}`, padding: "10px 16px" }}>
+          <div style={{ background: T.navBg, backdropFilter: "blur(14px)", borderTop: `1px solid ${T.line}`, padding: "10px 16px" }}>
             {NAV_ITEMS.map(n => (
               <a key={n} href={`#${n.toLowerCase()}`} onClick={() => setMobile(false)}
-                style={{ display: "block", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: active === n ? T.accent : T.textMuted, borderBottom: `1px solid ${T.accent}0d`, fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.1em", textDecoration: "none" }}>
-                <span style={{ color: T.cyan }}>› </span>{n}
+                style={{ display: "block", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: active === n ? T.accent : T.textMuted, borderBottom: `1px solid ${T.line}`, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.08em" }}>
+                {n}
               </a>
             ))}
           </div>
@@ -884,91 +685,69 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 80px", position: "relative", overflow: "hidden", zIndex: 2 }}>
-        <SignalRain color={T.accent} opacity={T.matrixOpacity} />
-        <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, ${T.accent}0f 0%, transparent 65%)`, top: -100, right: -50, pointerEvents: "none", animation: "float-y 14s ease-in-out infinite" }} />
+      <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 70px", position: "relative", zIndex: 2 }}>
         <div style={{ ...C, position: "relative", zIndex: 1 }}>
-          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 72, alignItems: "center" }}>
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 64, alignItems: "center" }}>
             <div>
-              <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.05s" }}>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${T.accent}0f`, border: `1px solid ${T.accent}40`, borderRadius: 4, padding: "5px 14px", marginBottom: 24, fontFamily: "'Share Tech Mono',monospace" }}>
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent, boxShadow: `0 0 8px ${T.accent}`, animation: "pulse-ring 2s ease-in-out infinite" }} />
-                  <span style={{ fontSize: 10, fontWeight: 700, color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase" }}>// Available for Hire</span>
+              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.05s" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${T.accent}55`, background: T.accentSoft, padding: "5px 14px", marginBottom: 22, fontFamily: "'JetBrains Mono',monospace" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent }} />
+                  <span style={{ fontSize: 10, fontWeight: 700, color: T.accent, letterSpacing: "0.16em", textTransform: "uppercase" }}>Available for Hire</span>
                 </div>
               </div>
-              <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.12s" }}>
-                <h1 style={{ fontSize: "clamp(34px,5.5vw,68px)", fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: 16, fontFamily: "'Orbitron',monospace", animation: "glitch 10s ease-in-out infinite" }}>
-                  <span style={{ color: T.text }}>{DATA.name.split("\n")[0]}</span><br />
-                  <span style={{ color: T.accent, textShadow: `0 0 30px ${T.accent}66` }}>{DATA.name.split("\n")[1]}</span>
+              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.12s" }}>
+                <h1 style={{ fontSize: "clamp(34px,5.2vw,62px)", fontWeight: 700, lineHeight: 1.04, letterSpacing: "-0.01em", marginBottom: 18, fontFamily: "'Fraunces',serif" }}>
+                  {DATA.name.split("\n")[0]}<br />
+                  <span style={{ color: T.accent }}>{DATA.name.split("\n")[1]}</span>
                 </h1>
               </div>
-              <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.2s" }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: T.cyan, marginBottom: 6, fontFamily: "'Share Tech Mono',monospace", letterSpacing: "0.05em" }}>
-                  <span style={{ color: T.accent }}>$ </span>{typedText}<span style={{ animation: "blink 1s step-end infinite", color: T.accent }}>█</span>
+              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.2s" }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: T.textMuted, marginBottom: 8, fontFamily: "'JetBrains Mono',monospace" }}>
+                  {typedText}<span style={{ animation: "blink 1s step-end infinite", color: T.accent }}>_</span>
                 </div>
-                <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.8, maxWidth: 500, marginBottom: 32, fontFamily: "'Share Tech Mono',monospace" }}>
-                  <span style={{ color: T.accent }}># </span>{DATA.tagline}
-                </p>
+                <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 30 }}>{DATA.tagline}</p>
               </div>
-              <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.28s", display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 44 }}>
-                <HeroBtn href="#contact" primary T={T}>&gt;_ Connect</HeroBtn>
-                <HeroBtn href="#projects" T={T}>ls ./projects</HeroBtn>
+              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.28s", display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
+                <HeroBtn href="#contact" primary T={T}>Get in touch</HeroBtn>
+                <HeroBtn href="#projects" T={T}>View projects</HeroBtn>
               </div>
-              <div style={{ animation: "slide-up .6s ease forwards", opacity: 0, animationDelay: "0.36s", display: "flex", gap: 36, paddingTop: 24, borderTop: `1px solid ${T.border}`, flexWrap: "wrap" }}>
+              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.36s", display: "grid", gridTemplateColumns: "repeat(4,auto)", gap: 32, paddingTop: 22, borderTop: `1px solid ${T.line}`, flexWrap: "wrap" }}>
                 {[["8.73","CGPA"],["6+","PROJECTS"],["1","INTERNSHIP"],["2+","CLUB ROLES"]].map(([v,l]) => (
                   <div key={l}>
-                    <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: "-1px", color: T.accent, fontFamily: "'Orbitron',monospace", textShadow: `0 0 20px ${T.accent}4d` }}>{v}</div>
-                    <div style={{ fontSize: 9, color: T.textMuted, letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 3, fontFamily: "monospace" }}>{l}</div>
+                    <div style={{ fontSize: 24, fontWeight: 700, color: T.ink, fontFamily: "'Fraunces',serif" }}>{v}</div>
+                    <div style={{ fontSize: 9, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 3, fontFamily: "'JetBrains Mono',monospace" }}>{l}</div>
                   </div>
                 ))}
               </div>
             </div>
-            {/* Avatar */}
-            <div style={{ animation: "slide-right .7s .15s ease forwards", opacity: 0 }}>
-              <div style={{ position: "relative", width: 280, height: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {[0,1].map(i => (
-                  <div key={i} style={{ position: "absolute", inset: -(36 + i * 30), borderRadius: "50%", border: `1px solid ${i===0?T.accent:T.cyan}${i===0?"26":"1a"}`, animation: `${i%2===0?"spin-slow":"spin-rev"} ${22+i*10}s linear infinite` }}>
-                    <div style={{ position: "absolute", width: 6, height: 6, borderRadius: "50%", background: i===0?T.accent:T.cyan, boxShadow: `0 0 10px ${i===0?T.accent:T.cyan}`, top: "50%", left: "50%", marginTop: -3, marginLeft: -3 }} />
-                  </div>
-                ))}
-                <div style={{ width: 210, height: 210, borderRadius: 8, overflow: "hidden", border: `1px solid ${T.borderHov}`, boxShadow: `0 0 0 1px ${T.accent}0f,0 0 60px ${T.accent}1f`, position: "relative", zIndex: 5, background: T.bgAlt }}>
-                  <div style={{ height: 22, background: `${T.accent}14`, display: "flex", alignItems: "center", padding: "0 10px", gap: 5, borderBottom: `1px solid ${T.border}` }}>
-                    {["#ff5f57","#ffbd2e","#28ca41"].map((c,i) => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c, opacity: 0.8 }} />)}
-                    <span style={{ marginLeft: 6, fontSize: 9, color: T.textMuted, fontFamily: "monospace" }}>surya@portfolio:~</span>
-                  </div>
-                  <div style={{ height: "calc(100% - 22px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      onError={e => { const t = e.target as HTMLImageElement; t.style.display = "none"; (t.nextSibling as HTMLElement).style.display = "flex"; }} />
-                    <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 6 }}>
-                      <div style={{ fontSize: 52, fontWeight: 900, color: T.accent, fontFamily: "'Orbitron',monospace", textShadow: `0 0 30px ${T.accent}80` }}>S</div>
-                      <div style={{ fontSize: 10, color: T.textMuted, fontFamily: "monospace" }}>user@localhost</div>
-                    </div>
+
+            {/* Signature element: datasheet title-block card */}
+            <div style={{ animation: "slide-right .6s .15s ease forwards", opacity: 0, width: 300 }}>
+              <div style={{ border: `1px solid ${T.lineStrong}`, background: T.bgPanel, boxShadow: T.isLight ? "0 10px 30px rgba(0,0,0,0.06)" : "0 10px 30px rgba(0,0,0,0.3)" }}>
+                <div style={{ borderBottom: `1px solid ${T.line}`, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", background: T.bgAlt }}>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>PROFILE / SPEC</span>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, color: T.accent, fontFamily: "'JetBrains Mono',monospace" }}>REV. 2026</span>
+                </div>
+                <div style={{ aspectRatio: "4/3", background: T.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                  <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    onError={e => { const t = e.target as HTMLImageElement; t.style.display = "none"; (t.nextSibling as HTMLElement).style.display = "flex"; }} />
+                  <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: 56, fontWeight: 700, color: T.accent, fontFamily: "'Fraunces',serif" }}>S</span>
                   </div>
                 </div>
-                {[
-                  { text: "Python 3.x", dot: "#3776AB", s: { top: 8, right: -20 } as React.CSSProperties },
-                  { text: "React 18",   dot: "#61DAFB", s: { bottom: 28, left: -24 } as React.CSSProperties },
-                  { text: "Node.js",    dot: "#339933", s: { bottom: 8, right: -8 } as React.CSSProperties },
-                ].map((b, i) => (
-                  <div key={i} style={{ position: "absolute", zIndex: 10, ...b.s, background: T.bgAlt, backdropFilter: "blur(12px)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "4px 10px", fontSize: 10, fontWeight: 700, color: T.text, display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", animation: `float-y ${3.5+i*0.7}s ease-in-out infinite`, animationDelay: `${-i*1.1}s`, boxShadow: `0 0 20px rgba(0,0,0,0.5),0 0 10px ${T.accent}0d`, fontFamily: "'Share Tech Mono',monospace" }}>
-                    <div style={{ width: 5, height: 5, borderRadius: "50%", background: b.dot, boxShadow: `0 0 6px ${b.dot}` }} />
-                    {b.text}
-                  </div>
-                ))}
+                <div style={{ padding: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <Field label="Role" T={T}>Full-Stack Dev</Field>
+                  <Field label="Focus" T={T} accent>AI / Systems</Field>
+                  <Field label="Base" T={T}>Bengaluru, IN</Field>
+                  <Field label="Status" T={T} accent>Open</Field>
+                </div>
+                <div style={{ borderTop: `1px solid ${T.line}`, padding: "10px 16px", display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {["Python","React","Node.js"].map(t => (
+                    <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 8px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: "'JetBrains Mono',monospace" }}>{t}</span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        {/* Ticker */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, overflow: "hidden", borderTop: `1px solid ${T.border}`, padding: "8px 0", background: T.isLight ? "rgba(240,237,230,0.85)" : "rgba(11,14,20,0.8)", backdropFilter: "blur(8px)" }}>
-          <div style={{ display: "flex", whiteSpace: "nowrap", animation: "ticker 28s linear infinite" }}>
-            {[...Array(2)].map((_,ri) => (
-              <span key={ri} style={{ fontSize: 10, letterSpacing: "0.3em", color: T.textDim, fontFamily: "'Share Tech Mono',monospace" }}>
-                {["FULL-STACK DEV","AI ENTHUSIAST","OPEN-SOURCE","CSE UNDERGRAD","SDN RESEARCHER","CLOUD EXPLORER","REACT DEV","PYTHON DEV"].map((item,i) => (
-                  <span key={i}><span style={{ color: T.accent, margin: "0 20px", opacity: 0.4 }}>▶</span><span>{item}</span></span>
-                ))}
-              </span>
-            ))}
           </div>
         </div>
       </section>
@@ -976,51 +755,38 @@ export default function App() {
       {/* ── ABOUT ── */}
       <section id="about" style={{ ...SP, background: T.bgAlt }}>
         <div style={C}>
-          <STitle tag="cat about.md" title="About Me" T={T} />
-          <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
+          <STitle tag="01 — Profile" title="About Me" T={T} />
+          <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
             <Reveal dir="left">
-              <div style={{ padding: 32, borderRadius: 8, border: `1px solid ${T.border}`, background: T.bgCard, position: "relative", overflow: "hidden", fontFamily: "'Share Tech Mono',monospace" }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, ${T.accent}, ${T.cyan}, transparent)` }} />
-                <div style={{ marginBottom: 14 }}><span style={{ color: T.accent }}>$ </span><span style={{ color: T.cyan }}>cat bio.txt</span></div>
-                <p style={{ fontSize: 13, color: T.text, lineHeight: 1.9, marginBottom: 16 }}>{DATA.bio}</p>
-                <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.9 }}>{DATA.bio2}</p>
-                <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.accent}0f`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  {[
-                    { icon: "📍", label: "location", val: DATA.location },
-                    { icon: "🎓", label: "university", val: "PES University" },
-                    { icon: "✉️", label: "email", val: DATA.email },
-                    { icon: "📱", label: "phone", val: DATA.phone },
-                  ].map(r => (
-                    <div key={r.label} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                      <span style={{ fontSize: 13, flexShrink: 0, marginTop: 1 }}>{r.icon}</span>
-                      <div>
-                        <div style={{ fontSize: 9, color: T.cyan, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 2 }}>{r.label}:</div>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: T.text }}>{r.val}</div>
-                      </div>
-                    </div>
-                  ))}
+              <div style={{ padding: 30, border: `1px solid ${T.line}`, background: T.bgCard }}>
+                <p style={{ fontSize: 14, color: T.ink, lineHeight: 1.85, marginBottom: 16 }}>{DATA.bio}</p>
+                <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.85 }}>{DATA.bio2}</p>
+                <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.line}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+                  <Field label="Location" T={T}>{DATA.location}</Field>
+                  <Field label="University" T={T}>PES University</Field>
+                  <Field label="Email" T={T}>{DATA.email}</Field>
+                  <Field label="Phone" T={T}>{DATA.phone}</Field>
                 </div>
               </div>
             </Reveal>
             <Reveal dir="right">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: T.border, borderRadius: 8, overflow: "hidden" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: T.line }}>
                 <Counter to="8.73" label="CGPA" T={T} />
                 <Counter to="6" suffix="+" label="Projects" T={T} />
                 <Counter to="1" label="Internship" T={T} />
                 <Counter to="2" suffix="+" label="Club Roles" T={T} />
               </div>
-              <div style={{ marginTop: 20, padding: "22px 24px", borderRadius: 8, border: `1px solid ${T.border}`, background: T.bgCard, fontFamily: "'Share Tech Mono',monospace" }}>
-                <div style={{ fontSize: 10, color: T.cyan, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 16 }}><span style={{ color: T.accent }}>$ </span>git log --oneline</div>
+              <div style={{ marginTop: 18, padding: "20px 24px", border: `1px solid ${T.line}`, background: T.bgCard }}>
+                <div style={{ fontSize: 10, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, fontFamily: "'JetBrains Mono',monospace" }}>Timeline</div>
                 {[
-                  { hash: "a3f9b2c", year: "2023", label: "Joined PES University" },
-                  { hash: "7d1e4a8", year: "2024", label: "SMCC Head — Equinox Club" },
-                  { hash: "c2b8f3d", year: "2025", label: "Research Intern at CCNCS" },
-                  { hash: "HEAD",    year: "Now",  label: "Logistics Head · Building" },
+                  { year: "2023", label: "Joined PES University" },
+                  { year: "2024", label: "SMCC Head — Equinox Club" },
+                  { year: "2025", label: "Research Intern at CCNCS" },
+                  { year: "Now",  label: "Logistics Head · Building" },
                 ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                    <span style={{ fontSize: 9, color: item.hash === "HEAD" ? T.accent : T.cyan, flexShrink: 0, fontFamily: "monospace" }}>{item.hash}</span>
-                    <span style={{ fontSize: 10, color: T.textMuted, flexShrink: 0 }}>{item.year}</span>
-                    <span style={{ fontSize: 11, color: T.text }}>{item.label}</span>
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                    <span style={{ fontSize: 10, color: item.year === "Now" ? T.accent : T.textFaint, flexShrink: 0, fontFamily: "'JetBrains Mono',monospace", width: 32 }}>{item.year}</span>
+                    <span style={{ fontSize: 12.5, color: T.ink }}>{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -1032,18 +798,18 @@ export default function App() {
       {/* ── SKILLS ── */}
       <section id="skills" style={{ ...SP }}>
         <div style={C}>
-          <STitle tag="ls --skills" title="Tech Stack" sub="// Languages, frameworks, and tools I use to ship end-to-end." T={T} />
+          <STitle tag="02 — Stack" title="Tech Stack" sub="Languages, frameworks, and tools I use to ship end-to-end." T={T} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: 8 }}>
-            {DATA.skills.map((skill, i) => <SkillCard key={skill.name} skill={skill} delay={i * 0.04} T={T} />)}
+            {DATA.skills.map((skill, i) => <SkillCard key={skill.name} skill={skill} delay={i * 0.03} T={T} />)}
           </div>
         </div>
       </section>
 
       {/* ── EXPERIENCE ── */}
       <section id="experience" style={{ ...SP, background: T.bgAlt }}>
-        <div style={{ ...C, maxWidth: 860 }}>
-          <STitle tag="cat resume.json" title="Experience & Education" T={T} />
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ ...C, maxWidth: 840 }}>
+          <STitle tag="03 — Record" title="Experience & Education" T={T} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {DATA.experiences.map((exp, i) => <ExpCard key={i} exp={exp} index={i} T={T} />)}
           </div>
         </div>
@@ -1052,16 +818,14 @@ export default function App() {
       {/* ── PROJECTS ── */}
       <section id="projects" style={{ ...SP }}>
         <div style={C}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 48 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 44 }}>
             <Reveal>
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: T.cyan, letterSpacing: "0.25em", textTransform: "uppercase", fontFamily: "'Share Tech Mono',monospace" }}>
-                    <span style={{ color: T.accent }}>$ </span>ls ./projects
-                  </span>
-                  <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${T.border}, transparent)` }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                  <span style={{ fontSize: 10.5, fontWeight: 700, color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "'JetBrains Mono',monospace" }}>04 — Build Log</span>
+                  <div style={{ flex: 1, height: 1, background: T.line }} />
                 </div>
-                <h2 style={{ fontSize: "clamp(28px,4vw,46px)", fontWeight: 700, color: T.accent, letterSpacing: "-0.02em", fontFamily: "'Orbitron',monospace", textShadow: `0 0 30px ${T.accent}33` }}>Featured Projects</h2>
+                <h2 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: T.ink, letterSpacing: "-0.01em", fontFamily: "'Fraunces',serif" }}>Featured Projects</h2>
               </div>
             </Reveal>
             <Reveal delay={0.1}><GithubLink T={T} /></Reveal>
@@ -1073,17 +837,17 @@ export default function App() {
       </section>
 
       {/* ── CONTACT ── */}
-      <section id="contact" style={{ ...SP, paddingBottom: 140, background: T.bgAlt }}>
-        <div style={{ ...C, maxWidth: 960 }}>
-          <STitle tag="ssh contact" title="Get In Touch" sub="// Open to internships, research colabs, and freelance. DM anytime." T={T} />
-          <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44 }}>
+      <section id="contact" style={{ ...SP, paddingBottom: 130, background: T.bgAlt }}>
+        <div style={{ ...C, maxWidth: 940 }}>
+          <STitle tag="05 — Contact" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." T={T} />
+          <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
             <div>
               <Reveal>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-                  <ContactRow icon="✉️" label="email"    val={DATA.email}    href={`mailto:${DATA.email}`} T={T} />
-                  <ContactRow icon="📞" label="phone"    val={DATA.phone}    href={`tel:${DATA.phone}`}    T={T} />
-                  <ContactRow icon="📍" label="location" val={DATA.location}                               T={T} />
-                  <ContactRow icon="💼" label="status"   val="Open to Opportunities" isAccent             T={T} />
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
+                  <ContactRow icon="✉" label="Email"    val={DATA.email}    href={`mailto:${DATA.email}`} T={T} />
+                  <ContactRow icon="☎" label="Phone"    val={DATA.phone}    href={`tel:${DATA.phone}`}    T={T} />
+                  <ContactRow icon="◎" label="Location" val={DATA.location}                               T={T} />
+                  <ContactRow icon="●" label="Status"   val="Open to Opportunities" isAccent             T={T} />
                 </div>
               </Reveal>
               <Reveal delay={0.15}>
@@ -1096,24 +860,20 @@ export default function App() {
               </Reveal>
             </div>
             <Reveal delay={0.2}>
-              <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${T.borderHov}`, boxShadow: `0 0 60px ${T.accent}0f`, fontFamily: "'Share Tech Mono',monospace" }}>
-                <div style={{ height: 32, background: `${T.accent}0d`, display: "flex", alignItems: "center", padding: "0 14px", gap: 6, borderBottom: `1px solid ${T.border}` }}>
-                  {["#ff5f57","#ffbd2e","#28ca41"].map((c,i) => <div key={i} style={{ width: 9, height: 9, borderRadius: "50%", background: c, opacity: 0.8 }} />)}
-                  <span style={{ marginLeft: 8, fontSize: 10, color: T.textMuted }}>surya@portfolio: ~/contact</span>
+              <div style={{ border: `1px solid ${T.lineStrong}` }}>
+                <div style={{ padding: "10px 16px", background: T.bgAlt, borderBottom: `1px solid ${T.line}` }}>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>AVAILABILITY / SPEC</span>
                 </div>
-                <div style={{ padding: 28, background: T.bgCard }}>
-                  <div style={{ marginBottom: 6, fontSize: 12 }}><span style={{ color: T.accent }}>$ </span><span style={{ color: T.cyan }}>echo $AVAILABILITY</span></div>
-                  <div style={{ fontSize: 11, color: T.text, marginBottom: 20, paddingLeft: 14 }}>
-                    OPEN_TO_HIRE=true<br/>RESPONSE_TIME="&lt;24h"<br/>MODES=["intern","collab","freelance","oss"]
+                <div style={{ padding: 28, background: T.bgPanel }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
+                    <Field label="Hiring" T={T} accent>Yes</Field>
+                    <Field label="Response time" T={T}>&lt; 24 hours</Field>
                   </div>
-                  <div style={{ marginBottom: 6, fontSize: 12 }}><span style={{ color: T.accent }}>$ </span><span style={{ color: T.cyan }}>cat mission.txt</span></div>
-                  <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.8, marginBottom: 24, paddingLeft: 14 }}>
-                    Open to internships, research collaborations, freelance projects, and open-source work. Let's create something impactful together.
+                  <Field label="Modes" T={T}>Internship · Collab · Freelance · OSS</Field>
+                  <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.8, margin: "16px 0 24px" }}>
+                    Open to internships, research collaborations, freelance projects, and open-source work. Let's build something impactful together.
                   </p>
                   <WABtn T={T} />
-                  <div style={{ marginTop: 16, fontSize: 10, color: T.textMuted, textAlign: "center" }}>
-                    <span style={{ color: T.accent }}>$ </span>status: online &amp; available
-                  </div>
                 </div>
               </div>
             </Reveal>
@@ -1122,10 +882,10 @@ export default function App() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: `1px solid ${T.border}`, background: T.footerBg, padding: "24px 0", position: "relative", zIndex: 2, fontFamily: "'Share Tech Mono',monospace", transition: "background .4s" }}>
+      <footer style={{ borderTop: `1px solid ${T.line}`, background: T.bg, padding: "24px 0", position: "relative", zIndex: 2 }}>
         <div style={{ ...C, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <p style={{ fontSize: 11, color: T.textMuted }}><span style={{ color: T.accent }}>// </span>© {new Date().getFullYear()} <span style={{ color: T.cyan }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.</p>
-          <p style={{ fontSize: 11, color: T.textMuted }}><span style={{ color: T.accent }}>built with </span>React · TypeScript · CSS-in-JS</p>
+          <p style={{ fontSize: 11, color: T.textFaint }}>© {new Date().getFullYear()} <span style={{ color: T.textMuted }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.</p>
+          <p style={{ fontSize: 11, color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>React · TypeScript · CSS-in-JS</p>
         </div>
       </footer>
 
