@@ -17,20 +17,15 @@ interface Project {
   tags: string[]; repo?: string; live?: string;
 }
 interface Skill { name: string; icon: React.ReactNode; color: string; pct: number; }
-type ThemeKey = "datasheet" | "blueprint" | "graphite" | "darkroom";
 
 /* ============================================================
    DESIGN DIRECTION
-   "Spec Sheet" — the page reads like a hardware/component
-   datasheet for an engineer: labeled fields, hairline rules,
-   zero-radius corners on data blocks, a serif display face for
-   the headline (Fraunces) paired with a clean grotesk (Inter)
-   for body copy and a mono face (JetBrains Mono) reserved for
-   actual data — numbers, tags, code, periods. No neon, no
-   terminal cursor, no matrix rain — just a calm, legible
-   instrument panel. The signature element is the "PART NO."
-   header card in the hero, styled like a component datasheet
-   title block.
+   "Spec Sheet" — engineering datasheet aesthetic, single fixed
+   dark theme: deep slate background, cool steel-blue ink, and a
+   restrained amber accent (avoiding the black/green cliché).
+   Serif display face (Fraunces) for headlines, clean grotesk
+   (Inter) for body copy, mono (JetBrains Mono) reserved for
+   data — numbers, tags, periods, labels.
 ============================================================ */
 interface Theme {
   bg: string; bgAlt: string; bgCard: string; bgPanel: string;
@@ -40,42 +35,12 @@ interface Theme {
   navBg: string; isLight: boolean;
 }
 
-const THEMES: Record<ThemeKey, Theme> = {
-  datasheet: {
-    bg: "#f3f1ea", bgAlt: "#ece8de", bgCard: "#fbfaf6", bgPanel: "#fffefb",
-    ink: "#16191c", accent: "#c3441f", accentSoft: "rgba(195,68,31,0.10)",
-    line: "rgba(22,25,28,0.14)", lineStrong: "rgba(22,25,28,0.32)",
-    textMuted: "#54585c", textFaint: "#8a8d8f",
-    navBg: "rgba(243,241,234,0.92)", isLight: true,
-  },
-  blueprint: {
-    bg: "#0f2438", bgAlt: "#0c1e30", bgCard: "#13314a", bgPanel: "#163a57",
-    ink: "#eaf2fb", accent: "#ffb02e", accentSoft: "rgba(255,176,46,0.12)",
-    line: "rgba(234,242,251,0.14)", lineStrong: "rgba(234,242,251,0.34)",
-    textMuted: "#a9c0d6", textFaint: "#6f8aa3",
-    navBg: "rgba(15,36,56,0.92)", isLight: false,
-  },
-  graphite: {
-    bg: "#e9e9e6", bgAlt: "#e0e0db", bgCard: "#f5f5f1", bgPanel: "#ffffff",
-    ink: "#1c1c1a", accent: "#2a6f5e", accentSoft: "rgba(42,111,94,0.10)",
-    line: "rgba(28,28,26,0.14)", lineStrong: "rgba(28,28,26,0.32)",
-    textMuted: "#54534d", textFaint: "#8c8b85",
-    navBg: "rgba(233,233,230,0.92)", isLight: true,
-  },
-  darkroom: {
-    bg: "#15120f", bgAlt: "#0f0c0a", bgCard: "#1d1916", bgPanel: "#221d19",
-    ink: "#f3ece2", accent: "#e8a23a", accentSoft: "rgba(232,162,58,0.12)",
-    line: "rgba(243,236,226,0.13)", lineStrong: "rgba(243,236,226,0.32)",
-    textMuted: "#c2b5a5", textFaint: "#837666",
-    navBg: "rgba(21,18,15,0.92)", isLight: false,
-  },
-};
-
-const THEME_META: Record<ThemeKey, string> = {
-  datasheet: "Datasheet",
-  blueprint: "Blueprint",
-  graphite: "Graphite",
-  darkroom: "Darkroom",
+const T: Theme = {
+  bg: "#0d1117", bgAlt: "#0a0e13", bgCard: "#141a22", bgPanel: "#171e27",
+  ink: "#eef2f6", accent: "#d99a4e", accentSoft: "rgba(217,154,78,0.12)",
+  line: "rgba(238,242,246,0.10)", lineStrong: "rgba(238,242,246,0.24)",
+  textMuted: "#9aa7b5", textFaint: "#5e6b78",
+  navBg: "rgba(13,17,23,0.92)", isLight: false,
 };
 
 /* ============================================================
@@ -99,16 +64,16 @@ const DATA = {
     { name: "JavaScript", icon: <SiJavascript />,  color: "#F7DF1E", pct: 85 },
     { name: "React",      icon: <SiReact />,       color: "#61DAFB", pct: 82 },
     { name: "Node.js",    icon: <SiNodedotjs />,   color: "#339933", pct: 80 },
-    { name: "Express",    icon: <SiExpress />,     color: "#888888", pct: 78 },
+    { name: "Express",    icon: <SiExpress />,     color: "#9aa7b5", pct: 78 },
     { name: "MongoDB",    icon: <SiMongodb />,     color: "#47A248", pct: 75 },
     { name: "MySQL",      icon: <SiMysql />,       color: "#4479A1", pct: 73 },
     { name: "HTML5",      icon: <SiHtml5 />,       color: "#E34F26", pct: 92 },
     { name: "CSS3",       icon: <SiCss />,         color: "#1572B6", pct: 88 },
     { name: "Tailwind",   icon: <SiTailwindcss />, color: "#06B6D4", pct: 86 },
-    { name: "C++",        icon: <SiCplusplus />,   color: "#00599C", pct: 77 },
+    { name: "C++",        icon: <SiCplusplus />,   color: "#5b9bd5", pct: 77 },
     { name: "C",          icon: <SiC />,           color: "#6699cc", pct: 74 },
     { name: "Git",        icon: <SiGit />,         color: "#F05032", pct: 84 },
-    { name: "GitHub",     icon: <SiGithub />,      color: "#888888", pct: 83 },
+    { name: "GitHub",     icon: <SiGithub />,      color: "#9aa7b5", pct: 83 },
     { name: "Firebase",   icon: <SiFirebase />,    color: "#FFCA28", pct: 70 },
   ] as Skill[],
 
@@ -228,10 +193,9 @@ const Reveal: React.FC<{
 };
 
 /* ============================================================
-   FIELD — a single labeled datasheet value (key building block
-   of the "spec sheet" signature throughout the page)
+   FIELD — a single labeled datasheet value
 ============================================================ */
-const Field: React.FC<{ label: string; children: React.ReactNode; T: Theme; accent?: boolean }> = ({ label, children, T, accent }) => (
+const Field: React.FC<{ label: string; children: React.ReactNode; accent?: boolean }> = ({ label, children, accent }) => (
   <div>
     <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: "'JetBrains Mono',monospace" }}>{label}</div>
     <div style={{ fontSize: 13, fontWeight: 600, color: accent ? T.accent : T.ink, fontFamily: "'JetBrains Mono',monospace" }}>{children}</div>
@@ -241,7 +205,7 @@ const Field: React.FC<{ label: string; children: React.ReactNode; T: Theme; acce
 /* ============================================================
    ANIMATED COUNTER
 ============================================================ */
-const Counter: React.FC<{ to: string; suffix?: string; label: string; T: Theme }> = ({ to, suffix = "", label, T }) => {
+const Counter: React.FC<{ to: string; suffix?: string; label: string }> = ({ to, suffix = "", label }) => {
   const [val, setVal] = useState("0");
   const { ref, visible } = useReveal();
   useEffect(() => {
@@ -268,7 +232,7 @@ const Counter: React.FC<{ to: string; suffix?: string; label: string; T: Theme }
 /* ============================================================
    SKILL ROW
 ============================================================ */
-const SkillCard: React.FC<{ skill: Skill; delay: number; T: Theme }> = ({ skill, delay, T }) => {
+const SkillCard: React.FC<{ skill: Skill; delay: number }> = ({ skill, delay }) => {
   const { ref, visible } = useReveal();
   const [hov, setHov] = useState(false);
   return (
@@ -298,7 +262,7 @@ const SkillCard: React.FC<{ skill: Skill; delay: number; T: Theme }> = ({ skill,
 /* ============================================================
    EXPERIENCE CARD
 ============================================================ */
-const ExpCard: React.FC<{ exp: Experience; index: number; T: Theme }> = ({ exp, index, T }) => {
+const ExpCard: React.FC<{ exp: Experience; index: number }> = ({ exp, index }) => {
   const [open, setOpen] = useState(index === 0);
   return (
     <Reveal delay={index * 0.08}>
@@ -345,7 +309,7 @@ const ExpCard: React.FC<{ exp: Experience; index: number; T: Theme }> = ({ exp, 
 /* ============================================================
    PROJECT CARD
 ============================================================ */
-const ProjCard: React.FC<{ proj: Project; index: number; T: Theme }> = ({ proj, index, T }) => {
+const ProjCard: React.FC<{ proj: Project; index: number }> = ({ proj, index }) => {
   const [hov, setHov] = useState(false);
   return (
     <Reveal delay={index * 0.06} style={{ height: "100%" }}>
@@ -389,7 +353,7 @@ const ProjCard: React.FC<{ proj: Project; index: number; T: Theme }> = ({ proj, 
 /* ============================================================
    SECTION TITLE
 ============================================================ */
-const STitle: React.FC<{ tag: string; title: string; sub?: string; T: Theme }> = ({ tag, title, sub, T }) => (
+const STitle: React.FC<{ tag: string; title: string; sub?: string }> = ({ tag, title, sub }) => (
   <Reveal style={{ marginBottom: 48 }}>
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
       <span style={{ fontSize: 10.5, fontWeight: 700, color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "'JetBrains Mono',monospace" }}>{tag}</span>
@@ -401,64 +365,9 @@ const STitle: React.FC<{ tag: string; title: string; sub?: string; T: Theme }> =
 );
 
 /* ============================================================
-   THEME SWITCHER
-============================================================ */
-const ThemeSwitcher: React.FC<{ current: ThemeKey; onSwitch: (k: ThemeKey) => void; T: Theme }> = ({ current, onSwitch, T }) => {
-  const [open, setOpen] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-  return (
-    <div ref={wrapRef} style={{ position: "relative" }}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{
-          display: "flex", alignItems: "center", gap: 7, padding: "6px 12px",
-          background: T.bgCard, border: `1px solid ${T.line}`,
-          cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
-          fontSize: 10.5, fontWeight: 700, color: T.ink, letterSpacing: "0.08em",
-        }}>
-        <div style={{ width: 7, height: 7, borderRadius: "50%", background: T.accent }} />
-        {THEME_META[current]}
-        <span style={{ fontSize: 8, opacity: 0.6, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▼</span>
-      </button>
-      {open && (
-        <div style={{
-          position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 9999,
-          background: T.bgPanel, border: `1px solid ${T.lineStrong}`,
-          minWidth: 130, boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
-        }}>
-          {(Object.keys(THEMES) as ThemeKey[]).map(k => (
-            <button
-              key={k}
-              onClick={() => { onSwitch(k); setOpen(false); }}
-              style={{
-                display: "flex", alignItems: "center", gap: 9, width: "100%",
-                padding: "9px 13px", background: current === k ? T.accentSoft : "transparent",
-                border: "none", cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
-                fontSize: 10.5, fontWeight: 700,
-                color: current === k ? T.accent : T.textMuted,
-                letterSpacing: "0.08em", textAlign: "left",
-              }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", background: THEMES[k].accent }} />
-              {THEME_META[k]}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-/* ============================================================
    NAV LINK
 ============================================================ */
-const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme }> = ({ href, label, active, T }) => (
+const NavLink: React.FC<{ href: string; label: string; active: boolean }> = ({ href, label, active }) => (
   <a href={href} style={{
     fontSize: 11, fontWeight: 600, padding: "6px 13px",
     color: active ? T.accent : T.textMuted,
@@ -472,7 +381,7 @@ const NavLink: React.FC<{ href: string; label: string; active: boolean; T: Theme
 /* ============================================================
    CONTACT ROW
 ============================================================ */
-const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: string; isAccent?: boolean; T: Theme }> = ({ icon, label, val, href, isAccent, T }) => {
+const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: string; isAccent?: boolean }> = ({ icon, label, val, href, isAccent }) => {
   const hasLink = !!href;
   const Tag = (hasLink ? "a" : "div") as "a" | "div";
   const linkProps = hasLink ? {
@@ -498,7 +407,7 @@ const ContactRow: React.FC<{ icon: string; label: string; val: string; href?: st
 /* ============================================================
    SOCIAL BUTTON
 ============================================================ */
-const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; download?: boolean; T: Theme }> = ({ label, href, icon, download, T }) => (
+const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; download?: boolean }> = ({ label, href, icon, download }) => (
   <a
     href={href}
     target={href.startsWith("mailto") ? undefined : "_blank"}
@@ -518,7 +427,7 @@ const SocialBtn: React.FC<{ label: string; href: string; icon: React.ReactNode; 
 /* ============================================================
    HERO CTA BUTTON
 ============================================================ */
-const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.ReactNode; T: Theme }> = ({ href, primary, children, T }) => (
+const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.ReactNode }> = ({ href, primary, children }) => (
   <a href={href} style={{
     display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px",
     textDecoration: "none",
@@ -533,13 +442,13 @@ const HeroBtn: React.FC<{ href: string; primary?: boolean; children: React.React
 /* ============================================================
    WHATSAPP BUTTON
 ============================================================ */
-const WABtn: React.FC<{ T: Theme }> = ({ T }) => (
+const WABtn: React.FC = () => (
   <a
     href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
     target="_blank" rel="noopener noreferrer"
     style={{
       display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-      background: T.accent, color: "#fff", fontWeight: 700, fontSize: 12,
+      background: T.accent, color: "#101418", fontWeight: 700, fontSize: 12,
       padding: "13px 20px", letterSpacing: "0.08em", textTransform: "uppercase",
       textDecoration: "none", fontFamily: "'JetBrains Mono',monospace",
     }}>
@@ -550,7 +459,7 @@ const WABtn: React.FC<{ T: Theme }> = ({ T }) => (
 /* ============================================================
    GITHUB PROJECTS LINK
 ============================================================ */
-const GithubLink: React.FC<{ T: Theme }> = ({ T }) => (
+const GithubLink: React.FC = () => (
   <a href={DATA.github} target="_blank" rel="noreferrer" style={{
     display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px",
     border: `1px solid ${T.line}`, background: T.bgCard, color: T.textMuted,
@@ -564,7 +473,7 @@ const GithubLink: React.FC<{ T: Theme }> = ({ T }) => (
 /* ============================================================
    BACK TO TOP
 ============================================================ */
-const BackToTop: React.FC<{ show: boolean; T: Theme }> = ({ show, T }) => (
+const BackToTop: React.FC<{ show: boolean }> = ({ show }) => (
   <button
     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     style={{
@@ -574,7 +483,7 @@ const BackToTop: React.FC<{ show: boolean; T: Theme }> = ({ show, T }) => (
       display: "flex", alignItems: "center", justifyContent: "center",
       opacity: show ? 1 : 0, pointerEvents: show ? "all" : "none",
       transform: show ? "translateY(0)" : "translateY(10px)",
-      boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.4)",
       transition: "opacity .3s, transform .3s",
       cursor: "pointer", fontFamily: "'JetBrains Mono',monospace",
     }}>↑</button>
@@ -589,8 +498,6 @@ const NAV_ITEMS = ["Home","About","Skills","Experience","Projects","Contact"];
    APP
 ============================================================ */
 export default function App() {
-  const [themeKey, setThemeKey] = useState<ThemeKey>("datasheet");
-  const T = THEMES[themeKey];
   const [active, setActive]       = useState("Home");
   const [scrolled, setScrolled]   = useState(false);
   const [mobileOpen, setMobile]   = useState(false);
@@ -613,9 +520,12 @@ export default function App() {
       @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
       *{box-sizing:border-box;margin:0;padding:0}
       html{scroll-behavior:smooth}
-      body{font-family:'Inter',sans-serif;overflow-x:hidden}
+      body{font-family:'Inter',sans-serif;overflow-x:hidden;background:${T.bg};color:${T.ink}}
       a{text-decoration:none;color:inherit}
       a,button{cursor:pointer}
+      ::-webkit-scrollbar{width:4px}
+      ::-webkit-scrollbar-track{background:${T.bg}}
+      ::-webkit-scrollbar-thumb{background:${T.accent}}
       @keyframes slide-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
       @keyframes slide-right{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
       @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
@@ -636,21 +546,15 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    let s = document.getElementById("portfolio-theme-css") as HTMLStyleElement | null;
-    if (!s) { s = document.createElement("style"); s.id = "portfolio-theme-css"; document.head.appendChild(s); }
-    s.textContent = `body{background:${T.bg};color:${T.ink}}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:${T.bg}}::-webkit-scrollbar-thumb{background:${T.accent}}`;
-  }, [T]);
-
   const C: React.CSSProperties = { maxWidth: 1140, margin: "0 auto", padding: "0 24px" };
   const SP: React.CSSProperties = { position: "relative", zIndex: 2, padding: "96px 0" };
 
   return (
-    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", transition: "background .3s, color .3s" }}>
+    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh" }}>
 
       {/* Faint blueprint grid backdrop — quiet, not decorative noise */}
       <div style={{
-        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: T.isLight ? 0.05 : 0.06,
+        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.06,
         backgroundImage: `linear-gradient(${T.ink} 1px,transparent 1px),linear-gradient(90deg,${T.ink} 1px,transparent 1px)`,
         backgroundSize: "64px 64px",
       }} />
@@ -663,9 +567,8 @@ export default function App() {
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              {NAV_ITEMS.map(n => <NavLink key={n} href={`#${n.toLowerCase()}`} label={n} active={active === n} T={T} />)}
+              {NAV_ITEMS.map(n => <NavLink key={n} href={`#${n.toLowerCase()}`} label={n} active={active === n} />)}
             </div>
-            <ThemeSwitcher current={themeKey} onSwitch={setThemeKey} T={T} />
             <button className="nav-ham" onClick={() => setMobile(o => !o)}
               style={{ display: "none", flexDirection: "column", gap: 4, background: "none", border: `1px solid ${T.line}`, padding: "7px 9px" }}>
               {[0,1,2].map(i => <span key={i} style={{ width: 18, height: 1, background: T.ink, display: "block" }} />)}
@@ -708,8 +611,8 @@ export default function App() {
                 <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 30 }}>{DATA.tagline}</p>
               </div>
               <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.28s", display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
-                <HeroBtn href="#contact" primary T={T}>Get in touch</HeroBtn>
-                <HeroBtn href="#projects" T={T}>View projects</HeroBtn>
+                <HeroBtn href="#contact" primary>Get in touch</HeroBtn>
+                <HeroBtn href="#projects">View projects</HeroBtn>
               </div>
               <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.36s", display: "grid", gridTemplateColumns: "repeat(4,auto)", gap: 32, paddingTop: 22, borderTop: `1px solid ${T.line}`, flexWrap: "wrap" }}>
                 {[["8.73","CGPA"],["6+","PROJECTS"],["1","INTERNSHIP"],["2+","CLUB ROLES"]].map(([v,l]) => (
@@ -721,25 +624,25 @@ export default function App() {
               </div>
             </div>
 
-            {/* Signature element: datasheet title-block card */}
+            {/* Signature element: datasheet title-block card — image shown in full, never cropped */}
             <div style={{ animation: "slide-right .6s .15s ease forwards", opacity: 0, width: 300 }}>
-              <div style={{ border: `1px solid ${T.lineStrong}`, background: T.bgPanel, boxShadow: T.isLight ? "0 10px 30px rgba(0,0,0,0.06)" : "0 10px 30px rgba(0,0,0,0.3)" }}>
+              <div style={{ border: `1px solid ${T.lineStrong}`, background: T.bgPanel, boxShadow: "0 10px 30px rgba(0,0,0,0.45)" }}>
                 <div style={{ borderBottom: `1px solid ${T.line}`, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", background: T.bgAlt }}>
                   <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", color: T.textFaint, fontFamily: "'JetBrains Mono',monospace" }}>PROFILE / SPEC</span>
                   <span style={{ fontSize: 9.5, fontWeight: 700, color: T.accent, fontFamily: "'JetBrains Mono',monospace" }}>REV. 2026</span>
                 </div>
                 <div style={{ aspectRatio: "4/3", background: T.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                  <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "contain" }}
                     onError={e => { const t = e.target as HTMLImageElement; t.style.display = "none"; (t.nextSibling as HTMLElement).style.display = "flex"; }} />
                   <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center" }}>
                     <span style={{ fontSize: 56, fontWeight: 700, color: T.accent, fontFamily: "'Fraunces',serif" }}>S</span>
                   </div>
                 </div>
                 <div style={{ padding: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                  <Field label="Role" T={T}>Full-Stack Dev</Field>
-                  <Field label="Focus" T={T} accent>AI / Systems</Field>
-                  <Field label="Base" T={T}>Bengaluru, IN</Field>
-                  <Field label="Status" T={T} accent>Open</Field>
+                  <Field label="Role">Full-Stack Dev</Field>
+                  <Field label="Focus" accent>AI / Systems</Field>
+                  <Field label="Base">Bengaluru, IN</Field>
+                  <Field label="Status" accent>Open</Field>
                 </div>
                 <div style={{ borderTop: `1px solid ${T.line}`, padding: "10px 16px", display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {["Python","React","Node.js"].map(t => (
@@ -755,26 +658,26 @@ export default function App() {
       {/* ── ABOUT ── */}
       <section id="about" style={{ ...SP, background: T.bgAlt }}>
         <div style={C}>
-          <STitle tag="01 — Profile" title="About Me" T={T} />
+          <STitle tag="01 — Profile" title="About Me" />
           <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
             <Reveal dir="left">
               <div style={{ padding: 30, border: `1px solid ${T.line}`, background: T.bgCard }}>
                 <p style={{ fontSize: 14, color: T.ink, lineHeight: 1.85, marginBottom: 16 }}>{DATA.bio}</p>
                 <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.85 }}>{DATA.bio2}</p>
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.line}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
-                  <Field label="Location" T={T}>{DATA.location}</Field>
-                  <Field label="University" T={T}>PES University</Field>
-                  <Field label="Email" T={T}>{DATA.email}</Field>
-                  <Field label="Phone" T={T}>{DATA.phone}</Field>
+                  <Field label="Location">{DATA.location}</Field>
+                  <Field label="University">PES University</Field>
+                  <Field label="Email">{DATA.email}</Field>
+                  <Field label="Phone">{DATA.phone}</Field>
                 </div>
               </div>
             </Reveal>
             <Reveal dir="right">
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: T.line }}>
-                <Counter to="8.73" label="CGPA" T={T} />
-                <Counter to="6" suffix="+" label="Projects" T={T} />
-                <Counter to="1" label="Internship" T={T} />
-                <Counter to="2" suffix="+" label="Club Roles" T={T} />
+                <Counter to="8.73" label="CGPA" />
+                <Counter to="6" suffix="+" label="Projects" />
+                <Counter to="1" label="Internship" />
+                <Counter to="2" suffix="+" label="Club Roles" />
               </div>
               <div style={{ marginTop: 18, padding: "20px 24px", border: `1px solid ${T.line}`, background: T.bgCard }}>
                 <div style={{ fontSize: 10, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, fontFamily: "'JetBrains Mono',monospace" }}>Timeline</div>
@@ -798,9 +701,9 @@ export default function App() {
       {/* ── SKILLS ── */}
       <section id="skills" style={{ ...SP }}>
         <div style={C}>
-          <STitle tag="02 — Stack" title="Tech Stack" sub="Languages, frameworks, and tools I use to ship end-to-end." T={T} />
+          <STitle tag="02 — Stack" title="Tech Stack" sub="Languages, frameworks, and tools I use to ship end-to-end." />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: 8 }}>
-            {DATA.skills.map((skill, i) => <SkillCard key={skill.name} skill={skill} delay={i * 0.03} T={T} />)}
+            {DATA.skills.map((skill, i) => <SkillCard key={skill.name} skill={skill} delay={i * 0.03} />)}
           </div>
         </div>
       </section>
@@ -808,9 +711,9 @@ export default function App() {
       {/* ── EXPERIENCE ── */}
       <section id="experience" style={{ ...SP, background: T.bgAlt }}>
         <div style={{ ...C, maxWidth: 840 }}>
-          <STitle tag="03 — Record" title="Experience & Education" T={T} />
+          <STitle tag="03 — Record" title="Experience & Education" />
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {DATA.experiences.map((exp, i) => <ExpCard key={i} exp={exp} index={i} T={T} />)}
+            {DATA.experiences.map((exp, i) => <ExpCard key={i} exp={exp} index={i} />)}
           </div>
         </div>
       </section>
@@ -828,10 +731,10 @@ export default function App() {
                 <h2 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: T.ink, letterSpacing: "-0.01em", fontFamily: "'Fraunces',serif" }}>Featured Projects</h2>
               </div>
             </Reveal>
-            <Reveal delay={0.1}><GithubLink T={T} /></Reveal>
+            <Reveal delay={0.1}><GithubLink /></Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))", gap: 16 }}>
-            {DATA.projects.map((p, i) => <ProjCard key={i} proj={p} index={i} T={T} />)}
+            {DATA.projects.map((p, i) => <ProjCard key={i} proj={p} index={i} />)}
           </div>
         </div>
       </section>
@@ -839,23 +742,23 @@ export default function App() {
       {/* ── CONTACT ── */}
       <section id="contact" style={{ ...SP, paddingBottom: 130, background: T.bgAlt }}>
         <div style={{ ...C, maxWidth: 940 }}>
-          <STitle tag="05 — Contact" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." T={T} />
+          <STitle tag="05 — Contact" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." />
           <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
             <div>
               <Reveal>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
-                  <ContactRow icon="✉" label="Email"    val={DATA.email}    href={`mailto:${DATA.email}`} T={T} />
-                  <ContactRow icon="☎" label="Phone"    val={DATA.phone}    href={`tel:${DATA.phone}`}    T={T} />
-                  <ContactRow icon="◎" label="Location" val={DATA.location}                               T={T} />
-                  <ContactRow icon="●" label="Status"   val="Open to Opportunities" isAccent             T={T} />
+                  <ContactRow icon="✉" label="Email"    val={DATA.email}    href={`mailto:${DATA.email}`} />
+                  <ContactRow icon="☎" label="Phone"    val={DATA.phone}    href={`tel:${DATA.phone}`}    />
+                  <ContactRow icon="◎" label="Location" val={DATA.location}                               />
+                  <ContactRow icon="●" label="Status"   val="Open to Opportunities" isAccent             />
                 </div>
               </Reveal>
               <Reveal delay={0.15}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <SocialBtn label="GitHub"   href={DATA.github}            icon={<SiGithub size={13} />} T={T} />
-                  <SocialBtn label="LinkedIn" href={DATA.linkedin}          icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>} T={T} />
-                  <SocialBtn label="Email"    href={`mailto:${DATA.email}`}  icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>} T={T} />
-                  <SocialBtn label="Resume"   href={DATA.resume}             icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>} download T={T} />
+                  <SocialBtn label="GitHub"   href={DATA.github}            icon={<SiGithub size={13} />} />
+                  <SocialBtn label="LinkedIn" href={DATA.linkedin}          icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>} />
+                  <SocialBtn label="Email"    href={`mailto:${DATA.email}`}  icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>} />
+                  <SocialBtn label="Resume"   href={DATA.resume}             icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 004.56 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>} download />
                 </div>
               </Reveal>
             </div>
@@ -866,14 +769,14 @@ export default function App() {
                 </div>
                 <div style={{ padding: 28, background: T.bgPanel }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
-                    <Field label="Hiring" T={T} accent>Yes</Field>
-                    <Field label="Response time" T={T}>&lt; 24 hours</Field>
+                    <Field label="Hiring" accent>Yes</Field>
+                    <Field label="Response time">&lt; 24 hours</Field>
                   </div>
-                  <Field label="Modes" T={T}>Internship · Collab · Freelance · OSS</Field>
+                  <Field label="Modes">Internship · Collab · Freelance · OSS</Field>
                   <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.8, margin: "16px 0 24px" }}>
                     Open to internships, research collaborations, freelance projects, and open-source work. Let's build something impactful together.
                   </p>
-                  <WABtn T={T} />
+                  <WABtn />
                 </div>
               </div>
             </Reveal>
@@ -889,7 +792,7 @@ export default function App() {
         </div>
       </footer>
 
-      <BackToTop show={showBtt} T={T} />
+      <BackToTop show={showBtt} />
     </div>
   );
 }
