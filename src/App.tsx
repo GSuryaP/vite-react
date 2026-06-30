@@ -1568,7 +1568,7 @@ export default function App() {
   return (
     /* zoom controls the overall page font/element size — change 1.15 to taste
        e.g. 1.1 for a subtle bump, 1.25 for noticeably larger */
-    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", zoom: 1.15 }}>
+    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", zoom: 1.25 }}>
 
       {/* PCB trace backdrop — faint copper grid + drifting diagonal traces */}
       <div style={{
