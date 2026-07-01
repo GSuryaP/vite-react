@@ -940,44 +940,32 @@
 //   );
 // }
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Code2, Layers, Database, Wrench, Rocket, Satellite, Radar,
-  Orbit, Sparkles, Compass, Radio, Github, Linkedin, Mail,
-  Download, MapPin, Phone, ArrowUp, MessageCircle, ExternalLink,
+  Code2, Layers, Database, Wrench, Radar, Compass, Radio, Sparkles,
+  Satellite, Github, Linkedin, Mail, Download, MapPin, Phone,
+  ArrowUp, MessageCircle, ExternalLink,
 } from "lucide-react";
 
 /* ============================================================
-   DESIGN DIRECTION — "GROUND CONTROL"
-   A mission-control / deep-space console aesthetic, grounded in
-   the fact that this person is a CS engineer AND runs logistics
-   for a Space Club. Near-black void background with a drifting
-   starfield, a violet "signal" accent and a comet-gold "flare"
-   accent standing in for two telemetry channels. The portrait
-   sits inside a rotating orbital HUD instead of a static photo
-   card. Sections are connected by a comet that travels a dashed
-   trajectory arc as you scroll. A fixed trajectory rail on the
-   right tracks how far through the "mission" (page) you are.
-   Display face: Sora (a confident geometric sans built for UI,
-   not the usual Space Grotesk). Body: Manrope. Data / telemetry
-   readouts: JetBrains Mono — every number on this page reads
-   like a console readout.
+   TOKENS — near-black navy ground, one electric-blue accent
+   family (a deep signal blue paired with a lighter cyan-blue
+   for glow/gradient), nothing else competing for attention.
 ============================================================ */
 const T = {
-  bg: "#050712",
-  bgAlt: "#090c1c",
-  bgCard: "#0d1226",
-  bgPanel: "#10162e",
-  ink: "#eef2ff",
-  signal: "#8b7bff",
-  signalSoft: "rgba(139,123,255,0.14)",
-  flare: "#ffb648",
-  flareSoft: "rgba(255,182,72,0.14)",
-  line: "rgba(238,242,255,0.08)",
-  lineStrong: "rgba(238,242,255,0.20)",
-  textMuted: "#96a0c3",
-  textFaint: "#4c5480",
-  navBg: "rgba(5,7,18,0.86)",
+  bg: "#03050c",
+  bgAlt: "#070a16",
+  bgCard: "#0a0f1f",
+  bgPanel: "#0d1326",
+  ink: "#eef1fb",
+  accent: "#3d6dff",
+  accent2: "#5ee1ff",
+  accentSoft: "rgba(61,109,255,0.12)",
+  line: "rgba(238,241,251,0.08)",
+  lineStrong: "rgba(238,241,251,0.18)",
+  textMuted: "#8b93b5",
+  textFaint: "#454d70",
+  navBg: "rgba(3,5,12,0.82)",
 };
 
 const FONT_DISPLAY = "'Sora',sans-serif";
@@ -1055,7 +1043,7 @@ const DATA = {
     },
     {
       title: "GitHub Repository Tracker",
-      desc: "Interactive analytics dashboard for tracking GitHub repos, commits, and issues in real time. Features live search, aurora animated background, stats overview, powered by a Node.js backend and Python sync script.",
+      desc: "Interactive analytics dashboard for tracking GitHub repos, commits, and issues in real time. Features live search, an animated overview, and stats, powered by a Node.js backend and Python sync script.",
       icon: <Compass size={18} />, tags: ["HTML", "CSS", "JavaScript", "Node.js", "Python", "GitHub API"],
       repo: "https://github.com/GSuryaP/Github-Repository-Tracker", status: "Deployed",
     },
@@ -1080,11 +1068,6 @@ const DATA = {
   ],
 };
 
-/* ============================================================
-   SKILLS — grouped like onboard systems, each with a proficiency
-   reading instead of a brand logo (keeps things lightweight and
-   consistent instead of relying on external icon packs)
-============================================================ */
 const SKILL_CATEGORIES = [
   {
     label: "Languages", icon: <Code2 size={18} />, sub: "Core instruction sets",
@@ -1116,9 +1099,12 @@ const SKILL_CATEGORIES = [
 const NAV_ITEMS = ["Home", "About", "Skills", "Experience", "Projects", "Contact"];
 
 /* ============================================================
-   HOOKS
+   REVEAL — the signature move. Every element enters on a hard
+   3D pop: it starts tipped back in space, oversized-then-small,
+   blurred, and snaps into place with an over-shoot easing curve.
+   This is deliberately more physical than a simple fade/slide.
 ============================================================ */
-function useReveal(threshold = 0.14) {
+function useReveal(threshold = 0.16) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -1132,156 +1118,92 @@ function useReveal(threshold = 0.14) {
   return { ref, visible };
 }
 
-/* Cinematic reveal: rise + soften-in, used for every scroll transition */
-const Reveal = ({ children, delay = 0, dir = "up", className, style }) => {
-  const { ref, visible } = useReveal();
-  const from =
-    dir === "left" ? "translate3d(-26px,10px,0) scale(.98)" :
-    dir === "right" ? "translate3d(26px,10px,0) scale(.98)" :
-    "translate3d(0,26px,0) scale(.98)";
-  return (
-    <div ref={ref} className={className} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "none" : from,
-      filter: visible ? "blur(0px)" : "blur(4px)",
-      transition: `opacity .8s cubic-bezier(.16,1,.3,1) ${delay}s, transform .8s cubic-bezier(.16,1,.3,1) ${delay}s, filter .8s ease ${delay}s`,
-      ...style,
-    }}>{children}</div>
-  );
+const VARIANTS = {
+  up:   { hidden: "translate3d(0,160px,0) scale(.78) rotateX(-42deg)" },
+  left: { hidden: "translate3d(-180px,40px,0) scale(.82) rotateY(38deg)" },
+  right:{ hidden: "translate3d(180px,40px,0) scale(.82) rotateY(-38deg)" },
+  pop:  { hidden: "translate3d(0,60px,0) scale(.55) rotateZ(-6deg)" },
 };
 
-/* ============================================================
-   TRAJECTORY DIVIDER — a comet travels a dashed orbital arc
-   between sections, replacing a plain hairline.
-============================================================ */
-const TrajectoryDivider = ({ flip }) => (
-  <div style={{ position: "relative", height: 56, overflow: "hidden", zIndex: 2 }}>
-    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" style={{ width: "100%", height: "100%", transform: flip ? "scaleX(-1)" : "none" }}>
-      <path d="M0,28 C 260,28 320,6 460,6 S 660,50 800,50 S 1000,28 1200,28"
-        fill="none" stroke={T.line} strokeWidth="1.4" strokeDasharray="1 9" strokeLinecap="round" />
-      <circle r="3.5" fill={T.flare} style={{ filter: `drop-shadow(0 0 8px ${T.flare})` }}>
-        <animateMotion dur="4.4s" repeatCount="indefinite"
-          path="M0,28 C 260,28 320,6 460,6 S 660,50 800,50 S 1000,28 1200,28" />
-      </circle>
-      <circle r="1.6" fill={T.signal} opacity="0.8">
-        <animateMotion dur="4.4s" begin="-0.3s" repeatCount="indefinite"
-          path="M0,28 C 260,28 320,6 460,6 S 660,50 800,50 S 1000,28 1200,28" />
-      </circle>
-    </svg>
-  </div>
-);
-
-/* ============================================================
-   ORBIT PHOTO — signature element. Portrait sits at the centre
-   of a rotating instrument ring, with small system badges
-   drifting around it like tracked satellites, plus a radar
-   sweep behind the frame.
-============================================================ */
-const OrbitPhoto = () => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const onMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ x: px * 10, y: py * -10 });
-  };
-  const badges = [
-    { icon: <Rocket size={13} />, angle: 20, dist: 148, dur: "14s" },
-    { icon: <Code2 size={13} />, angle: 150, dist: 156, dur: "18s" },
-    { icon: <Satellite size={13} />, angle: 260, dist: 150, dur: "16s" },
-  ];
+const Reveal = ({ children, delay = 0, dir = "up", className, style }) => {
+  const { ref, visible } = useReveal();
+  const hidden = VARIANTS[dir]?.hidden || VARIANTS.up.hidden;
   return (
     <div
-      onMouseMove={onMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+      ref={ref}
+      className={className}
       style={{
-        position: "relative", width: 316, height: 316, flexShrink: 0,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        transform: `perspective(700px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-        transition: "transform .3s ease-out",
-      }}>
-      {/* radar sweep */}
-      <div style={{
-        position: "absolute", inset: 0, borderRadius: "50%",
-        background: `conic-gradient(from 0deg, ${T.signal}33, transparent 30%)`,
-        animation: "spin-slow 5.5s linear infinite",
-      }} />
-      {/* outer dashed ring */}
-      <svg viewBox="0 0 316 316" style={{ position: "absolute", inset: 0, animation: "spin-slow 40s linear infinite" }}>
-        <circle cx="158" cy="158" r="152" fill="none" stroke={T.lineStrong} strokeWidth="1" strokeDasharray="2 7" />
-      </svg>
-      {/* mid tick ring */}
-      <svg viewBox="0 0 316 316" style={{ position: "absolute", inset: 0, animation: "spin-slow-rev 26s linear infinite" }}>
-        <circle cx="158" cy="158" r="134" fill="none" stroke={T.line} strokeWidth="1" />
-        {Array.from({ length: 24 }).map((_, i) => {
-          const a = (i / 24) * Math.PI * 2;
-          const x1 = 158 + Math.cos(a) * 128, y1 = 158 + Math.sin(a) * 128;
-          const x2 = 158 + Math.cos(a) * 138, y2 = 158 + Math.sin(a) * 138;
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={i % 6 === 0 ? T.flare : T.textFaint} strokeWidth={i % 6 === 0 ? 1.6 : 1} />;
-        })}
-      </svg>
-      {/* portrait core */}
-      <div style={{
-        width: 220, height: 220, borderRadius: "50%", overflow: "hidden",
-        border: `2px solid ${T.signal}66`, position: "relative", zIndex: 2,
-        boxShadow: `0 0 0 10px ${T.bg}, 0 0 46px -6px ${T.signal}77, inset 0 0 30px rgba(0,0,0,.5)`,
-        background: T.bgAlt,
-      }}>
-        <img src="/profile.png" alt="Surya Prakash" style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          onError={e => { const t = e.target; t.style.display = "none"; t.nextSibling.style.display = "flex"; }} />
-        <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 68, color: T.signal }}>S</div>
-      </div>
-      {/* orbiting badges */}
-      {badges.map((b, i) => (
-        <div key={i} style={{ position: "absolute", inset: 0, animation: `orbit-${i} ${b.dur} linear infinite` }}>
-          <style>{`
-            @keyframes orbit-${i} {
-              from { transform: rotate(${b.angle}deg) translateX(${b.dist}px) rotate(-${b.angle}deg); }
-              to   { transform: rotate(${b.angle + 360}deg) translateX(${b.dist}px) rotate(-${b.angle + 360}deg); }
-            }
-          `}</style>
-          <div style={{
-            position: "absolute", top: "50%", left: "50%", marginTop: -15, marginLeft: -15,
-            width: 30, height: 30, borderRadius: "50%", background: T.bgPanel,
-            border: `1px solid ${T.lineStrong}`, display: "flex", alignItems: "center", justifyContent: "center",
-            color: T.flare, boxShadow: `0 0 14px -2px ${T.flare}55`,
-          }}>{b.icon}</div>
-        </div>
-      ))}
-      {/* status pin */}
-      <div style={{
-        position: "absolute", bottom: 4, left: "50%", transform: "translateX(-50%)", zIndex: 3,
-        display: "flex", alignItems: "center", gap: 6, padding: "5px 12px",
-        background: T.bgPanel, border: `1px solid ${T.lineStrong}`, borderRadius: 999,
-        fontFamily: FONT_MONO, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-        color: T.flare, textTransform: "uppercase", boxShadow: `0 6px 20px rgba(0,0,0,.5)`,
-      }}>
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.flare, animation: "pulse-glow 1.4s ease-in-out infinite" }} />
-        Live · Bengaluru
-      </div>
+        perspective: 1400,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : hidden,
+        filter: visible ? "blur(0px)" : "blur(10px)",
+        transition:
+          `opacity .9s cubic-bezier(.19,1.4,.36,1) ${delay}s,` +
+          `transform 1.05s cubic-bezier(.19,1.4,.36,1) ${delay}s,` +
+          `filter .8s ease ${delay}s`,
+        willChange: "transform, opacity, filter",
+        ...style,
+      }}
+    >
+      {children}
     </div>
   );
 };
 
 /* ============================================================
-   TRAJECTORY RAIL — fixed side tracker showing which "mission
-   phase" (section) is active, desktop only.
+   SCROLL SKEW — the whole page content shears in the direction
+   of scroll velocity, then springs flat. Classic "crazy scroll"
+   feel, kept subtle enough to stay usable.
 ============================================================ */
-const TrajectoryRail = ({ active, onJump }) => (
-  <div className="rail-desktop" style={{
-    position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", zIndex: 60,
-    display: "flex", flexDirection: "column", alignItems: "center", gap: 0,
-  }}>
-    {NAV_ITEMS.map((n, i) => (
-      <React.Fragment key={n}>
-        <button onClick={() => onJump(n)} title={n} style={{
-          width: 11, height: 11, borderRadius: "50%", border: `1.5px solid ${active === n ? T.flare : T.lineStrong}`,
-          background: active === n ? T.flare : "transparent", cursor: "pointer", padding: 0,
-          boxShadow: active === n ? `0 0 10px ${T.flare}aa` : "none", transition: "all .25s",
-        }} />
-        {i < NAV_ITEMS.length - 1 && <div style={{ width: 1, height: 26, background: T.lineStrong }} />}
-      </React.Fragment>
-    ))}
+function useScrollSkew(ref) {
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let raf = null;
+    let current = 0;
+    const tick = () => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      lastY = y;
+      const target = Math.max(-6, Math.min(6, delta * 0.5));
+      current += (target - current) * 0.25;
+      if (ref.current) {
+        ref.current.style.transform = `skewY(${current.toFixed(3)}deg) scale(${1 - Math.abs(current) * 0.0015})`;
+      }
+      if (Math.abs(current) > 0.02) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = null;
+      }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, [ref]);
+}
+
+/* ============================================================
+   PORTRAIT — the whole brief for this element: just a shadow.
+   No ring, no badge, no caption, no border treatment. A single
+   image, a soft blue glow shadow underneath it, nothing else.
+============================================================ */
+const Portrait = () => (
+  <div
+    style={{
+      width: 280, height: 280, borderRadius: 28, overflow: "hidden", flexShrink: 0,
+      boxShadow: `0 46px 90px -24px ${T.accent}77, 0 14px 40px -10px rgba(0,0,0,.6)`,
+      background: T.bgAlt,
+    }}
+  >
+    <img
+      src="/profile.png"
+      alt="Surya Prakash"
+      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      onError={(e) => { const t = e.target; t.style.display = "none"; t.nextSibling.style.display = "flex"; }}
+    />
+    <div style={{
+      display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center",
+      fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 76, color: T.accent2, background: T.bgAlt,
+    }}>S</div>
   </div>
 );
 
@@ -1294,19 +1216,19 @@ const Counter = ({ to, suffix = "", label }) => {
   useEffect(() => {
     if (!visible) return;
     const end = parseFloat(to);
-    const dur = 1300;
+    const dur = 1200;
     const run = (ts, t0) => {
       const p = Math.min((ts - t0) / dur, 1);
       const e = 1 - Math.pow(1 - p, 3);
       setVal(to.includes(".") ? (end * e).toFixed(2) : String(Math.floor(end * e)));
-      if (p < 1) requestAnimationFrame(t => run(t, t0));
+      if (p < 1) requestAnimationFrame((t) => run(t, t0));
     };
-    requestAnimationFrame(t => run(t, t));
+    requestAnimationFrame((t) => run(t, t));
   }, [visible, to]);
   return (
-    <div ref={ref} style={{ textAlign: "center", padding: "26px 14px", background: T.bgCard, border: `1px solid ${T.line}`, position: "relative" }}>
+    <div ref={ref} style={{ textAlign: "center", padding: "26px 14px", background: T.bgCard, border: `1px solid ${T.line}` }}>
       <div style={{ fontSize: "clamp(26px,3.6vw,38px)", fontWeight: 700, lineHeight: 1, marginBottom: 8, fontFamily: FONT_DISPLAY, color: T.ink }}>
-        {val}<span style={{ fontSize: "0.6em", color: T.flare }}>{suffix}</span>
+        {val}<span style={{ fontSize: "0.6em", color: T.accent2 }}>{suffix}</span>
       </div>
       <div style={{ fontSize: 9.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: T.textFaint, fontFamily: FONT_MONO }}>{label}</div>
     </div>
@@ -1314,12 +1236,12 @@ const Counter = ({ to, suffix = "", label }) => {
 };
 
 /* ============================================================
-   SKILL BAR — proficiency reading instead of a brand logo
+   SKILL BAR
 ============================================================ */
 const SkillBar = ({ skill, delay }) => {
   const { ref, visible } = useReveal();
   return (
-    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(8px)", transition: `opacity .5s ease ${delay}s, transform .5s ease ${delay}s` }}>
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateX(-16px)", transition: `opacity .55s ease ${delay}s, transform .55s ease ${delay}s` }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: T.ink, fontFamily: FONT_BODY }}>{skill.name}</span>
         <span style={{ fontSize: 10.5, color: T.textFaint, fontFamily: FONT_MONO }}>{skill.pct}%</span>
@@ -1327,9 +1249,9 @@ const SkillBar = ({ skill, delay }) => {
       <div style={{ height: 5, background: T.bgAlt, border: `1px solid ${T.line}`, overflow: "hidden" }}>
         <div style={{
           height: "100%", width: visible ? `${skill.pct}%` : "0%",
-          background: `linear-gradient(90deg, ${T.signal}, ${T.flare})`,
+          background: `linear-gradient(90deg, ${T.accent}, ${T.accent2})`,
           transition: `width 1s cubic-bezier(.16,1,.3,1) ${delay + 0.15}s`,
-          boxShadow: `0 0 10px ${T.signal}88`,
+          boxShadow: `0 0 10px ${T.accent}88`,
         }} />
       </div>
     </div>
@@ -1337,10 +1259,10 @@ const SkillBar = ({ skill, delay }) => {
 };
 
 const SkillPanel = ({ cat, index }) => (
-  <Reveal delay={index * 0.09} style={{ height: "100%" }}>
+  <Reveal delay={index * 0.09} dir={index % 2 ? "right" : "left"} style={{ height: "100%" }}>
     <div style={{ height: "100%", border: `1px solid ${T.line}`, background: T.bgPanel, display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 18px", borderBottom: `1px solid ${T.line}`, background: T.bgAlt }}>
-        <div style={{ width: 36, height: 36, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: T.signal, background: T.signalSoft, border: `1px solid ${T.signal}44` }}>{cat.icon}</div>
+        <div style={{ width: 36, height: 36, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: T.accent2, background: T.accentSoft, border: `1px solid ${T.accent}44` }}>{cat.icon}</div>
         <div>
           <div style={{ fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY }}>{cat.label}</div>
           <div style={{ fontSize: 9.5, color: T.textFaint, fontFamily: FONT_MONO, letterSpacing: "0.08em" }}>{cat.sub}</div>
@@ -1354,42 +1276,42 @@ const SkillPanel = ({ cat, index }) => (
 );
 
 /* ============================================================
-   MISSION LOG CARD — experience / education entry
+   LOG CARD — experience / education entry
 ============================================================ */
 const LogCard = ({ exp, index, isLast }) => {
   const [open, setOpen] = useState(index === 0);
-  const statusColor = exp.status === "Active" || exp.status === "In Progress" ? T.flare : T.signal;
+  const statusColor = exp.status === "Active" || exp.status === "In Progress" ? T.accent2 : T.accent;
   return (
-    <Reveal delay={index * 0.08}>
+    <Reveal delay={index * 0.08} dir={index % 2 ? "right" : "left"}>
       <div style={{ display: "flex", gap: 18 }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 22 }}>
           <span style={{ width: 10, height: 10, borderRadius: "50%", background: statusColor, boxShadow: `0 0 10px ${statusColor}aa`, flexShrink: 0 }} />
           {!isLast && <span style={{ width: 1, flex: 1, background: T.lineStrong, marginTop: 6 }} />}
         </div>
         <div style={{ flex: 1, border: `1px solid ${T.line}`, background: T.bgCard, marginBottom: 18 }}>
-          <button onClick={() => setOpen(o => !o)} style={{ width: "100%", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, padding: "18px 22px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+          <button onClick={() => setOpen((o) => !o)} style={{ width: "100%", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, padding: "18px 22px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 5 }}>
                 <span style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY }}>{exp.role}</span>
-                <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 8px", background: T.signalSoft, color: T.signal, border: `1px solid ${T.signal}55`, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: FONT_MONO }}>{exp.badge}</span>
+                <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 8px", background: T.accentSoft, color: T.accent2, border: `1px solid ${T.accent}55`, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: FONT_MONO }}>{exp.badge}</span>
               </div>
               <div style={{ fontSize: 13, fontWeight: 600, color: T.textMuted, marginBottom: 2, fontFamily: FONT_BODY }}>{exp.org}</div>
               <div style={{ fontSize: 11, color: T.textFaint, fontFamily: FONT_MONO, letterSpacing: "0.03em" }}>{exp.period} · <span style={{ color: statusColor }}>{exp.status}</span></div>
             </div>
-            <div style={{ fontSize: 18, color: T.textFaint, flexShrink: 0, transition: "transform .25s", transform: open ? "rotate(45deg)" : "none", fontFamily: "monospace" }}>+</div>
+            <div style={{ fontSize: 18, color: T.textFaint, flexShrink: 0, transition: "transform .3s", transform: open ? "rotate(45deg)" : "none", fontFamily: "monospace" }}>+</div>
           </button>
           {open && (
             <div style={{ padding: "0 22px 22px", borderTop: `1px solid ${T.line}` }}>
               <div style={{ paddingTop: 16 }}>
                 {exp.bullets.map((b, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-                    <span style={{ color: T.flare, flexShrink: 0, fontFamily: "monospace", fontSize: 13, marginTop: 2 }}>›</span>
+                    <span style={{ color: T.accent2, flexShrink: 0, fontFamily: "monospace", fontSize: 13, marginTop: 2 }}>›</span>
                     <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.75, fontFamily: FONT_BODY }}>{b}</p>
                   </div>
                 ))}
                 {exp.tags.length > 0 && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14, paddingTop: 14, borderTop: `1px solid ${T.line}` }}>
-                    {exp.tags.map(t => <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: FONT_MONO, letterSpacing: "0.03em" }}>{t}</span>)}
+                    {exp.tags.map((t) => <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: FONT_MONO, letterSpacing: "0.03em" }}>{t}</span>)}
                   </div>
                 )}
               </div>
@@ -1402,24 +1324,24 @@ const LogCard = ({ exp, index, isLast }) => {
 };
 
 /* ============================================================
-   MISSION CARD — project entry
+   PROJECT CARD
 ============================================================ */
-const MissionCard = ({ proj, index }) => {
+const ProjectCard = ({ proj, index }) => {
   const [hov, setHov] = useState(false);
   return (
-    <Reveal delay={index * 0.06} style={{ height: "100%" }}>
+    <Reveal delay={index * 0.07} dir="pop" style={{ height: "100%" }}>
       <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
         height: "100%", display: "flex", flexDirection: "column",
-        border: `1px solid ${hov ? T.signal : T.line}`, background: T.bgCard,
-        transition: "border-color .2s, transform .2s, box-shadow .2s",
-        transform: hov ? "translateY(-4px)" : "none",
-        boxShadow: hov ? `0 16px 34px -14px ${T.signal}55` : "none",
+        border: `1px solid ${hov ? T.accent : T.line}`, background: T.bgCard,
+        transition: "border-color .2s, transform .25s, box-shadow .25s",
+        transform: hov ? "translateY(-6px)" : "none",
+        boxShadow: hov ? `0 20px 40px -16px ${T.accent}55` : "none",
       }}>
         <div style={{ padding: "10px 16px", display: "flex", alignItems: "center", gap: 8, borderBottom: `1px solid ${T.line}`, background: T.bgAlt }}>
-          <span style={{ color: T.signal, display: "flex" }}>{proj.icon}</span>
-          <span style={{ fontSize: 9.5, fontWeight: 700, color: T.flare, fontFamily: FONT_MONO, letterSpacing: "0.1em", textTransform: "uppercase" }}>{proj.status}</span>
+          <span style={{ color: T.accent2, display: "flex" }}>{proj.icon}</span>
+          <span style={{ fontSize: 9.5, fontWeight: 700, color: T.accent2, fontFamily: FONT_MONO, letterSpacing: "0.1em", textTransform: "uppercase" }}>{proj.status}</span>
           {proj.repo && (
-            <a href={proj.repo} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ marginLeft: "auto", color: hov ? T.signal : T.textFaint, display: "flex", alignItems: "center", transition: "color .2s" }}>
+            <a href={proj.repo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto", color: hov ? T.accent2 : T.textFaint, display: "flex", alignItems: "center", transition: "color .2s" }}>
               <Github size={14} />
             </a>
           )}
@@ -1428,7 +1350,7 @@ const MissionCard = ({ proj, index }) => {
           <h3 style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY, lineHeight: 1.3, marginBottom: 10 }}>{proj.title}</h3>
           <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.75, flex: 1, marginBottom: 16, fontFamily: FONT_BODY }}>{proj.desc}</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {proj.tags.map(t => <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: FONT_MONO, letterSpacing: "0.03em" }}>{t}</span>)}
+            {proj.tags.map((t) => <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: FONT_MONO, letterSpacing: "0.03em" }}>{t}</span>)}
           </div>
         </div>
       </div>
@@ -1437,12 +1359,12 @@ const MissionCard = ({ proj, index }) => {
 };
 
 /* ============================================================
-   MISC UI PIECES
+   MISC UI
 ============================================================ */
-const STitle = ({ tag, title, sub }) => (
+const STitle = ({ eyebrow, title, sub }) => (
   <Reveal style={{ marginBottom: 48 }}>
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-      <span style={{ fontSize: 10.5, fontWeight: 700, color: T.flare, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: FONT_MONO }}>{tag}</span>
+      <span style={{ fontSize: 10.5, fontWeight: 700, color: T.accent2, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: FONT_MONO }}>{eyebrow}</span>
       <div style={{ flex: 1, height: 1, background: T.line }} />
     </div>
     <h2 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: T.ink, lineHeight: 1.1, letterSpacing: "-0.01em", fontFamily: FONT_DISPLAY }}>{title}</h2>
@@ -1453,8 +1375,8 @@ const STitle = ({ tag, title, sub }) => (
 const NavLink = ({ href, label, active }) => (
   <a href={href} style={{
     fontSize: 11, fontWeight: 600, padding: "6px 13px",
-    color: active ? T.flare : T.textMuted,
-    borderBottom: active ? `2px solid ${T.flare}` : "2px solid transparent",
+    color: active ? T.accent2 : T.textMuted,
+    borderBottom: active ? `2px solid ${T.accent2}` : "2px solid transparent",
     letterSpacing: "0.08em", textTransform: "uppercase",
     fontFamily: FONT_MONO, textDecoration: "none",
     transition: "color .2s, border-color .2s",
@@ -1467,10 +1389,10 @@ const ContactRow = ({ icon, label, val, href, isAccent }) => {
   const linkProps = hasLink ? { href, target: href.startsWith("mailto") || href.startsWith("tel") ? undefined : "_blank", rel: "noreferrer" } : {};
   return (
     <Tag {...linkProps} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", border: `1px solid ${T.line}`, background: T.bgCard, textDecoration: "none" }}>
-      <div style={{ width: 34, height: 34, flexShrink: 0, background: T.signalSoft, border: `1px solid ${T.signal}33`, display: "flex", alignItems: "center", justifyContent: "center", color: T.signal }}>{icon}</div>
+      <div style={{ width: 34, height: 34, flexShrink: 0, background: T.accentSoft, border: `1px solid ${T.accent}33`, display: "flex", alignItems: "center", justifyContent: "center", color: T.accent2 }}>{icon}</div>
       <div>
         <div style={{ fontSize: 9, color: T.textFaint, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 2, fontFamily: FONT_MONO }}>{label}</div>
-        <div style={{ fontSize: 12.5, fontWeight: 600, color: isAccent ? T.flare : T.ink, fontFamily: FONT_BODY }}>{val}</div>
+        <div style={{ fontSize: 12.5, fontWeight: 600, color: isAccent ? T.accent2 : T.ink, fontFamily: FONT_BODY }}>{val}</div>
       </div>
     </Tag>
   );
@@ -1484,7 +1406,7 @@ const SocialBtn = ({ label, href, icon, download }) => {
       style={{
         display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
         padding: "11px", fontWeight: 700, fontSize: 11,
-        border: `1px solid ${hov ? T.signal : T.line}`, background: T.bgCard, color: hov ? T.signal : T.ink,
+        border: `1px solid ${hov ? T.accent : T.line}`, background: T.bgCard, color: hov ? T.accent2 : T.ink,
         fontFamily: FONT_MONO, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none",
         transition: "border-color .2s, color .2s",
       }}>{icon} {label}</a>
@@ -1497,8 +1419,8 @@ const HeroBtn = ({ href, primary, children }) => {
     <a href={href} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
       display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 26px", textDecoration: "none",
       ...(primary
-        ? { background: `linear-gradient(90deg, ${T.signal}, ${T.flare})`, color: "#050712", boxShadow: hov ? `0 0 28px ${T.signal}77` : `0 0 0px transparent` }
-        : { border: `1px solid ${hov ? T.flare : T.lineStrong}`, background: "transparent", color: hov ? T.flare : T.ink }),
+        ? { background: `linear-gradient(90deg, ${T.accent}, ${T.accent2})`, color: "#03050c", boxShadow: hov ? `0 0 30px ${T.accent}77` : "0 0 0px transparent" }
+        : { border: `1px solid ${hov ? T.accent2 : T.lineStrong}`, background: "transparent", color: hov ? T.accent2 : T.ink }),
       fontWeight: 700, fontSize: 11.5, letterSpacing: "0.08em", fontFamily: FONT_MONO, textTransform: "uppercase",
       transition: "box-shadow .25s, border-color .25s, color .25s",
     }}>{children}</a>
@@ -1507,7 +1429,7 @@ const HeroBtn = ({ href, primary, children }) => {
 
 const WABtn = () => (
   <a href="https://wa.me/919880410689?text=Hi%20Surya!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect." target="_blank" rel="noopener noreferrer"
-    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: `linear-gradient(90deg,${T.signal},${T.flare})`, color: "#050712", fontWeight: 700, fontSize: 12, padding: "13px 20px", letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", fontFamily: FONT_MONO }}>
+    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: `linear-gradient(90deg,${T.accent},${T.accent2})`, color: "#03050c", fontWeight: 700, fontSize: 12, padding: "13px 20px", letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", fontFamily: FONT_MONO }}>
     <MessageCircle size={14} /> Message on WhatsApp
   </a>
 );
@@ -1528,10 +1450,10 @@ const GithubLink = () => (
 const BackToTop = ({ show }) => (
   <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{
     position: "fixed", bottom: 28, right: 28, zIndex: 50, width: 40, height: 40, background: T.bgPanel,
-    color: T.flare, border: `1px solid ${T.lineStrong}`, display: "flex", alignItems: "center", justifyContent: "center",
+    color: T.accent2, border: `1px solid ${T.lineStrong}`, display: "flex", alignItems: "center", justifyContent: "center",
     opacity: show ? 1 : 0, pointerEvents: show ? "all" : "none",
     transform: show ? "translateY(0)" : "translateY(10px)",
-    boxShadow: show ? `0 6px 22px ${T.flare}33` : "none",
+    boxShadow: show ? `0 6px 22px ${T.accent}44` : "none",
     transition: "opacity .3s, transform .3s, box-shadow .3s", cursor: "pointer",
   }}><ArrowUp size={16} /></button>
 );
@@ -1544,19 +1466,10 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobile] = useState(false);
   const [showBtt, setShowBtt] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const [bootDone, setBootDone] = useState(false);
   const [progress, setProgress] = useState(0);
+  const skewRef = useRef(null);
 
-  useEffect(() => {
-    const full = "> initiate_launch --profile surya";
-    let i = 0;
-    const iv = setInterval(() => {
-      if (i <= full.length) { setTypedText(full.slice(0, i)); i++; }
-      else { clearInterval(iv); setBootDone(true); }
-    }, 32);
-    return () => clearInterval(iv);
-  }, []);
+  useScrollSkew(skewRef);
 
   useEffect(() => {
     const s = document.createElement("style");
@@ -1570,16 +1483,12 @@ export default function App() {
       a,button{cursor:pointer}
       ::-webkit-scrollbar{width:4px}
       ::-webkit-scrollbar-track{background:${T.bg}}
-      ::-webkit-scrollbar-thumb{background:${T.flare}}
-      @keyframes slide-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-      @keyframes slide-right{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
-      @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-      @keyframes pulse-glow{0%,100%{opacity:.55}50%{opacity:1}}
-      @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-      @keyframes spin-slow-rev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
-      @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.9}}
-      @keyframes drift-nebula{0%{transform:translate(0,0)}50%{transform:translate(-24px,18px)}100%{transform:translate(0,0)}}
-      @media(max-width:900px){.rail-desktop{display:none!important}}
+      ::-webkit-scrollbar-thumb{background:${T.accent}}
+      @keyframes slide-up{from{opacity:0;transform:translate3d(0,50px,0) scale(.9)}to{opacity:1;transform:none}}
+      @keyframes slide-right{from{opacity:0;transform:translate3d(70px,0,0) rotateY(-30deg) scale(.85)}to{opacity:1;transform:none}}
+      @keyframes pulse-glow{0%,100%{opacity:.5}50%{opacity:1}}
+      @keyframes drift{0%{transform:translate(0,0)}50%{transform:translate(-30px,22px)}100%{transform:translate(0,0)}}
+      @media(max-width:900px){.skew-wrap{transform:none!important}}
       @media(max-width:768px){.nav-desktop{display:none!important}.nav-ham{display:flex!important}.hero-grid{grid-template-columns:1fr!important}.hero-grid > div:last-child{order:-1;justify-content:center;display:flex}.about-grid{grid-template-columns:1fr!important}.contact-grid{grid-template-columns:1fr!important}}
     `;
     const old = document.getElementById("portfolio-base");
@@ -1600,274 +1509,241 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const jump = (label) => {
+  const jump = useCallback((label) => {
     const el = document.getElementById(label.toLowerCase());
     if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   const C = { maxWidth: 1140, margin: "0 auto", padding: "0 24px" };
   const SP = { position: "relative", zIndex: 2, padding: "96px 0" };
 
   return (
-    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", zoom: 1.15, position: "relative" }}>
+    <div style={{ background: T.bg, color: T.ink, minHeight: "100vh", position: "relative" }}>
 
-      {/* starfield + nebula backdrop */}
+      {/* faint drifting glow, dark-blue on black — no other decoration */}
       <div style={{
-        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.5,
         backgroundImage: `
-          radial-gradient(1.6px 1.6px at 12% 22%, #fff8 50%, transparent),
-          radial-gradient(1.4px 1.4px at 32% 68%, #fff6 50%, transparent),
-          radial-gradient(1.8px 1.8px at 52% 14%, #fff9 50%, transparent),
-          radial-gradient(1.2px 1.2px at 72% 44%, #fff5 50%, transparent),
-          radial-gradient(1.6px 1.6px at 84% 82%, #fff8 50%, transparent),
-          radial-gradient(1.3px 1.3px at 18% 88%, #fff6 50%, transparent),
-          radial-gradient(1.5px 1.5px at 92% 20%, #fff7 50%, transparent),
-          radial-gradient(1.2px 1.2px at 62% 92%, #fff5 50%, transparent)`,
-        backgroundSize: "100% 100%",
-        animation: "twinkle 4.5s ease-in-out infinite",
-      }} />
-      <div style={{
-        position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.55,
-        backgroundImage: `
-          radial-gradient(circle at 12% 15%, ${T.signalSoft} 0%, transparent 34%),
-          radial-gradient(circle at 88% 78%, ${T.flareSoft} 0%, transparent 34%)`,
-        animation: "drift-nebula 16s ease-in-out infinite",
+          radial-gradient(circle at 14% 12%, ${T.accentSoft} 0%, transparent 32%),
+          radial-gradient(circle at 86% 82%, rgba(94,225,255,0.08) 0%, transparent 32%)`,
+        animation: "drift 18s ease-in-out infinite",
       }} />
 
-      {/* mission progress gauge — fixed left edge */}
+      {/* scroll progress */}
       <div style={{ position: "fixed", left: 0, top: 0, bottom: 0, width: 3, zIndex: 90, background: T.line }}>
-        <div style={{ width: "100%", height: `${progress * 100}%`, background: `linear-gradient(180deg, ${T.signal}, ${T.flare})`, boxShadow: `0 0 12px ${T.flare}88`, transition: "height .1s linear" }} />
+        <div style={{ width: "100%", height: `${progress * 100}%`, background: `linear-gradient(180deg, ${T.accent}, ${T.accent2})`, boxShadow: `0 0 12px ${T.accent2}88`, transition: "height .1s linear" }} />
       </div>
-
-      <TrajectoryRail active={active} onJump={jump} />
 
       {/* ── NAV ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: scrolled ? "10px 0" : "16px 0", transition: "all .3s", background: scrolled ? T.navBg : "transparent", backdropFilter: scrolled ? "blur(14px)" : "none", borderBottom: scrolled ? `1px solid ${T.line}` : "1px solid transparent" }}>
         <div style={{ ...C, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="#home" style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em", color: T.ink, display: "flex", alignItems: "center", gap: 6 }}>
-            <Orbit size={18} color={T.flare} /> GSS<span style={{ color: T.signal }}>.</span>dev
+          <a href="#home" style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em", color: T.ink }}>
+            GSS<span style={{ color: T.accent2 }}>.</span>dev
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              {NAV_ITEMS.map(n => <NavLink key={n} href={`#${n.toLowerCase()}`} label={n} active={active === n} />)}
+              {NAV_ITEMS.map((n) => <NavLink key={n} href={`#${n.toLowerCase()}`} label={n} active={active === n} />)}
             </div>
-            <button className="nav-ham" onClick={() => setMobile(o => !o)} style={{ display: "none", flexDirection: "column", gap: 4, background: "none", border: `1px solid ${T.line}`, padding: "7px 9px" }}>
-              {[0, 1, 2].map(i => <span key={i} style={{ width: 18, height: 1, background: T.ink, display: "block" }} />)}
+            <button className="nav-ham" onClick={() => setMobile((o) => !o)} style={{ display: "none", flexDirection: "column", gap: 4, background: "none", border: `1px solid ${T.line}`, padding: "7px 9px" }}>
+              {[0, 1, 2].map((i) => <span key={i} style={{ width: 18, height: 1, background: T.ink, display: "block" }} />)}
             </button>
           </div>
         </div>
         {mobileOpen && (
           <div style={{ background: T.navBg, backdropFilter: "blur(14px)", borderTop: `1px solid ${T.line}`, padding: "10px 16px" }}>
-            {NAV_ITEMS.map(n => (
-              <a key={n} href={`#${n.toLowerCase()}`} onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: active === n ? T.flare : T.textMuted, borderBottom: `1px solid ${T.line}`, fontFamily: FONT_MONO, letterSpacing: "0.08em" }}>{n}</a>
+            {NAV_ITEMS.map((n) => (
+              <a key={n} href={`#${n.toLowerCase()}`} onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: active === n ? T.accent2 : T.textMuted, borderBottom: `1px solid ${T.line}`, fontFamily: FONT_MONO, letterSpacing: "0.08em" }}>{n}</a>
             ))}
           </div>
         )}
       </nav>
 
-      {/* ── HERO ── */}
-      <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 70px", position: "relative", zIndex: 2 }}>
-        <div style={{ ...C, position: "relative", zIndex: 1 }}>
-          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 64, alignItems: "center" }}>
-            <div>
-              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.05s" }}>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${T.flare}55`, background: T.flareSoft, padding: "5px 14px", marginBottom: 22, fontFamily: FONT_MONO }}>
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.flare, animation: "pulse-glow 1.4s ease-in-out infinite" }} />
-                  <span style={{ fontSize: 10, fontWeight: 700, color: T.flare, letterSpacing: "0.16em", textTransform: "uppercase" }}>Status: Available for Hire</span>
-                </div>
-              </div>
-              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.12s" }}>
-                <h1 style={{ fontSize: "clamp(34px,5.2vw,60px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", marginBottom: 18, fontFamily: FONT_DISPLAY }}>
-                  {DATA.first}<br />
-                  <span style={{ background: `linear-gradient(90deg, ${T.signal}, ${T.flare})`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{DATA.last}</span>
-                </h1>
-              </div>
-              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.2s" }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.flare, marginBottom: 4, fontFamily: FONT_MONO }}>
-                  {typedText}<span style={{ animation: "blink 1s step-end infinite" }}>_</span>
-                </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: T.textMuted, marginBottom: 8, fontFamily: FONT_MONO, opacity: bootDone ? 1 : 0, transition: "opacity .4s" }}>{DATA.role}</div>
-                <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.8, maxWidth: 480, marginBottom: 30, fontFamily: FONT_BODY }}>{DATA.tagline}</p>
-              </div>
-              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.28s", display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
-                <HeroBtn href="#contact" primary>Get in touch</HeroBtn>
-                <HeroBtn href="#projects">View projects</HeroBtn>
-              </div>
-              <div style={{ animation: "slide-up .55s ease forwards", opacity: 0, animationDelay: "0.36s", display: "grid", gridTemplateColumns: "repeat(4,auto)", gap: 32, paddingTop: 22, borderTop: `1px solid ${T.line}`, flexWrap: "wrap" }}>
-                {[["8.73", "CGPA"], ["6+", "PROJECTS"], ["1", "INTERNSHIP"], ["2+", "CLUB ROLES"]].map(([v, l]) => (
-                  <div key={l}>
-                    <div style={{ fontSize: 24, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY }}>{v}</div>
-                    <div style={{ fontSize: 9, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 3, fontFamily: FONT_MONO }}>{l}</div>
+      {/* everything below shears with scroll velocity for the "crazy" feel */}
+      <div ref={skewRef} className="skew-wrap" style={{ transformOrigin: "50% 50%", transition: "transform .05s linear" }}>
+
+        {/* ── HERO ── */}
+        <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 0 70px", position: "relative", zIndex: 2 }}>
+          <div style={{ ...C, position: "relative", zIndex: 1 }}>
+            <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 64, alignItems: "center" }}>
+              <div>
+                <div style={{ animation: "slide-up .6s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, animationDelay: "0.05s" }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${T.accent}55`, background: T.accentSoft, padding: "5px 14px", marginBottom: 22, fontFamily: FONT_MONO }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent2, animation: "pulse-glow 1.4s ease-in-out infinite" }} />
+                    <span style={{ fontSize: 10, fontWeight: 700, color: T.accent2, letterSpacing: "0.16em", textTransform: "uppercase" }}>Status: Available for Hire</span>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ animation: "slide-right .6s .15s ease forwards", opacity: 0, display: "flex", justifyContent: "center" }}>
-              <OrbitPhoto />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <TrajectoryDivider />
-
-      {/* ── ABOUT ── */}
-      <section id="about" style={{ ...SP, background: T.bgAlt }}>
-        <div style={C}>
-          <STitle tag="01 — Profile" title="About Me" />
-          <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
-            <Reveal dir="left">
-              <div style={{ padding: 30, border: `1px solid ${T.line}`, background: T.bgCard }}>
-                <p style={{ fontSize: 14, color: T.ink, lineHeight: 1.9, marginBottom: 16, fontFamily: FONT_BODY }}>{DATA.bio}</p>
-                <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.9, fontFamily: FONT_BODY }}>{DATA.bio2}</p>
-                <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.line}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
-                  {[["Location", DATA.location], ["University", "PES University"], ["Email", DATA.email], ["Phone", DATA.phone]].map(([l, v]) => (
+                </div>
+                <div style={{ animation: "slide-up .6s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, animationDelay: "0.14s" }}>
+                  <h1 style={{ fontSize: "clamp(34px,5.2vw,60px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", marginBottom: 18, fontFamily: FONT_DISPLAY }}>
+                    {DATA.first}<br />
+                    <span style={{ background: `linear-gradient(90deg, ${T.accent}, ${T.accent2})`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{DATA.last}</span>
+                  </h1>
+                </div>
+                <div style={{ animation: "slide-up .6s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, animationDelay: "0.24s" }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: T.textMuted, marginBottom: 8, fontFamily: FONT_MONO }}>{DATA.role}</div>
+                  <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.8, maxWidth: 480, marginBottom: 30, fontFamily: FONT_BODY }}>{DATA.tagline}</p>
+                </div>
+                <div style={{ animation: "slide-up .6s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, animationDelay: "0.34s", display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
+                  <HeroBtn href="#contact" primary>Get in touch</HeroBtn>
+                  <HeroBtn href="#projects">View projects</HeroBtn>
+                </div>
+                <div style={{ animation: "slide-up .6s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, animationDelay: "0.44s", display: "grid", gridTemplateColumns: "repeat(4,auto)", gap: 32, paddingTop: 22, borderTop: `1px solid ${T.line}`, flexWrap: "wrap" }}>
+                  {[["8.73", "CGPA"], ["6+", "PROJECTS"], ["1", "INTERNSHIP"], ["2+", "CLUB ROLES"]].map(([v, l]) => (
                     <div key={l}>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>{l}</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO }}>{v}</div>
+                      <div style={{ fontSize: 24, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY }}>{v}</div>
+                      <div style={{ fontSize: 9, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 3, fontFamily: FONT_MONO }}>{l}</div>
                     </div>
                   ))}
                 </div>
               </div>
-            </Reveal>
-            <Reveal dir="right">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: T.line }}>
-                <Counter to="8.73" label="CGPA" />
-                <Counter to="6" suffix="+" label="Projects" />
-                <Counter to="1" label="Internship" />
-                <Counter to="2" suffix="+" label="Club Roles" />
+
+              <div style={{ animation: "slide-right .7s .18s cubic-bezier(.19,1.4,.36,1) forwards", opacity: 0, display: "flex", justifyContent: "center" }}>
+                <Portrait />
               </div>
-              <div style={{ marginTop: 18, padding: "20px 24px", border: `1px solid ${T.line}`, background: T.bgCard }}>
-                <div style={{ fontSize: 10, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, fontFamily: FONT_MONO }}>Flight Log</div>
-                {[
-                  { year: "2023", label: "Joined PES University" },
-                  { year: "2024", label: "SMCC Head — Equinox Club" },
-                  { year: "2025", label: "Research Intern at CCNCS" },
-                  { year: "Now", label: "Logistics Head · Building" },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-                    <span style={{ fontSize: 10, color: item.year === "Now" ? T.flare : T.textFaint, flexShrink: 0, fontFamily: FONT_MONO, width: 32 }}>{item.year}</span>
-                    <span style={{ fontSize: 12.5, color: T.ink, fontFamily: FONT_BODY }}>{item.label}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ── ABOUT ── */}
+        <section id="about" style={{ ...SP, background: T.bgAlt }}>
+          <div style={C}>
+            <STitle eyebrow="Profile" title="About Me" />
+            <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
+              <Reveal dir="left">
+                <div style={{ padding: 30, border: `1px solid ${T.line}`, background: T.bgCard }}>
+                  <p style={{ fontSize: 14, color: T.ink, lineHeight: 1.9, marginBottom: 16, fontFamily: FONT_BODY }}>{DATA.bio}</p>
+                  <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.9, fontFamily: FONT_BODY }}>{DATA.bio2}</p>
+                  <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${T.line}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+                    {[["Location", DATA.location], ["University", "PES University"], ["Email", DATA.email], ["Phone", DATA.phone]].map(([l, v]) => (
+                      <div key={l}>
+                        <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>{l}</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO }}>{v}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <TrajectoryDivider flip />
-
-      {/* ── SKILLS ── */}
-      <section id="skills" style={{ ...SP }}>
-        <div style={C}>
-          <STitle tag="02 — Systems" title="Tech Stack" sub="Languages, frameworks, and tools I use to ship end-to-end — grouped like onboard systems, with a live proficiency reading for each." />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16 }}>
-            {SKILL_CATEGORIES.map((cat, i) => <SkillPanel key={cat.label} cat={cat} index={i} />)}
-          </div>
-        </div>
-      </section>
-
-      <TrajectoryDivider />
-
-      {/* ── EXPERIENCE ── */}
-      <section id="experience" style={{ ...SP, background: T.bgAlt }}>
-        <div style={{ ...C, maxWidth: 840 }}>
-          <STitle tag="03 — Flight Log" title="Experience & Education" />
-          <div>
-            {DATA.experiences.map((exp, i) => <LogCard key={i} exp={exp} index={i} isLast={i === DATA.experiences.length - 1} />)}
-          </div>
-        </div>
-      </section>
-
-      <TrajectoryDivider flip />
-
-      {/* ── PROJECTS ── */}
-      <section id="projects" style={{ ...SP }}>
-        <div style={C}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 44 }}>
-            <Reveal>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                  <span style={{ fontSize: 10.5, fontWeight: 700, color: T.flare, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: FONT_MONO }}>04 — Missions</span>
-                  <div style={{ flex: 1, height: 1, background: T.line }} />
-                </div>
-                <h2 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: T.ink, letterSpacing: "-0.01em", fontFamily: FONT_DISPLAY }}>Featured Projects</h2>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}><GithubLink /></Reveal>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))", gap: 16 }}>
-            {DATA.projects.map((p, i) => <MissionCard key={i} proj={p} index={i} />)}
-          </div>
-        </div>
-      </section>
-
-      <TrajectoryDivider />
-
-      {/* ── CONTACT ── */}
-      <section id="contact" style={{ ...SP, paddingBottom: 130, background: T.bgAlt }}>
-        <div style={{ ...C, maxWidth: 940 }}>
-          <STitle tag="05 — Ground Control" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." />
-          <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
-            <div>
-              <Reveal>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
-                  <ContactRow icon={<Mail size={15} />} label="Email" val={DATA.email} href={`mailto:${DATA.email}`} />
-                  <ContactRow icon={<Phone size={15} />} label="Phone" val={DATA.phone} href={`tel:${DATA.phone}`} />
-                  <ContactRow icon={<MapPin size={15} />} label="Location" val={DATA.location} />
-                  <ContactRow icon={<Radio size={15} />} label="Status" val="Open to Opportunities" isAccent />
                 </div>
               </Reveal>
-              <Reveal delay={0.15}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <SocialBtn label="GitHub" href={DATA.github} icon={<Github size={13} />} />
-                  <SocialBtn label="LinkedIn" href={DATA.linkedin} icon={<Linkedin size={13} />} />
-                  <SocialBtn label="Email" href={`mailto:${DATA.email}`} icon={<Mail size={13} />} />
-                  <SocialBtn label="Resume" href={DATA.resume} icon={<Download size={13} />} download />
+              <Reveal dir="right">
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: T.line }}>
+                  <Counter to="8.73" label="CGPA" />
+                  <Counter to="6" suffix="+" label="Projects" />
+                  <Counter to="1" label="Internship" />
+                  <Counter to="2" suffix="+" label="Club Roles" />
+                </div>
+                <div style={{ marginTop: 18, padding: "20px 24px", border: `1px solid ${T.line}`, background: T.bgCard }}>
+                  <div style={{ fontSize: 10, color: T.textFaint, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, fontFamily: FONT_MONO }}>Timeline</div>
+                  {[
+                    { year: "2023", label: "Joined PES University" },
+                    { year: "2024", label: "SMCC Head — Equinox Club" },
+                    { year: "2025", label: "Research Intern at CCNCS" },
+                    { year: "Now", label: "Logistics Head · Building" },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                      <span style={{ fontSize: 10, color: item.year === "Now" ? T.accent2 : T.textFaint, flexShrink: 0, fontFamily: FONT_MONO, width: 32 }}>{item.year}</span>
+                      <span style={{ fontSize: 12.5, color: T.ink, fontFamily: FONT_BODY }}>{item.label}</span>
+                    </div>
+                  ))}
                 </div>
               </Reveal>
             </div>
-            <Reveal delay={0.2}>
-              <div style={{ border: `1px solid ${T.lineStrong}` }}>
-                <div style={{ padding: "10px 16px", background: T.bgAlt, borderBottom: `1px solid ${T.line}` }}>
-                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", color: T.textFaint, fontFamily: FONT_MONO }}>AVAILABILITY / SPEC</span>
-                </div>
-                <div style={{ padding: 28, background: T.bgPanel }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
-                    <div>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Hiring</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: T.flare, fontFamily: FONT_MONO }}>Yes</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Response time</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO }}>&lt; 24 hours</div>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Modes</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO, marginBottom: 16 }}>Internship · Collab · Freelance · OSS</div>
-                  <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.8, margin: "0 0 24px", fontFamily: FONT_BODY }}>
-                    Open to internships, research collaborations, freelance projects, and open-source work. Let's build something impactful together.
-                  </p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    <WABtn />
-                    <MailBtn />
-                  </div>
-                </div>
-              </div>
-            </Reveal>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ borderTop: `1px solid ${T.line}`, background: T.bg, padding: "24px 0", position: "relative", zIndex: 2 }}>
-        <div style={{ ...C, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <p style={{ fontSize: 11, color: T.textFaint, fontFamily: FONT_BODY }}>© {new Date().getFullYear()} <span style={{ color: T.textMuted }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.</p>
-          <p style={{ fontSize: 11, color: T.textFaint, fontFamily: FONT_MONO }}>React · Sora · JetBrains Mono</p>
-        </div>
-      </footer>
+        {/* ── SKILLS ── */}
+        <section id="skills" style={{ ...SP }}>
+          <div style={C}>
+            <STitle eyebrow="Systems" title="Tech Stack" sub="Languages, frameworks, and tools I use to ship end-to-end, grouped with a live proficiency reading for each." />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16 }}>
+              {SKILL_CATEGORIES.map((cat, i) => <SkillPanel key={cat.label} cat={cat} index={i} />)}
+            </div>
+          </div>
+        </section>
+
+        {/* ── EXPERIENCE ── */}
+        <section id="experience" style={{ ...SP, background: T.bgAlt }}>
+          <div style={{ ...C, maxWidth: 840 }}>
+            <STitle eyebrow="Track Record" title="Experience & Education" />
+            <div>
+              {DATA.experiences.map((exp, i) => <LogCard key={i} exp={exp} index={i} isLast={i === DATA.experiences.length - 1} />)}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PROJECTS ── */}
+        <section id="projects" style={{ ...SP }}>
+          <div style={C}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 44 }}>
+              <STitle eyebrow="Selected Work" title="Featured Projects" style={{ marginBottom: 0 }} />
+              <Reveal delay={0.1}><GithubLink /></Reveal>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))", gap: 16 }}>
+              {DATA.projects.map((p, i) => <ProjectCard key={i} proj={p} index={i} />)}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CONTACT ── */}
+        <section id="contact" style={{ ...SP, paddingBottom: 130, background: T.bgAlt }}>
+          <div style={{ ...C, maxWidth: 940 }}>
+            <STitle eyebrow="Reach Out" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." />
+            <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
+              <div>
+                <Reveal dir="left">
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
+                    <ContactRow icon={<Mail size={15} />} label="Email" val={DATA.email} href={`mailto:${DATA.email}`} />
+                    <ContactRow icon={<Phone size={15} />} label="Phone" val={DATA.phone} href={`tel:${DATA.phone}`} />
+                    <ContactRow icon={<MapPin size={15} />} label="Location" val={DATA.location} />
+                    <ContactRow icon={<Radio size={15} />} label="Status" val="Open to Opportunities" isAccent />
+                  </div>
+                </Reveal>
+                <Reveal dir="left" delay={0.15}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    <SocialBtn label="GitHub" href={DATA.github} icon={<Github size={13} />} />
+                    <SocialBtn label="LinkedIn" href={DATA.linkedin} icon={<Linkedin size={13} />} />
+                    <SocialBtn label="Email" href={`mailto:${DATA.email}`} icon={<Mail size={13} />} />
+                    <SocialBtn label="Resume" href={DATA.resume} icon={<Download size={13} />} download />
+                  </div>
+                </Reveal>
+              </div>
+              <Reveal dir="right" delay={0.1}>
+                <div style={{ border: `1px solid ${T.lineStrong}` }}>
+                  <div style={{ padding: "10px 16px", background: T.bgAlt, borderBottom: `1px solid ${T.line}` }}>
+                    <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", color: T.textFaint, fontFamily: FONT_MONO }}>AVAILABILITY</span>
+                  </div>
+                  <div style={{ padding: 28, background: T.bgPanel }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
+                      <div>
+                        <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Hiring</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: T.accent2, fontFamily: FONT_MONO }}>Yes</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Response time</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO }}>&lt; 24 hours</div>
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: T.textFaint, marginBottom: 4, fontFamily: FONT_MONO }}>Modes</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: FONT_MONO, marginBottom: 16 }}>Internship · Collab · Freelance · OSS</div>
+                    <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.8, margin: "0 0 24px", fontFamily: FONT_BODY }}>
+                      Open to internships, research collaborations, freelance projects, and open-source work. Let's build something impactful together.
+                    </p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      <WABtn />
+                      <MailBtn />
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FOOTER ── */}
+        <footer style={{ borderTop: `1px solid ${T.line}`, background: T.bg, padding: "24px 0", position: "relative", zIndex: 2 }}>
+          <div style={{ ...C, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+            <p style={{ fontSize: 11, color: T.textFaint, fontFamily: FONT_BODY }}>© {new Date().getFullYear()} <span style={{ color: T.textMuted }}>Gonella Siva Sai Surya Prakash</span>. All rights reserved.</p>
+            <p style={{ fontSize: 11, color: T.textFaint, fontFamily: FONT_MONO }}>React · Sora · JetBrains Mono</p>
+          </div>
+        </footer>
+      </div>
 
       <BackToTop show={showBtt} />
     </div>
