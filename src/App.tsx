@@ -94,6 +94,28 @@ const DATA = {
       repo: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot", status: "Deployed",
     },
     {
+      title: "Offline RAG AI Assistant",
+      desc: "A fully offline Retrieval-Augmented Generation (RAG) AI assistant that combines FAISS vector search, Sentence Transformers, and FLAN-T5 to answer user queries using Wikipedia-based knowledge without relying on external APIs. Built with FastAPI and a chat-style web interface, it delivers fast, CPU-friendly semantic retrieval and local language generation.",
+      icon: <Database size={18} />, tags: ["FastAPI","FAISS","FLAN-T5","Sentence Transformers","Transformers","RAG"],
+      repo: "https://github.com/GSuryaP/offline-rag-ai-assistant",
+      status: "Completed",
+    },
+    {
+      title: "Personal Expense Tracker System",
+      desc: "A full-stack expense management application built with Spring Boot following the MVC architecture, featuring secure multi-user authentication, role-based access control, expense analytics, and admin management. It supports CRUD operations, interactive charts, user-specific expense isolation, and seamless migration from H2 to MySQL.",
+      icon: <Wallet size={18} />, tags: ["Spring Boot","Spring Security","Thymeleaf","Hibernate","MySQL","H2"],
+      repo: "https://github.com/GSuryaP/Expense-Tracker",
+      status: "Completed",
+    },
+    {
+      title: "DevPulse",
+      desc: "A real-time developer intelligence dashboard built with React and Vite that aggregates live data from the GitHub and Hacker News APIs to visualize trending repositories, programming language insights, developer news, and API usage. It features interactive charts, bookmarking, smart filtering, and a responsive dark-themed interface powered by TanStack Query.",
+      icon: <Activity size={18} />,tags: ["React","Vite","TanStack Query","GitHub API","Hacker News API","Recharts"],
+      repo: "https://github.com/GSuryaP/devpulse",
+      status: "Completed",
+    },
+    
+    {
       title: "Distributed Image Processing Pipeline",
       desc: "Apache Kafka-based distributed system with a FastAPI master node and multiple PIL worker nodes. Handles tile splitting, parallel processing, result aggregation, and final image reconstruction — with a live heartbeat monitoring dashboard.",
       icon: <Layers size={18} />, tags: ["Apache Kafka", "FastAPI", "Python", "Pillow", "Docker"],
@@ -117,12 +139,12 @@ const DATA = {
       icon: <Sparkles size={18} />, tags: ["AWS S3", "Lambda", "Amazon Bedrock", "Python", "HTML"],
       repo: "https://github.com/GSuryaP/AdaptiveLearn-AI", status: "Deployed",
     },
-    {
-      title: "Weather & AQI Tracker",
-      desc: "Tkinter desktop app that validates city names via OpenWeatherMap API and displays comprehensive environmental data — temperature, humidity, wind speed, and Air Quality Index — in a clean GUI with robust error handling.",
-      icon: <Satellite size={18} />, tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON"],
-      repo: "https://github.com/GSuryaP/Weather-AQI_Tracker", status: "Deployed",
-    },
+    // {
+    //   title: "Weather & AQI Tracker",
+    //   desc: "Tkinter desktop app that validates city names via OpenWeatherMap API and displays comprehensive environmental data — temperature, humidity, wind speed, and Air Quality Index — in a clean GUI with robust error handling.",
+    //   icon: <Satellite size={18} />, tags: ["Python", "Tkinter", "OpenWeatherMap API", "JSON"],
+    //   repo: "https://github.com/GSuryaP/Weather-AQI_Tracker", status: "Deployed",
+    // },
   ],
 };
 
@@ -143,6 +165,22 @@ const SKILL_CATEGORIES = [
   {
     label: "Tooling", icon: <Wrench size={18} />, sub: "Ground support",
     skills: ["Git", "GitHub"],
+  },
+  {
+    label: "Networking & SDN", icon: <Radar size={18} />, sub: "Controllers & simulation",
+    skills: ["SDN", "RASA", "ONOS", "Mininet", "Atomix"],
+  },
+  {
+    label: "Cloud & DevOps", icon: <Satellite size={18} />, sub: "Infra & deployment",
+    skills: ["AWS", "AWS Lambda", "Amazon Bedrock", "Docker"],
+  },
+  {
+    label: "APIs & Backend Services", icon: <Compass size={18} />, sub: "Services & messaging",
+    skills: ["Apache Kafka", "FastAPI", "REST APIs", "Pillow"],
+  },
+  {
+    label: "Data & Tools", icon: <Sparkles size={18} />, sub: "Visualization & utilities",
+    skills: ["Recharts", "Vite", "GitHub API", "JSON", "Tkinter", "OpenWeatherMap API"],
   },
 ];
 
