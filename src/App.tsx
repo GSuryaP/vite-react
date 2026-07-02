@@ -186,28 +186,28 @@ const SKILL_CATEGORIES = [
 /* Hackathons — company / community hackathons participated in */
 const HACKATHONS = [
   {
-    name: "Deloitte Hackathon",
+    name: "Deloitte Capstone Program",
     org: "Deloitte",
     period: "2025",
     role: "Participant",
-    desc: "Company-hosted hackathon focused on building a solution for a real-world business problem statement.",
-    tags: [],
+    desc: "Participated in Deloitte's Capstone Program, collaborating on an industry-oriented solution that addressed real-world business challenges using technology, analytical thinking, and structured problem-solving.",
+    tags: ["Problem Solving", "Teamwork", "Business Innovation"],
   },
   {
-    name: "Flipkart Hackathon",
+    name: "Flipkart GridLock 2.0",
     org: "Flipkart",
     period: "2025",
     role: "Participant",
-    desc: "Competed in Flipkart's hackathon, building a solution under a tech/e-commerce themed problem statement.",
-    tags: [],
+    desc: "Developed an AI-powered traffic intelligence solution to identify congestion hotspots, analyze traffic patterns, and generate actionable insights using computer vision, data analytics, and machine learning as part of Flipkart GridLock 2.0.",
+    tags: ["AI", "Machine Learning", "Computer Vision"],
   },
   {
-    name: "Epsilon Texpedition",
+    name: "Epsilon TeXpedition",
     org: "Epsilon",
     period: "2025",
     role: "Participant",
-    desc: "Participated in Epsilon's technical hackathon, collaborating on an innovative solution within a fixed timeframe.",
-    tags: [],
+    desc: "Participated in Epsilon's TeXpedition hackathon, collaborating with a team to design and develop an innovative technology solution for a real-world challenge within a limited timeframe, emphasizing creativity, rapid prototyping, and impactful problem-solving.",
+    tags: ["Innovation", "Rapid Prototyping", "Teamwork"],
   },
 ];
 
