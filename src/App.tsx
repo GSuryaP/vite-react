@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Code2, Layers, Database, Wrench, Radar, Compass, Radio, Sparkles,
   Satellite, Github, Linkedin, Mail, Download, MapPin, Phone,
-  ArrowUp, MessageCircle, ExternalLink,
+  ArrowUp, MessageCircle, ExternalLink, Wallet, Activity, Trophy,
 } from "lucide-react";
 
 /* ============================================================
@@ -91,53 +91,52 @@ const DATA = {
       title: "RASA-Driven SDN Management Tool",
       desc: "A conversational AI system for real-time monitoring, health checks, and fault detection of distributed SDN controllers. Integrates ONOS REST APIs with RASA NLU and Mininet network simulation for automated flow queries and troubleshooting.",
       icon: <Radar size={18} />, tags: ["ONOS", "Atomix", "Mininet", "RASA", "Python", "REST APIs"],
-      repo: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot", status: "Deployed",
+      repo: "https://github.com/GSuryaP/Distributed-SDN-RASA-Chatbot", status: "Completed",
     },
     {
       title: "Offline RAG AI Assistant",
       desc: "A fully offline Retrieval-Augmented Generation (RAG) AI assistant that combines FAISS vector search, Sentence Transformers, and FLAN-T5 to answer user queries using Wikipedia-based knowledge without relying on external APIs. Built with FastAPI and a chat-style web interface, it delivers fast, CPU-friendly semantic retrieval and local language generation.",
-      icon: <Database size={18} />, tags: ["FastAPI","FAISS","FLAN-T5","Sentence Transformers","Transformers","RAG"],
+      icon: <Database size={18} />, tags: ["FastAPI", "FAISS", "FLAN-T5", "Sentence Transformers", "Transformers", "RAG"],
       repo: "https://github.com/GSuryaP/offline-rag-ai-assistant",
       status: "Completed",
     },
     {
       title: "Personal Expense Tracker System",
       desc: "A full-stack expense management application built with Spring Boot following the MVC architecture, featuring secure multi-user authentication, role-based access control, expense analytics, and admin management. It supports CRUD operations, interactive charts, user-specific expense isolation, and seamless migration from H2 to MySQL.",
-      icon: <Wallet size={18} />, tags: ["Spring Boot","Spring Security","Thymeleaf","Hibernate","MySQL","H2"],
+      icon: <Wallet size={18} />, tags: ["Spring Boot", "Spring Security", "Thymeleaf", "Hibernate", "MySQL", "H2"],
       repo: "https://github.com/GSuryaP/Expense-Tracker",
       status: "Completed",
     },
     {
       title: "DevPulse",
       desc: "A real-time developer intelligence dashboard built with React and Vite that aggregates live data from the GitHub and Hacker News APIs to visualize trending repositories, programming language insights, developer news, and API usage. It features interactive charts, bookmarking, smart filtering, and a responsive dark-themed interface powered by TanStack Query.",
-      icon: <Activity size={18} />,tags: ["React","Vite","TanStack Query","GitHub API","Hacker News API","Recharts"],
+      icon: <Activity size={18} />, tags: ["React", "Vite", "TanStack Query", "GitHub API", "Hacker News API", "Recharts"],
       repo: "https://github.com/GSuryaP/devpulse",
       status: "Completed",
     },
-    
     {
       title: "Distributed Image Processing Pipeline",
       desc: "Apache Kafka-based distributed system with a FastAPI master node and multiple PIL worker nodes. Handles tile splitting, parallel processing, result aggregation, and final image reconstruction — with a live heartbeat monitoring dashboard.",
       icon: <Layers size={18} />, tags: ["Apache Kafka", "FastAPI", "Python", "Pillow", "Docker"],
-      repo: "https://github.com/GSuryaP/Distributed-Image-Processing-Pipeline", status: "Deployed",
+      repo: "https://github.com/GSuryaP/Distributed-Image-Processing-Pipeline", status: "Completed",
     },
     {
       title: "GitHub Repository Tracker",
       desc: "Interactive analytics dashboard for tracking GitHub repos, commits, and issues in real time. Features live search, an animated overview, and stats, powered by a Node.js backend and Python sync script.",
       icon: <Compass size={18} />, tags: ["HTML", "CSS", "JavaScript", "Node.js", "Python", "GitHub API"],
-      repo: "https://github.com/GSuryaP/Github-Repository-Tracker", status: "Deployed",
+      repo: "https://github.com/GSuryaP/Github-Repository-Tracker", status: "Completed",
     },
     {
       title: "Personal Finance Analytics Dashboard",
       desc: "FinTech React dashboard for real-time personal transaction management. Full CRUD operations, dynamic Recharts visualizations (line & pie), dark/light mode, real-time search, and auto-calculated savings rate metrics.",
       icon: <Radio size={18} />, tags: ["React", "Vite", "Tailwind CSS", "Recharts", "JavaScript"],
-      repo: "https://github.com/GSuryaP/Personal-Finance-Dashboard", status: "Deployed",
+      repo: "https://github.com/GSuryaP/Personal-Finance-Dashboard", status: "Completed",
     },
     {
       title: "AdaptiveLearn AI",
       desc: "AWS-powered teacher analytics dashboard. Ingests student CSVs from S3 via Python Lambda, uses Amazon Bedrock (Titan LLM) to generate insights, and surfaces weak topics and struggling students through a clean HTML frontend — zero server cost.",
       icon: <Sparkles size={18} />, tags: ["AWS S3", "Lambda", "Amazon Bedrock", "Python", "HTML"],
-      repo: "https://github.com/GSuryaP/AdaptiveLearn-AI", status: "Deployed",
+      repo: "https://github.com/GSuryaP/AdaptiveLearn-AI", status: "Completed",
     },
     // {
     //   title: "Weather & AQI Tracker",
@@ -184,7 +183,35 @@ const SKILL_CATEGORIES = [
   },
 ];
 
-const NAV_ITEMS = ["Home", "About", "Skills", "Experience", "Projects", "Contact"];
+/* Hackathons — company / community hackathons participated in */
+const HACKATHONS = [
+  {
+    name: "Deloitte Hackathon",
+    org: "Deloitte",
+    period: "2025",
+    role: "Participant",
+    desc: "Company-hosted hackathon focused on building a solution for a real-world business problem statement.",
+    tags: [],
+  },
+  {
+    name: "Flipkart Hackathon",
+    org: "Flipkart",
+    period: "2025",
+    role: "Participant",
+    desc: "Competed in Flipkart's hackathon, building a solution under a tech/e-commerce themed problem statement.",
+    tags: [],
+  },
+  {
+    name: "Epsilon Texpedition",
+    org: "Epsilon",
+    period: "2025",
+    role: "Participant",
+    desc: "Participated in Epsilon's technical hackathon, collaborating on an innovative solution within a fixed timeframe.",
+    tags: [],
+  },
+];
+
+const NAV_ITEMS = ["Home", "About", "Skills", "Experience", "Projects", "Hackathons", "Contact"];
 
 /* ============================================================
    REVEAL — simple fade + slide-up on scroll into view.
@@ -373,6 +400,33 @@ const ProjectCard = ({ proj, index }) => {
     </Reveal>
   );
 };
+
+/* ============================================================
+   HACKATHON CARD
+============================================================ */
+const HackathonCard = ({ hack, index }) => (
+  <Reveal delay={index * 0.06} style={{ height: "100%" }}>
+    <div style={{
+      height: "100%", border: `1px solid ${T.line}`, background: T.bgCard,
+      padding: "20px 22px", display: "flex", flexDirection: "column", gap: 8,
+    }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: T.accent2, display: "flex" }}><Trophy size={16} /></span>
+          <h3 style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: FONT_DISPLAY }}>{hack.name}</h3>
+        </div>
+        <span style={{ fontSize: 9.5, fontWeight: 700, color: T.accent2, fontFamily: FONT_MONO, letterSpacing: "0.08em", textTransform: "uppercase", flexShrink: 0 }}>{hack.period}</span>
+      </div>
+      <div style={{ fontSize: 12, fontWeight: 600, color: T.textMuted, fontFamily: FONT_BODY }}>{hack.org} · {hack.role}</div>
+      {hack.desc && <p style={{ fontSize: 12.5, color: T.textMuted, lineHeight: 1.7, fontFamily: FONT_BODY, marginTop: 4 }}>{hack.desc}</p>}
+      {hack.tags.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+          {hack.tags.map((t) => <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: "3px 9px", background: T.bgAlt, border: `1px solid ${T.line}`, color: T.textMuted, fontFamily: FONT_MONO }}>{t}</span>)}
+        </div>
+      )}
+    </div>
+  </Reveal>
+);
 
 /* ============================================================
    MISC UI
@@ -686,8 +740,18 @@ export default function App() {
           </div>
         </section>
 
+        {/* ── HACKATHONS ── */}
+        <section id="hackathons" style={{ ...SP, background: T.bgAlt }}>
+          <div style={C}>
+            <STitle eyebrow="Competitions" title="Hackathons" sub="Company and community hackathons I've taken part in." />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 16 }}>
+              {HACKATHONS.map((h, i) => <HackathonCard key={h.name} hack={h} index={i} />)}
+            </div>
+          </div>
+        </section>
+
         {/* ── CONTACT ── */}
-        <section id="contact" style={{ ...SP, paddingBottom: 130, background: T.bgAlt }}>
+        <section id="contact" style={{ ...SP, paddingBottom: 130 }}>
           <div style={{ ...C, maxWidth: 940 }}>
             <STitle eyebrow="Reach Out" title="Get In Touch" sub="Open to internships, research collabs, and freelance. DM anytime." />
             <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
